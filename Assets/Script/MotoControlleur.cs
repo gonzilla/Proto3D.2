@@ -8,6 +8,7 @@ public class AxleInfoMoto
     public WheelCollider Wheely;
     public bool motor;
     public bool steering;
+     public float Torque=0;
     public enum TypeDeroue
     {
         Avant,
@@ -26,6 +27,8 @@ public class MotoControlleur : MonoBehaviour
     public float AngleInlinaisonMax;
     public Transform siInclinaison;
     public float SpeedSteering;
+    public float Accelerationcoeff;
+    public float forceResistance;
 
     float ActualStreeringFront;
     float ActualStreeringBack;
@@ -100,7 +103,27 @@ public class MotoControlleur : MonoBehaviour
             }
             if (axleInfoM.motor)
             {
-                axleInfoM.Wheely.motorTorque = motor;
+                if (Input.GetAxisRaw("Acceleration")==0)
+                {
+                    axleInfoM.Wheely.brakeTorque = forceResistance;
+                }
+                else 
+                {
+                    axleInfoM.Wheely.brakeTorque = 0;
+                }
+                if (axleInfoM.Torque<maxMotorTorque || axleInfoM.Torque>-maxMotorTorque)
+                {
+                    axleInfoM.Torque += motor*Accelerationcoeff * Time.deltaTime;
+                    if (axleInfoM.Torque>maxMotorTorque)
+                    {
+                        axleInfoM.Torque = maxMotorTorque;
+                    }
+                    if (axleInfoM.Torque<-maxMotorTorque)
+                    {
+
+                    }
+                }
+                axleInfoM.Wheely.motorTorque = axleInfoM.Torque;
                 
             }
             
@@ -193,4 +216,6 @@ public class MotoControlleur : MonoBehaviour
         //ActualStreeringFront = Mathf.Lerp(ActualStreeringFront,ValueViser,SpeedSteering*Time.deltaTime);
         //ActualStreeringBack = Mathf.Lerp(ActualStreeringBack, ValueViser, SpeedSteering * Time.deltaTime);
     }
+
+    
 }
