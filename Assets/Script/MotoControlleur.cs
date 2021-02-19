@@ -120,7 +120,7 @@ public class MotoControlleur : MonoBehaviour
                     }
                     if (axleInfoM.Torque<-maxMotorTorque)
                     {
-
+                        axleInfoM.Torque = -maxMotorTorque;
                     }
                 }
                 axleInfoM.Wheely.motorTorque = axleInfoM.Torque;
