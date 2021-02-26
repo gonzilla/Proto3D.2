@@ -8,7 +8,7 @@ public class AxleInfoMoto
     public WheelCollider Wheely;
     public bool motor;
     public bool steering;
-     public float Torque=0;
+    public float Torque=0;
     public enum TypeDeroue
     {
         Avant,
@@ -29,9 +29,17 @@ public class MotoControlleur : MonoBehaviour
     public float SpeedSteering;
     public float Accelerationcoeff;
     public float forceResistance;
+    //public Vector3 offsetCenterMass;
+    //public Rigidbody Rb;
 
     float ActualStreeringFront;
     float ActualStreeringBack;
+   
+
+    private void Start()
+    {
+       // Rb.centerOfMass = offsetCenterMass + transform.position;
+    }
 
     public void ApplyLocalPositionToVisuals(WheelCollider collider)
     {
@@ -60,7 +68,7 @@ public class MotoControlleur : MonoBehaviour
         {
             MoveSansRoue();
         }
-        
+        //Rb.centerOfMass = offsetCenterMass + transform.position;
     }
 
 
@@ -217,5 +225,9 @@ public class MotoControlleur : MonoBehaviour
         //ActualStreeringBack = Mathf.Lerp(ActualStreeringBack, ValueViser, SpeedSteering * Time.deltaTime);
     }
 
-    
+    /*private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(offsetCenterMass + transform.position, 0.2f);
+    }*/
 }
