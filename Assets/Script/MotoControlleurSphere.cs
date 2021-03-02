@@ -5,7 +5,8 @@ using UnityEngine;
 public class MotoControlleurSphere : MonoBehaviour
 {
     //Public variable
-    
+    public string AxesInput;
+
     //Local variable
 
     void Start()
