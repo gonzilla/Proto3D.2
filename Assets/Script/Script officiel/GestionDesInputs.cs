@@ -25,6 +25,11 @@ public class GestionDesInputs : PersonnalMethod
     
     void FixedUpdate()
     {
+        //Ce qui est sur de ce faire à chaque frame
+        //GG.GC.RotateRoue();
+        //GG.GC.RotateVehiculeByNormal();
+        //GG.GC.Mouvement(Input.GetAxis(Axes[1]));
+        
         if (Input.GetAxisRaw(Axes[0])!=0)
         {
             GG.GB.UseBoost();
@@ -45,7 +50,7 @@ public class GestionDesInputs : PersonnalMethod
         {
             //print(Input.GetAxis(Axes[1]));
             //float value = Input.GetAxis(Axes[1]) + Input.GetAxis(Axes[2]);
-            //GG.GC.Mouvement()
+            
 
         }
     }

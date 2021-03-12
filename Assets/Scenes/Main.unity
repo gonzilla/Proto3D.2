@@ -363,8 +363,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 1, z: 10}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Size: {x: 10, y: 1.8715038, z: 10}
+  m_Center: {x: 0, y: 0.9357519, z: 0}
 --- !u!4 &117770398
 Transform:
   m_ObjectHideFlags: 0
@@ -373,7 +373,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 117770396}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 633.78, y: 13.4, z: 494.94}
+  m_LocalPosition: {x: 431.2, y: 21.49, z: 1419.9285}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2097091527}
@@ -800,11 +800,13 @@ MonoBehaviour:
     motor: 1
     steering: 1
     Torque: 0
+    RealTorque: 0
     roue: 0
   - Wheely: {fileID: 1244013901}
     motor: 1
     steering: 1
     Torque: 0
+    RealTorque: 0
     roue: 1
   maxMotorTorque: 5000
   TorqueAcceleration: 100
@@ -818,6 +820,7 @@ MonoBehaviour:
   forceResistance: 30000
   PuissanceFreinage: 1000
   FreinageCoeff: 2
+  maxspeed: 80
   detecteur: {fileID: 574232444}
   whatIsGround:
     serializedVersion: 2
@@ -889,13 +892,13 @@ MonoBehaviour:
   VitesseBoost: 1
   BoostParFrame: 1
   ForceBoost: 130
-  NewTorqueMax: 7000
-  vitesseDiminutionSurchauffe: 1
-  "TempsApr\xE8sSurchauffe": 1
+  NewTorqueMax: 10000
+  vitesseDiminutionSurchauffe: 0.5
+  "TempsApr\xE8sSurchauffe": 10
   Recharge: 0
   boosting: 0
   Surchauffing: 0
-  maxSpeedInBoost: 120
+  maxSpeedInBoost: 100
 --- !u!114 &218344083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -973,19 +976,22 @@ MonoBehaviour:
       outWeight: 0.026163924
     - serializedVersion: 3
       time: 0.9989855
-      value: -0.000015512109
-      inSlope: -0.1001743
-      outSlope: -0.1001743
+      value: 0.014240688
+      inSlope: -0.14012632
+      outSlope: -0.14012632
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.040654067
+      inWeight: 0.05813947
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  MaxTorque: 5000
+  MaxTorque: 3000
   VitesseRotationRoux: 1
+  VitesseAccelerationRoux: 1000
+  CoeffFreinage: 0.0008
   PuissanceFreinage: 30000
+  maxVelocity: 120
   offsetCenterMass: {x: 0, y: 0, z: 0}
   detecteur: {fileID: 574232444}
   whatIsGround:
@@ -1653,11 +1659,13 @@ MonoBehaviour:
     motor: 1
     steering: 1
     Torque: 0
+    RealTorque: 0
     roue: 0
   - Wheely: {fileID: 1652993735}
     motor: 1
     steering: 0
     Torque: 0
+    RealTorque: 0
     roue: 1
   maxMotorTorque: 5000
   TorqueAcceleration: 0
@@ -1671,6 +1679,7 @@ MonoBehaviour:
   forceResistance: 0
   PuissanceFreinage: 0
   FreinageCoeff: 0
+  maxspeed: 0
   detecteur: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
@@ -3053,8 +3062,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 75.55187, y: 35.90444, z: 0.25654}
-  m_Center: {x: -18.504318, y: 15.202267, z: -0.0010161323}
+  m_Size: {x: 30.22075, y: 14.361777, z: 0.10261601}
+  m_Center: {x: -7.4017267, y: 6.080907, z: -0.00040645333}
 --- !u!1 &930247663
 GameObject:
   m_ObjectHideFlags: 0
@@ -3244,11 +3253,13 @@ MonoBehaviour:
     motor: 1
     steering: 1
     Torque: 0
+    RealTorque: 0
     roue: 0
   - Wheely: {fileID: 584862718}
     motor: 1
     steering: 0
     Torque: 0
+    RealTorque: 0
     roue: 1
   maxMotorTorque: 5000
   TorqueAcceleration: 0
@@ -3262,6 +3273,7 @@ MonoBehaviour:
   forceResistance: 0
   PuissanceFreinage: 0
   FreinageCoeff: 0
+  maxspeed: 0
   detecteur: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
@@ -6416,11 +6428,13 @@ MonoBehaviour:
     motor: 1
     steering: 1
     Torque: 0
+    RealTorque: 0
     roue: 0
   - Wheely: {fileID: 1090904107}
     motor: 1
     steering: 1
     Torque: 0
+    RealTorque: 0
     roue: 1
   maxMotorTorque: 5000
   TorqueAcceleration: 0
@@ -6434,6 +6448,7 @@ MonoBehaviour:
   forceResistance: 0
   PuissanceFreinage: 0
   FreinageCoeff: 0
+  maxspeed: 0
   detecteur: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
@@ -7376,7 +7391,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1612074151}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 633.78, y: 13.4, z: 544.3}
+  m_LocalPosition: {x: 633.78, y: 36.3, z: 544.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2098027507}

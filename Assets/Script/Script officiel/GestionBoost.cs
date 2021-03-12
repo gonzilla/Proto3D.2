@@ -99,6 +99,15 @@ public class GestionBoost : PersonnalMethod
         GG.GC.MaxTorque = NewTorqueMax;
         actualBoostReserve -= vitesseDiminutionSurchauffe * Time.deltaTime;
         MakeSureBoostIsGood();
+        MotoControlleur MC=GetComponent<MotoControlleur>();
+        if (MC.enabled)
+        {
+            MC.maxspeed = 90;
+            foreach (AxleInfoMoto roux in MC.axleInfosMoto)
+            {
+                roux.Torque = NewTorqueMax;
+            }
+        }
         if (actualBoostReserve / LimiteBoost == 0)
         {
             Invoke("finDeSurchauffe", TempsAprèsSurchauffe);
@@ -110,7 +119,17 @@ public class GestionBoost : PersonnalMethod
         if (Surchauffing)
         {
             GG.GC.MaxTorque = OldTorqueMax;
+            MotoControlleur MC = GetComponent<MotoControlleur>();
+            if (MC.enabled)
+            {
+                MC.maxspeed = 80;
+                foreach (AxleInfoMoto roux in MC.axleInfosMoto)
+                {
+                    roux.Torque = OldTorqueMax;
+                }
+            }
             Surchauffing = false;
+            CancelInvoke();
         }
       
     }

@@ -27,7 +27,11 @@ public class GestionControle : PersonnalMethod
     public AnimationCurve AccelerationSelonVitesseMax;
     public float MaxTorque;
     public float VitesseRotationRoux;
+    public float VitesseAccelerationRoux;
+    [Tooltip("0, pas de frein. 1, Frein au max")]
+    public float CoeffFreinage;
     public float PuissanceFreinage;
+    public float maxVelocity;
     [Tooltip("Pour des test de physique du véhicule")]
     public Vector3 offsetCenterMass;
     [Header("DetectionGeound")]
@@ -50,7 +54,13 @@ public class GestionControle : PersonnalMethod
     }
 
     
-    void FixedUpdate()
+    /*void FixedUpdate()
+    {
+        //RotateVehiculeByNormal()
+        //RotateRoue();
+
+    }*/
+    public void RotateVehiculeByNormal() 
     {
         grounded = false;
         Debug.DrawRay(detecteur.position, -transform.up * GroundRayLength, Color.magenta);
@@ -60,13 +70,7 @@ public class GestionControle : PersonnalMethod
             grounded = true;
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
         }
-        RotateRoue();
 
-    }
-    public void RotateVehiculeByNormal() 
-    {
-    
-    
     }
 
     public void RotateRoue() 
@@ -113,8 +117,66 @@ public class GestionControle : PersonnalMethod
 
     public void Mouvement(float Direction) 
     {
-    
-    
+        //voir si la torque est en adéquation avec direction
+        float DirectionNormalise = 0;
+        float TorqueNormalise = 0;
+        
+        foreach (InfoDelaRoue InfoDuRoux in Roux)
+        {
+            if (InfoDuRoux.Torque!=0)//check si le motor a une force si oui positif ou negatif?
+            {
+                 TorqueNormalise = InfoDuRoux.Torque / Mathf.Abs(InfoDuRoux.Torque);
+                 
+            }
+            if (Direction!=0)//check le sens dans la quel le joueur souhaite aller
+            {
+                DirectionNormalise = Direction / Mathf.Abs(Direction);
+            }
+            
+            if (TorqueNormalise==0 || TorqueNormalise==DirectionNormalise)//si le moteur est à l'arret  ou le joueur souhaite aller dans la même direction que le moteur
+            {
+                InfoDuRoux.ComponentWheelCollider.brakeTorque = 0;
+                float PourcentageTorque = InfoDuRoux.Torque / MaxTorque;
+                InfoDuRoux.Torque += Direction* VitesseAccelerationRoux * AccelerationSelonVitesseMax.Evaluate(PourcentageTorque) * Time.deltaTime;
+                checkTorque(InfoDuRoux);
+                InfoDuRoux.ComponentWheelCollider.motorTorque = InfoDuRoux.Torque;
+                //accélere dans direction
+            }
+            else if ( TorqueNormalise != DirectionNormalise)
+            {
+                InfoDuRoux.ComponentWheelCollider.brakeTorque = PuissanceFreinage;
+                float calculDuNouveauTorque = PuissanceFreinage* CoeffFreinage * Time.deltaTime;
+                checkTorque(InfoDuRoux);
+                float TorqueEnfrainage = Mathf.Lerp(InfoDuRoux.Torque, 0, calculDuNouveauTorque);
+                InfoDuRoux.Torque = TorqueEnfrainage;
+                //InfoDuRoux.Torque = Mathf.Clamp(InfoDuRoux.Torque, 0, MaxTorque);
+            }
+        }
+
+        //float TorqueNormalise = 
+       
+
+    }
+
+    void checkTorque(InfoDelaRoue MonRoux) 
+    {
+        if (MonRoux.Torque < MaxTorque || MonRoux.Torque > -MaxTorque)
+        {
+          
+            if (MonRoux.Torque > MaxTorque)
+            {
+                MonRoux.Torque = MaxTorque;
+            }
+            if (MonRoux.Torque < -MaxTorque)
+            {
+                MonRoux.Torque = -MaxTorque;
+            }
+        }
+        if (MonRoux.Torque < 0.01f && MonRoux.Torque > -0.01f)
+        {
+            MonRoux.Torque = 0;
+        }
+
     }
 
     void calculDusteeringDeuxRoue(float ValueViser, InfoDelaRoue roux)

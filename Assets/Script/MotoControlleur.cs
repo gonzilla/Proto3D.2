@@ -9,6 +9,7 @@ public class AxleInfoMoto
     public bool motor;
     public bool steering;
     public float Torque=0;
+    public float RealTorque;
     public enum TypeDeroue
     {
         Avant,
@@ -32,6 +33,7 @@ public class MotoControlleur : PersonnalMethod
     public float forceResistance;
     public float PuissanceFreinage;
     public float FreinageCoeff;
+    public float maxspeed;
 
     [Header("DetectionGeound")]
     public Transform detecteur;
@@ -97,15 +99,19 @@ public class MotoControlleur : PersonnalMethod
         if (RoueJoystick)
         {
             MoveAvecRoue();
-            //MotoDeuxRoux();
+            ////MotoDeuxRoux();
         }
         else if (!RoueJoystick)
         {
             MoveSansRoue();
         }
-        if (Rb.velocity.magnitude>GG.GB.maxSpeedInBoost)
+        if (Rb.velocity.magnitude>GG.GB.maxSpeedInBoost && GG.GB.boosting)
         {
             Rb.velocity = Rb.velocity.normalized * GG.GB.maxSpeedInBoost;
+        }
+        else if (!GG.GB.boosting&& Rb.velocity.magnitude >maxspeed)
+        {
+            Rb.velocity = Rb.velocity.normalized * maxspeed;
         }
         //Rb.centerOfMass = offsetCenterMass + transform.position;
     }
@@ -210,29 +216,31 @@ public class MotoControlleur : PersonnalMethod
                 if (Input.GetAxisRaw("Acceleration")==0)
                 {
                     axleInfoM.Wheely.brakeTorque = forceResistance;
+                    axleInfoM.RealTorque = axleInfoM.Wheely.motorTorque;
                 }
                 else 
                 {
                     axleInfoM.Wheely.brakeTorque = 0;
-                }
-                if (!GG.GB.boosting)
-                {
-                    //print("je boost pas");
-                    if (axleInfoM.Torque < maxMotorTorque || axleInfoM.Torque > -maxMotorTorque)
+                    if (!GG.GB.boosting)
                     {
-                        axleInfoM.Torque += motor * Accelerationcoeff * Time.deltaTime;
-                        if (axleInfoM.Torque > maxMotorTorque)
+                        //print("je boost pas");
+                        if (axleInfoM.Torque < maxMotorTorque || axleInfoM.Torque > -maxMotorTorque)
                         {
-                            axleInfoM.Torque = maxMotorTorque;
-                        }
-                        if (axleInfoM.Torque < -maxMotorTorque)
-                        {
-                            axleInfoM.Torque = -maxMotorTorque;
+                            axleInfoM.Torque += motor * Accelerationcoeff * Time.deltaTime;
+                            if (axleInfoM.Torque > maxMotorTorque)
+                            {
+                                axleInfoM.Torque = maxMotorTorque;
+                            }
+                            if (axleInfoM.Torque < -maxMotorTorque)
+                            {
+                                axleInfoM.Torque = -maxMotorTorque;
+                            }
                         }
                     }
+
+                    axleInfoM.Wheely.motorTorque = axleInfoM.Torque;
                 }
                 
-                axleInfoM.Wheely.motorTorque = axleInfoM.Torque;
                 
             }
             
