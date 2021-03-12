@@ -33,6 +33,11 @@ public class MotoControlleur : PersonnalMethod
     public float PuissanceFreinage;
     public float FreinageCoeff;
 
+    [Header("DetectionGeound")]
+    public Transform detecteur;
+    public LayerMask whatIsGround;
+    public float GroundRayLength;
+
     //public Vector3 offsetCenterMass;
     //public Rigidbody Rb;
 
@@ -41,6 +46,8 @@ public class MotoControlleur : PersonnalMethod
     float PuissanceFreinCumule;
     GestionGeneral GG;
     Rigidbody Rb;
+    float sensTorque;
+    bool grounded;
     /*enum StatuMotor
     {
         Accélére,
@@ -77,6 +84,16 @@ public class MotoControlleur : PersonnalMethod
 
     public void FixedUpdate()
     {
+        grounded = false;
+        Debug.DrawRay(detecteur.position, -transform.up * GroundRayLength, Color.magenta);
+        RaycastHit hit;
+        if (Physics.Raycast(detecteur.position, -transform.up, out hit, GroundRayLength, whatIsGround))
+        {
+            grounded = true;
+            transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+        }
+        
+        //mettre la rotation
         if (RoueJoystick)
         {
             MoveAvecRoue();
@@ -95,12 +112,12 @@ public class MotoControlleur : PersonnalMethod
 
     void MotoDeuxRoux() 
     {
-        float PourcentageTorqueToAdd= TorqueAcceleration * Input.GetAxis("Acceleration");
-        float X = Input.GetAxis("HorizontalManette");
-        float Z = Input.GetAxis("VerticalManette");
-        foreach (AxleInfoMoto axleInfoM in axleInfosMoto)
+        float PourcentageTorqueToAdd= TorqueAcceleration * Input.GetAxis("Acceleration"); // je recupére le input dacel
+        float X = Input.GetAxis("HorizontalManette"); // X du joystick
+        float Z = Input.GetAxis("VerticalManette"); // Y
+        foreach (AxleInfoMoto axleInfoM in axleInfosMoto) // pour chaque roue
         {
-            if (axleInfoM.roue == AxleInfoMoto.TypeDeroue.Arriere)
+            if (axleInfoM.roue == AxleInfoMoto.TypeDeroue.Arriere)//change l'info du joystick
             {
                 X = Input.GetAxis("HorizontalManetteDroit");
                 Z = Input.GetAxis("VerticalManetteDroit");
@@ -129,8 +146,10 @@ public class MotoControlleur : PersonnalMethod
             }
             if (axleInfoM.motor) 
             {
-                
-                
+               
+
+
+
             }
 
         }
@@ -198,7 +217,7 @@ public class MotoControlleur : PersonnalMethod
                 }
                 if (!GG.GB.boosting)
                 {
-                    print("je boost pas");
+                    //print("je boost pas");
                     if (axleInfoM.Torque < maxMotorTorque || axleInfoM.Torque > -maxMotorTorque)
                     {
                         axleInfoM.Torque += motor * Accelerationcoeff * Time.deltaTime;

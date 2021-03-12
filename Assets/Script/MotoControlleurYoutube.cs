@@ -65,7 +65,6 @@ public class MotoControlleurYoutube : MonoBehaviour
         if (Physics.Raycast(GroundRayPoint.position, -transform.up,out hit,GroundRayLength,whatIsGround))
         {
             grounded = true;
-            print("ground");
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal)*transform.rotation;
         }
         if (grounded)

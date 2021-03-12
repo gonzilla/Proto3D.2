@@ -29,5 +29,24 @@ public class GestionDesInputs : PersonnalMethod
         {
             GG.GB.UseBoost();
         }
+        // roue gauche
+       /* if (Input.GetAxis(Axes[3]) != 0 || Input.GetAxis(Axes[4]) != 0)
+        {
+            GG.GC.RotateRoue(Input.GetAxis(Axes[3]), Input.GetAxis(Axes[4]));
+
+        }
+        // roue droit
+        
+        GG.GC.RotateRoue(Input.GetAxis(Axes[5]), Input.GetAxis(Axes[6]));
+       */
+        
+        //accélération/Deceleration
+        if (Input.GetAxis(Axes[1]) != 0 )
+        {
+            //print(Input.GetAxis(Axes[1]));
+            //float value = Input.GetAxis(Axes[1]) + Input.GetAxis(Axes[2]);
+            //GG.GC.Mouvement()
+
+        }
     }
 }

@@ -8,6 +8,7 @@ public class GestionGeneral : PersonnalMethod
     public GestionDesInputs GDI;
     public GestionBoost GB;
     public GestionUI GUI;
+    public GestionControle GC;
     //Local variable
 
     
