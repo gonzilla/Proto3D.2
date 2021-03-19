@@ -105,9 +105,9 @@ public class MotoControlleur : PersonnalMethod
         {
             MoveSansRoue();
         }
-        if (Rb.velocity.magnitude>GG.GB.maxSpeedInBoost && GG.GB.boosting)
+        if (Rb.velocity.magnitude>GG.GB.NouvelleVitesseMax && GG.GB.boosting)
         {
-            Rb.velocity = Rb.velocity.normalized * GG.GB.maxSpeedInBoost;
+            Rb.velocity = Rb.velocity.normalized * GG.GB.NouvelleVitesseMax;
         }
         else if (!GG.GB.boosting&& Rb.velocity.magnitude >maxspeed)
         {
@@ -211,41 +211,68 @@ public class MotoControlleur : PersonnalMethod
                 
                 
             }
-            if (axleInfoM.motor)
+            if (!GG.GB.Surchauffing)
             {
-                if (Input.GetAxisRaw("Acceleration")==0)
+                if (axleInfoM.motor)
                 {
-                    axleInfoM.Wheely.brakeTorque = forceResistance;
-                    axleInfoM.RealTorque = axleInfoM.Wheely.motorTorque;
-                }
-                else 
-                {
-                    axleInfoM.Wheely.brakeTorque = 0;
-                    if (!GG.GB.boosting)
+                    if (Input.GetAxisRaw("Acceleration") == 0)
                     {
-                        //print("je boost pas");
-                        if (axleInfoM.Torque < maxMotorTorque || axleInfoM.Torque > -maxMotorTorque)
+                        axleInfoM.Wheely.brakeTorque = forceResistance;
+                        axleInfoM.RealTorque = axleInfoM.Wheely.motorTorque;
+                    }
+                    else
+                    {
+                        axleInfoM.Wheely.brakeTorque = 0;
+                        if (!GG.GB.boosting)
                         {
-                            axleInfoM.Torque += motor * Accelerationcoeff * Time.deltaTime;
-                            if (axleInfoM.Torque > maxMotorTorque)
+                            //print("je boost pas");
+                            if (axleInfoM.Torque < maxMotorTorque || axleInfoM.Torque > -maxMotorTorque)
                             {
-                                axleInfoM.Torque = maxMotorTorque;
-                            }
-                            if (axleInfoM.Torque < -maxMotorTorque)
-                            {
-                                axleInfoM.Torque = -maxMotorTorque;
+                                axleInfoM.Torque += motor * Accelerationcoeff * Time.deltaTime;
+                                if (axleInfoM.Torque > maxMotorTorque)
+                                {
+                                    axleInfoM.Torque = maxMotorTorque;
+                                }
+                                if (axleInfoM.Torque < -maxMotorTorque)
+                                {
+                                    axleInfoM.Torque = -maxMotorTorque;
+                                }
                             }
                         }
-                    }
 
-                    axleInfoM.Wheely.motorTorque = axleInfoM.Torque;
+                        axleInfoM.Wheely.motorTorque = axleInfoM.Torque;
+                    }
                 }
-                
-                
+ 
             }
-            
+            else
+            {
+                if (axleInfoM.motor)
+                {
+                   
+                  
+                        axleInfoM.Wheely.brakeTorque = 0;
+                       
+
+                        axleInfoM.Wheely.motorTorque = maxMotorTorque*2;
+                    
+                }
+
+            }
+
         }
     }
+
+
+
+
+
+
+
+
+
+
+
     void MoveSansRoue()
     {
         float motor = maxMotorTorque * Input.GetAxis("Acceleration");

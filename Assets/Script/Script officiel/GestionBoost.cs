@@ -6,27 +6,35 @@ using UnityEngine;
 public class GestionBoost : PersonnalMethod
 {
     //Public variable
-    public float LimiteBoost,VitesseBoost,BoostParFrame, ForceBoost, NewTorqueMax, vitesseDiminutionSurchauffe,TempsAprèsSurchauffe;
+    //public float LimiteBoost,VitesseBoost,BoostParFrame, ForceBoost, NewTorqueMax, vitesseDiminutionSurchauffe,TempsAprèsSurchauffe;
+    //Boost
+    [Header("Boost")]
+    public float ReserveDenergieBoostMax; public float VitesseRechargeEnergie, NouvelleVitesseMax, TempsDeBoosting;
+    //Surchauffe
+    [Header("Surchauffe")]
+    public float TempsAprèsSurchauffe; public float VitesseMaxSurchauffe, AccelerationSurchauffe, vitesseDiminutionSurchauffe;
     [HideInInspector] public bool Recharge;
     [HideInInspector] public bool boosting;
     [HideInInspector] public bool Surchauffing;
-    public float maxSpeedInBoost;
+
     //Local variable
+    bool canRecharge = true;
     float actualBoostReserve;
     float Pourcentage;
     Rigidbody Rb;
     GestionGeneral GG;
-    float OldTorqueMax;
+    float OldvitesseMax;
 
     void Start()
     {
         GetGestion(out GG, this.gameObject);
         Rb = GetComponent<Rigidbody>();
+        OldvitesseMax = GG.GMC.vitesseMax;
     }
 
     void Update()
     {
-        Pourcentage = actualBoostReserve / LimiteBoost;
+        Pourcentage = actualBoostReserve / ReserveDenergieBoostMax;
         if (Recharge)
         {
             GetBoost();
@@ -47,9 +55,9 @@ public class GestionBoost : PersonnalMethod
     public void GetBoost() 
     {
         //print("GetBoost");
-        if (actualBoostReserve<LimiteBoost && !Surchauffing)
+        if (actualBoostReserve< ReserveDenergieBoostMax && canRecharge)
         {
-            actualBoostReserve += BoostParFrame * VitesseBoost * Time.deltaTime;
+            actualBoostReserve += VitesseRechargeEnergie * Time.deltaTime;
             GG.GUI.setSliderBoost(actualBoostReserve);
         }
         
@@ -57,7 +65,7 @@ public class GestionBoost : PersonnalMethod
     }
     public void GetBoost(float value) 
     {
-        if (!Surchauffing)
+        if (canRecharge)
         {
             actualBoostReserve += value;
             GG.GUI.setSliderBoost(actualBoostReserve);
@@ -70,19 +78,15 @@ public class GestionBoost : PersonnalMethod
     {
         if (!Surchauffing)
         {
-            if (actualBoostReserve / LimiteBoost >= 0.25f && !boosting)
+            if (actualBoostReserve / ReserveDenergieBoostMax >= 0.25f && !boosting)
             {
 
                 print("Lance Le boost");
                 boosting = true;
                 actualBoostReserve -= 0.25f;//enlever le taux de boost
-                GestionControle motoC = GetComponent<GestionControle>();
-                Rb.velocity = Rb.velocity.normalized * ForceBoost;
-
-                //Invoke("checkvelocity", Time.deltaTime);
-
-                // add boost
-                Invoke("finDeBoost", 2f);
+                GG.GMC.vitesseMax = NouvelleVitesseMax;
+                GG.GMC.VitesseMoto = NouvelleVitesseMax;
+                Invoke("finDeBoost", TempsDeBoosting);
             }
             GG.GUI.setSliderBoost(actualBoostReserve);
         }
@@ -91,12 +95,97 @@ public class GestionBoost : PersonnalMethod
     void finDeBoost() 
     {
         boosting = false;
-    
+        GG.GMC.vitesseMax = OldvitesseMax;
+
+    }
+    void canRechargeAgain() 
+    {
+        canRecharge = true;
+        CancelInvoke();
     }
 
     public void surchauffe() 
     {
-        GG.GC.MaxTorque = NewTorqueMax;
+        actualBoostReserve -= vitesseDiminutionSurchauffe * Time.deltaTime;
+        GG.GUI.setSliderBoost(actualBoostReserve);
+        GG.GMC.vitesseMax = VitesseMaxSurchauffe;
+        GG.GMC.VitesseMoto = Mathf.Lerp(GG.GMC.VitesseMoto, VitesseMaxSurchauffe, AccelerationSurchauffe*Time.deltaTime);
+        if (GG.GMC.VitesseMoto> VitesseMaxSurchauffe)
+        {
+            GG.GMC.VitesseMoto = VitesseMaxSurchauffe;
+        }
+        if (actualBoostReserve<=0)
+        {
+            actualBoostReserve = 0;
+            Surchauffing = false;
+            GG.GMC.vitesseMax = OldvitesseMax;
+            Invoke("canRechargeAgain", TempsAprèsSurchauffe);
+        }
+    }
+    
+    void finDeSurchauffe() 
+    {
+       
+       
+      
+    }
+   
+    /*void checkvelocity() 
+    {
+        if (Rb.velocity.magnitude > maxSpeedInBoost)
+        {
+            Rb.velocity = Rb.velocity.normalized * maxSpeedInBoost;
+        }
+    }*/
+
+    void MakeSureBoostIsGood() 
+    {
+        if (actualBoostReserve<0||actualBoostReserve> ReserveDenergieBoostMax)
+        {
+
+            if (actualBoostReserve > ReserveDenergieBoostMax)
+            {
+                actualBoostReserve = ReserveDenergieBoostMax;
+            }
+            else if(actualBoostReserve<0) 
+            {
+                actualBoostReserve = 0;
+            }
+
+
+        }
+    
+    }
+}
+/*foreach (InfoDelaRoue wheel in motoC.axleInfosMoto)
+           {
+               //wheel.Torque = ForceBoost;
+               //wheel.Wheely.motorTorque = ForceBoost;
+
+
+
+               //GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized* ForceBoost;//idée interressante mais ne fonctionne pas correctement
+               //wheel.Torque = ForceBoost;
+               //wheel.Wheely.motorTorque = ForceBoost;
+               /*Vector3 positionRoue = Vector3.zero;
+               Quaternion temp = Quaternion.identity;
+               wheel.Wheely.GetWorldPose(out positionRoue, out temp);
+               Vector3 PositionForce = new Vector3(positionRoue.x, transform.position.y, positionRoue.z);
+               Vector3 directiontest = Quaternion.Euler(0, wheel.Wheely.steerAngle, 0) * Vector3.forward;
+               Rb.AddForceAtPosition(directiontest.normalized * ForceBoost, PositionForce, ForceMode.Impulse);
+               Debug.DrawRay(wheel.Wheely.transform.position, directiontest, Color.blue);*/
+
+//} 
+
+/*GestionControle motoC = GetComponent<GestionControle>();
+                Rb.velocity = Rb.velocity.normalized * ForceBoost;
+
+ 
+ 
+ 
+ 
+ //
+  GG.GC.MaxTorque = NewTorqueMax;
         actualBoostReserve -= vitesseDiminutionSurchauffe * Time.deltaTime;
         MakeSureBoostIsGood();
         MotoControlleur MC=GetComponent<MotoControlleur>();
@@ -113,10 +202,11 @@ public class GestionBoost : PersonnalMethod
             Invoke("finDeSurchauffe", TempsAprèsSurchauffe);
         }
         GG.GUI.setSliderBoost(actualBoostReserve);
-    }
-    void finDeSurchauffe() 
-    {
-        if (Surchauffing)
+ 
+ 
+
+
+ if (Surchauffing)
         {
             GG.GC.MaxTorque = OldTorqueMax;
             MotoControlleur MC = GetComponent<MotoControlleur>();
@@ -131,52 +221,5 @@ public class GestionBoost : PersonnalMethod
             Surchauffing = false;
             CancelInvoke();
         }
-      
-    }
-   
-    void checkvelocity() 
-    {
-        if (Rb.velocity.magnitude > maxSpeedInBoost)
-        {
-            Rb.velocity = Rb.velocity.normalized * maxSpeedInBoost;
-        }
-    }
 
-    void MakeSureBoostIsGood() 
-    {
-        if (actualBoostReserve<0||actualBoostReserve>LimiteBoost)
-        {
-
-            if (actualBoostReserve > LimiteBoost)
-            {
-                actualBoostReserve = LimiteBoost;
-            }
-            else if(actualBoostReserve<0) 
-            {
-                actualBoostReserve = 0;
-            }
-
-
-        }
-    
-    }
-}
- /*foreach (InfoDelaRoue wheel in motoC.axleInfosMoto)
-            {
-                //wheel.Torque = ForceBoost;
-                //wheel.Wheely.motorTorque = ForceBoost;
-
-               
-
-                //GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized* ForceBoost;//idée interressante mais ne fonctionne pas correctement
-                //wheel.Torque = ForceBoost;
-                //wheel.Wheely.motorTorque = ForceBoost;
-                /*Vector3 positionRoue = Vector3.zero;
-                Quaternion temp = Quaternion.identity;
-                wheel.Wheely.GetWorldPose(out positionRoue, out temp);
-                Vector3 PositionForce = new Vector3(positionRoue.x, transform.position.y, positionRoue.z);
-                Vector3 directiontest = Quaternion.Euler(0, wheel.Wheely.steerAngle, 0) * Vector3.forward;
-                Rb.AddForceAtPosition(directiontest.normalized * ForceBoost, PositionForce, ForceMode.Impulse);
-                Debug.DrawRay(wheel.Wheely.transform.position, directiontest, Color.blue);*/
-
-            //} 
+ */

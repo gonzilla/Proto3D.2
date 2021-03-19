@@ -21,7 +21,7 @@ public class GestionUI : PersonnalMethod
     
     void Update()
     {
-        float valueVelocity = Moto.velocity.magnitude;//*3.6f
+        float valueVelocity = GG.GMC.VitesseMoto * 100;
         float arrondis = (float)System.Math.Round(valueVelocity, arrondisDecimal);
         Speed.text = arrondis.ToString();
     }

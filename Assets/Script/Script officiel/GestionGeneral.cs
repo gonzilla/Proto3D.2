@@ -9,6 +9,7 @@ public class GestionGeneral : PersonnalMethod
     public GestionBoost GB;
     public GestionUI GUI;
     public GestionControle GC;
+    public GestionMotoControlleur GMC;
     //Local variable
 
     
