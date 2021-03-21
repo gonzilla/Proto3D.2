@@ -8,8 +8,8 @@ public class GestionGeneral : PersonnalMethod
     public GestionDesInputs GDI;
     public GestionBoost GB;
     public GestionUI GUI;
-    public GestionControle GC;
     public GestionMotoControlleur GMC;
+    public CameraScriptFollow CSF;
     //Local variable
 
     
