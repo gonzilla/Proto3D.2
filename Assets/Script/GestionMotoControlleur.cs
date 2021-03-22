@@ -19,13 +19,19 @@ public class GestionMotoControlleur : PersonnalMethod
 
     public float DecellerationVitesseElleve;
 
+    public float TempsPourEtreEnLair;
+
     public Transform detecteur;
     public float GroundRayLength;
     public LayerMask whatIsGround;
+
+    public float angleMax;
     //Local variable
-    Quaternion RotationHorsSol;
-    Vector3 DirectionMoto;
+    float TimeCible;
+    //float AngleX;
+    Vector3 DirectionForMoto;
     bool grounded;
+    bool OnceForFloor;
     Rigidbody Rb;
     GestionGeneral GG;
     void Start()
@@ -46,13 +52,30 @@ public class GestionMotoControlleur : PersonnalMethod
             grounded = true;
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
             Debug.DrawRay(detecteur.position, -transform.up * GroundRayLength, Color.magenta);
+            OnceForFloor = false;
+            FreezeRotation();
         }
-
+        if (!grounded)
+        {
+            if (!OnceForFloor)
+            {
+                TimeCible = Time.time+TempsPourEtreEnLair;
+                OnceForFloor = true;
+                
+            }
+            if (OnceForFloor && TimeCible>= Time.time )
+            {
+                //AngleX = UnityEditor.TransformUtils.GetInspectorRotation(this.gameObject.transform).x;
+                FreezeRotation();
+            }
+            //print(UnityEditor.TransformUtils.GetInspectorRotation(this.gameObject.transform).x);
+        }
         
 
 
     }
     
+
     public void avance(float Direction) 
     {
         
@@ -97,17 +120,20 @@ public class GestionMotoControlleur : PersonnalMethod
         }*/
 
         transform.Translate(transform.forward * VitesseMoto, Space.World);
+        //transform.Translate(DirectionForMoto * VitesseMoto, Space.World);
 
 
     }
     public void tourne(float X) 
     {
 
-        if (grounded && Mathf.Abs(VitesseMoto)>0.01f )
+        if (grounded)//&& Mathf.Abs(VitesseMoto)>0.01f 
         {
             float Rotation = X * VitesseRotation * Time.deltaTime;
             transform.rotation *= Quaternion.Euler(0, Rotation, 0);
-
+            /*float angleToGo = X * angleMax;
+            DirectionForMoto = transform.position + new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo)).normalized ;
+            Debug.DrawRay(transform.position, DirectionForMoto * 3, Color.red);*/
         }
         
        
@@ -187,6 +213,10 @@ public class GestionMotoControlleur : PersonnalMethod
         if ( collision.transform.gameObject.layer == 8)
         {
             Rb.velocity = Vector3.zero;
+            if (!grounded)
+            {
+                transform.rotation = Quaternion.Euler(0, transform.rotation.y, 0);
+            }
             
         }
     }
@@ -200,12 +230,12 @@ public class GestionMotoControlleur : PersonnalMethod
         }*/
         
     }
-    /*private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
         float X = Input.GetAxis("HorizontalManette");
         float angleToGo = X * angleMax;
-        Vector3 coordonnéespehere = transform.position + new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo)).normalized * AccélérationMoto;
+        Vector3 coordonnéespehere = transform.position + new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo)).normalized * 10;
         Gizmos.DrawWireSphere(coordonnéespehere,0.2f);
-    }*/
+    }
 }
