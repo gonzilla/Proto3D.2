@@ -32,6 +32,7 @@ public class GestionMotoControlleur : PersonnalMethod
     Vector3 DirectionForMoto;
     bool grounded;
     bool OnceForFloor;
+    
     Rigidbody Rb;
     GestionGeneral GG;
     void Start()
@@ -63,9 +64,10 @@ public class GestionMotoControlleur : PersonnalMethod
                 OnceForFloor = true;
                 
             }
-            if (OnceForFloor && TimeCible>= Time.time )
+            if (OnceForFloor && TimeCible<= Time.time )
             {
                 //AngleX = UnityEditor.TransformUtils.GetInspectorRotation(this.gameObject.transform).x;
+                
                 FreezeRotation();
             }
             //print(UnityEditor.TransformUtils.GetInspectorRotation(this.gameObject.transform).x);
@@ -109,6 +111,13 @@ public class GestionMotoControlleur : PersonnalMethod
                 checkVitesseMoto();
                 }
             }
+        DirectionForMoto += transform.forward;
+        //DirectionForMoto += transform.right * Input.GetAxis("HorizontalManette");
+        transform.Translate(DirectionForMoto.normalized * VitesseMoto, Space.World);
+        DirectionForMoto = Vector3.zero;
+        //transform.Translate((transform.forward + (transform.right * Input.GetAxis("HorizontalManette"))) * VitesseMoto, Space.World);
+
+
         /*if (grounded)
         {
             transform.Translate(transform.forward * VitesseMoto, Space.World);
@@ -119,27 +128,44 @@ public class GestionMotoControlleur : PersonnalMethod
         
         }*/
 
-        transform.Translate(transform.forward * VitesseMoto, Space.World);
-        //transform.Translate(DirectionForMoto * VitesseMoto, Space.World);
 
 
     }
     public void tourne(float X) 
     {
 
-        if (grounded)//&& Mathf.Abs(VitesseMoto)>0.01f 
+        if (grounded && Mathf.Abs(VitesseMoto) > 0.01f)//&& Mathf.Abs(VitesseMoto)>0.01f 
         {
-            float Rotation = X * VitesseRotation * Time.deltaTime;
-            transform.rotation *= Quaternion.Euler(0, Rotation, 0);
-            /*float angleToGo = X * angleMax;
-            DirectionForMoto = transform.position + new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo)).normalized ;
-            Debug.DrawRay(transform.position, DirectionForMoto * 3, Color.red);*/
+            //float Rotation = X * VitesseRotation * Time.deltaTime;
+            //transform.rotation *= Quaternion.Euler(0, Rotation, 0);
+            //float angleToGo = X * angleMax;
+            //DirectionForMoto = transform.position + new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo)).normalized ;
+            //float angle = X * angleMax;
+            //DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;
+            
+            if (Mathf.Abs(X)<0.7f)
+            {
+                //DirectionForMoto += transform.right * Input.GetAxis("HorizontalManette");
+                float angle = X * angleMax;
+                DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;
+            }
+            else 
+            {
+                //float angle = X * angleMax;
+                //DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;
+
+                float Rotation = X * VitesseRotation * Time.deltaTime;
+                transform.rotation *= Quaternion.Euler(0, Rotation, 0);
+            }
+            Debug.DrawRay(transform.position, DirectionForMoto * 3, Color.red);
+            //transform.Translate(DirectionForMoto * VitesseMoto, Space.World);
+
         }
-        
-       
+
+
         //float Z = Input.GetAxis("VerticalManette");
         //float angleToGo = X * angleMax;
-        
+
         //transform.rotation
         //Vector3 DirectionRay = new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo));
         //Debug.DrawRay(transform.position, DirectionRay * 10, Color.red);
@@ -213,7 +239,7 @@ public class GestionMotoControlleur : PersonnalMethod
         if ( collision.transform.gameObject.layer == 8)
         {
             Rb.velocity = Vector3.zero;
-            if (!grounded)
+            if (!grounded  )
             {
                 transform.rotation = Quaternion.Euler(0, transform.rotation.y, 0);
             }

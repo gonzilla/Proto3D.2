@@ -28,8 +28,9 @@ public class GestionDesInputs : PersonnalMethod
         //Ce qui est sur de ce faire à chaque frame
         GG.CSF.CameraMovement();
         GG.GMC.SetByNormal();
-        GG.GMC.avance(Input.GetAxis(Axes[1]));
         GG.GMC.tourne(Input.GetAxis(Axes[3]));
+        GG.GMC.avance(Input.GetAxis(Axes[1]));
+       
 
         //Input
 
