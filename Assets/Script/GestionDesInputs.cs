@@ -6,42 +6,69 @@ public class GestionDesInputs : PersonnalMethod
 {
     //Public variable
     //public int PlayerIndex;//later
+    [Header("Touche Dans Axes")]
+    [Tooltip("liste des axes utilisé")]
     public string[] Axes; //Tableau des Inputs qui ont besoins d'une valeur de pression
     [HideInInspector] public float[] TimeMaintenueAxes;//le temps que le joueur maintien cette input
-    [HideInInspector] public float[] TimePressionAxes;
+    [HideInInspector] public float[] TimePressionAxes;// le temps pressé
+    [HideInInspector] public bool [] InUse;// Pour Savoir si le bouton est utilisé ou nan
+    [Tooltip("temps a partir duquel on considére un maintien")]
     public float timeMinMaintien;// temps à partir duquel on décide qu'une touche est maintenue volontairement 
+    [Tooltip("temps a partir duquel un maintient n'est plus nécessaire")]
     public float TempsMaxMaintien;
     //Local variable
-    GestionGeneral GG;
+    GestionGeneral GG;//stock les script
 
 
 
 
     void Start()
     {
-        GetGestion(out GG, this.gameObject);
+        GetGestion(out GG, this.gameObject);// récupére les autres script
+        setTableauLength();
     }
 
     
     void FixedUpdate()
     {
         //Ce qui est sur de ce faire à chaque frame
-        GG.CSF.CameraMovement();
-        GG.GMC.SetByNormal();
-        GG.GMC.tourne(Input.GetAxis(Axes[3]));
-        GG.GMC.avance(Input.GetAxis(Axes[1]));
-       
+        GG.CSF.CameraMovement(); // fais le mouvement de la camera
+        GG.GMC.SetByNormal(); // check le sol 
+        GG.GMC.tourne(Input.GetAxis(Axes[3])); //Lance void pour Tourner
+        GG.GMC.avance(Input.GetAxis(Axes[1])); //Lance void pour avancer
+
 
         //Input
 
-        if (Input.GetAxisRaw(Axes[0]) != 0)
+        
+        if (Input.GetAxisRaw(Axes[0]) != 0 && !InUse[0])//si cette touche est utilisé
         {
-            GG.GB.UseBoost();
+            GG.GB.UseBoost();//Lance le boost
+            SetBoolArray(0, true);
+        }
+        if (Input.GetAxisRaw(Axes[0]) == 0)
+        {
+            SetBoolArray(0, false);
         }
 
     }
+
+    void setTableauLength() 
+    {
+        TimeMaintenueAxes = new float[Axes.Length];
+        TimePressionAxes = new float[Axes.Length];
+        InUse = new bool[Axes.Length];
+    }
+
+    void SetBoolArray(int IndexAxes,bool value) 
+    {
+
+        InUse[IndexAxes] = value;
+
+    }
+
 }
-/*
+/* ancien code
  *  //GG.GC.RotateRoue();
         //GG.GC.RotateVehiculeByNormal();
         //GG.GC.Mouvement(Input.GetAxis(Axes[1]));

@@ -6,156 +6,198 @@ using UnityEngine;
 public class GestionBoost : PersonnalMethod
 {
     //Public variable
-    //public float LimiteBoost,VitesseBoost,BoostParFrame, ForceBoost, NewTorqueMax, vitesseDiminutionSurchauffe,TempsAprèsSurchauffe;
-    //Boost
+    
     [Header("Boost")]
-    public float ReserveDenergieBoostMax; public float VitesseRechargeEnergie, NouvelleVitesseMax, TempsDeBoosting;
+    [Tooltip("A laisser sur 1")]//peut être passer la variable en private
+    public float ReserveDenergieBoostMax; // 0=0 et 1= 100% à laisser sur 1/!\/!\/!\/!\
+    [Tooltip("vitesse de recharge de la barre")]
+    public float VitesseRechargeEnergie; // vitesse de recharge d'énergie sur la plaque
+    [Tooltip("La Vitesse max /!/ c'est *100")]
+    public float NouvelleVitesseMax; // La nouvelle vitesse max lors du boost
+    [Tooltip("Durée du boost")]
+    public float TempsDeBoosting; // Le temps que le véhicule vas booster
+    [Tooltip("Valeur entre 0 et 1, 1 = 100% et 0.5 = 50%")]
+    public float[] PourcentageVitesseParBoost;//les pourcentages selon boost cumulé
+    [Tooltip("Le temps dont dispose le joeur pour rappuyer")]
+    public float TimeForInput;//le temps pour rappuyer comme un singe
     //Surchauffe
     [Header("Surchauffe")]
-    public float TempsAprèsSurchauffe; public float VitesseMaxSurchauffe, AccelerationSurchauffe, vitesseDiminutionSurchauffe;
-    [HideInInspector] public bool Recharge;
-    [HideInInspector] public bool boosting;
-    [HideInInspector] public bool Surchauffing;
+    [Tooltip("Le temps avant de pouvoir rechager")]
+    public float TempsAprèsSurchauffe;// Temps que le joueur ne peut pas recharger après surchauffe
+    [Tooltip("La vitesse en surcharge")]
+    public float VitesseMaxSurchauffe;//La vitessse à laquel le joueur vas en surchauffe
+    [Tooltip("obsoléte")]
+    public float AccelerationSurchauffe; // taux d'accéleration en surchauffe // obsoléte
+    public float vitesseDiminutionSurchauffe;//taux de décéllération en surchauffe // obsoléte
+    [HideInInspector] public bool Recharge; //bool pour savoir si le joueur recharge
+    [HideInInspector] public bool boosting; // bool pour savoir si le joueur boost // peut être obsoléte 
+    [HideInInspector] public bool Surchauffing;// bool pour savoir si c'est en surchauffe
+
+    [Header("Collision")]
+    [Tooltip("La perte de boost lorsqu'entre en collision pdt surchauffe")]
+    public float PerteParCollisionInSurchauffe;// perte d'énergie par collision en surchauffe
 
     //Local variable
-    bool canRecharge = true;
-    float actualBoostReserve;
-    float Pourcentage;
-    Rigidbody Rb;
-    GestionGeneral GG;
-    float OldvitesseMax;
+    bool canRecharge = true; // bool pour savoir si le joeur peut rechager
+    float actualBoostReserve; // le taux de boost 
+    float Pourcentage; // le taux sur reserve max
+    Rigidbody Rb; //le rigidbody du joueur
+    GestionGeneral GG;// ke script qui contient tous les autres script
+    float OldvitesseMax;// valeur pour revenir à la vielle vitesse max
+    float NouveauxTempsForInput;// comme dans le nom
+    int NombreDeFoisApppuyerBoost=0; //?
+
 
     void Start()
     {
-        GetGestion(out GG, this.gameObject);
-        Rb = GetComponent<Rigidbody>();
-        OldvitesseMax = GG.GMC.vitesseMax;
+        GetGestion(out GG, this.gameObject);//récupére les autres script
+        Rb = GetComponent<Rigidbody>();// récupére le rigidbody
+        OldvitesseMax = GG.GMC.vitesseMax; // set la veille vitesse max
     }
 
     void Update()
     {
-        Pourcentage = actualBoostReserve / ReserveDenergieBoostMax;
-        if (Recharge)
+        Pourcentage = actualBoostReserve / ReserveDenergieBoostMax;// calcule le pourcentage
+        if (Recharge)//si il rechage
         {
-            GetBoost();
+            GetBoost();//lance la fonction getboost
         }
-        MakeSureBoostIsGood();
+        MakeSureBoostIsGood();// s'assure que la reserve de boost est bonne
         if (Pourcentage==1)
         {
-            Surchauffing = true;
+            Surchauffing = true;//met la moto en surchauffe
         }
          if (Surchauffing)
         {
-            surchauffe();
+            surchauffe();//Lance levennement surchauffe
         }
 
     }
    
 
-    public void GetBoost() 
+    public void GetBoost() //Fonction pour avoir du boost
     {
         //print("GetBoost");
-        if (actualBoostReserve< ReserveDenergieBoostMax && canRecharge)
+        if (actualBoostReserve< ReserveDenergieBoostMax && canRecharge)// si je peux recharger puis jai pas suffisament de ressource
         {
-            actualBoostReserve += VitesseRechargeEnergie * Time.deltaTime;
-            GG.GUI.setSliderBoost(actualBoostReserve);
+            actualBoostReserve += VitesseRechargeEnergie * Time.deltaTime; //augmente les ressources
+            GG.GUI.setSliderBoost(actualBoostReserve);//met à jour le slider
         }
         
     
     }
-    public void GetBoost(float value) 
+
+    public void GetBoost(float value) //Fonction pour avoir du boost avec une certaine value
     {
-        if (canRecharge)
+        if (actualBoostReserve < ReserveDenergieBoostMax && canRecharge) // si je peux rechager
         {
-            actualBoostReserve += value;
-            GG.GUI.setSliderBoost(actualBoostReserve);
+            actualBoostReserve += value;//donne la value
+            GG.GUI.setSliderBoost(actualBoostReserve);//met à jour le slider
         }
        
 
     }
 
-    public void UseBoost() 
+    public void LostBoost(float value) //fais  perdre du boost 
     {
-        if (!Surchauffing)
-        {
-            if (actualBoostReserve / ReserveDenergieBoostMax >= 0.25f && !boosting)
-            {
+        actualBoostReserve -= value;//donne la value
+        GG.GUI.setSliderBoost(actualBoostReserve);//met à jour le slider
+        MakeSureBoostIsGood();//s'assure de clamp si necessaire 
+    }
 
-                print("Lance Le boost");
-                boosting = true;
+    public void UseBoost() // utilise le boost
+    {
+        if (!Surchauffing)// si je ne suis pas en surchauffe
+        {
+            if (actualBoostReserve / ReserveDenergieBoostMax >= 0.25f && NombreDeFoisApppuyerBoost<3 )//&& !boosting
+            {
+                CancelInvoke();//enléve l'invoke possible 
+                boosting = true;// boosting
                 actualBoostReserve -= 0.25f;//enlever le taux de boost
-                GG.GMC.vitesseMax = NouvelleVitesseMax;
-                GG.GMC.VitesseMoto = NouvelleVitesseMax;
-                Invoke("finDeBoost", TempsDeBoosting);
+
+                if (Time.time > NouveauxTempsForInput && NouveauxTempsForInput != 0)// si le temps pour appuyer à été dépassé et le ce n'est pas la première fois que j'appuis
+                {
+                    NombreDeFoisApppuyerBoost = 0;//je met le nombre d'appuie a 0
+                    NouveauxTempsForInput = Time.time + TimeForInput;// le temps + le temps 
+                }
+
+                float newVitesse = NouvelleVitesseMax + ( PourcentageVitesseParBoost[NombreDeFoisApppuyerBoost] * NouvelleVitesseMax); // calcule la nouvelle vitesse
+                GG.GMC.vitesseMax = newVitesse;//donne la vitesse max
+                GG.GMC.VitesseMoto = newVitesse;//met la moto à la vitesse
+                //Debug.Break();
+                if (Time.time < NouveauxTempsForInput || NouveauxTempsForInput == 0) // si le temps pour appuyer n'a pas été dépassé ou c'est pas la première fois que j'appuis
+                {
+                    NouveauxTempsForInput = Time.time + TimeForInput;// le temps + le temps 
+                    NombreDeFoisApppuyerBoost++;//augmente le nombre d'appuie
+                }
+                
+
+                Invoke("finDeBoost", TempsDeBoosting);//lance la fin de boost 
             }
-            GG.GUI.setSliderBoost(actualBoostReserve);
+            GG.GUI.setSliderBoost(actualBoostReserve);//met a jour la reserve
         }
         
     }
-    void finDeBoost() 
+    void finDeBoost() // Lance la fin du boost
     {
-        boosting = false;
-        GG.GMC.vitesseMax = OldvitesseMax;
-
-    }
-    void canRechargeAgain() 
-    {
-        canRecharge = true;
-        CancelInvoke();
+        boosting = false;//ne boost plus
+        GG.GMC.vitesseMax = OldvitesseMax;// reset la vitesse max
+        NombreDeFoisApppuyerBoost = 0;//reset le nombre d'appuie
     }
 
-    public void surchauffe() 
+    public void surchauffe()// fonction de surchauffe
     {
-        actualBoostReserve -= vitesseDiminutionSurchauffe * Time.deltaTime;
-        GG.GUI.setSliderBoost(actualBoostReserve);
-        GG.GMC.vitesseMax = VitesseMaxSurchauffe;
-        GG.GMC.VitesseMoto = Mathf.Lerp(GG.GMC.VitesseMoto, VitesseMaxSurchauffe, AccelerationSurchauffe*Time.deltaTime);
-        if (GG.GMC.VitesseMoto> VitesseMaxSurchauffe)
+        actualBoostReserve -= vitesseDiminutionSurchauffe * Time.deltaTime;// diminue la reserve de boost
+        GG.GUI.setSliderBoost(actualBoostReserve); // met à jour le slider
+        GG.GMC.vitesseMax = VitesseMaxSurchauffe; // set la nouvelle vitesse max
+        GG.GMC.VitesseMoto = VitesseMaxSurchauffe; // set la vitesse
+       
+        if (actualBoostReserve <= 0)//si la reserve est tombé à 0
         {
-            GG.GMC.VitesseMoto = VitesseMaxSurchauffe;
-        }
-        if (actualBoostReserve<=0)
-        {
-            actualBoostReserve = 0;
-            Surchauffing = false;
-            GG.GMC.vitesseMax = OldvitesseMax;
-            Invoke("canRechargeAgain", TempsAprèsSurchauffe);
+            actualBoostReserve = 0;//la remet a 0
+            Surchauffing = false;// n'est pas en surchauffe
+            GG.GMC.vitesseMax = OldvitesseMax;//remet la vitesse max
+            Invoke("canRechargeAgain", TempsAprèsSurchauffe);//
         }
     }
+
+
+
+    void canRechargeAgain() //dis au systéme que je peut lancer la recharge // voir surchauffe
+    {
+        canRecharge = true;//peut recharger
+        CancelInvoke();//enléve l'afflus de Invoke
+    }
+
+   
     
-    void finDeSurchauffe() 
+    void finDeSurchauffe() //
     {
        
        
       
     }
    
-    /*void checkvelocity() 
-    {
-        if (Rb.velocity.magnitude > maxSpeedInBoost)
-        {
-            Rb.velocity = Rb.velocity.normalized * maxSpeedInBoost;
-        }
-    }*/
+   
 
     void MakeSureBoostIsGood() 
     {
-        if (actualBoostReserve<0||actualBoostReserve> ReserveDenergieBoostMax)
+        if (actualBoostReserve<0||actualBoostReserve> ReserveDenergieBoostMax)//si ma réserve de boost 0> ou ma reserve est trop grande
         {
 
-            if (actualBoostReserve > ReserveDenergieBoostMax)
+            if (actualBoostReserve > ReserveDenergieBoostMax) //si ma reserve est trop grande
             {
-                actualBoostReserve = ReserveDenergieBoostMax;
+                actualBoostReserve = ReserveDenergieBoostMax; // met au max 
             }
-            else if(actualBoostReserve<0) 
+            else if(actualBoostReserve<0) //si ma réserve de boost 0>
             {
-                actualBoostReserve = 0;
+                actualBoostReserve = 0; //remet a zero
             }
 
 
         }
-    
-    }
+
+    }//check le boost
 }
 /*foreach (InfoDelaRoue wheel in motoC.axleInfosMoto)
            {
@@ -221,5 +263,18 @@ public class GestionBoost : PersonnalMethod
             Surchauffing = false;
             CancelInvoke();
         }
-
+//public float LimiteBoost,VitesseBoost,BoostParFrame, ForceBoost, NewTorqueMax, vitesseDiminutionSurchauffe,TempsAprèsSurchauffe;
+    //Boost
  */
+/*void checkvelocity() 
+   {
+       if (Rb.velocity.magnitude > maxSpeedInBoost)
+       {
+           Rb.velocity = Rb.velocity.normalized * maxSpeedInBoost;
+       }
+   }*/
+//GG.GMC.VitesseMoto = Mathf.Lerp(GG.GMC.VitesseMoto, VitesseMaxSurchauffe, AccelerationSurchauffe*Time.deltaTime);
+/*if (GG.GMC.VitesseMoto > VitesseMaxSurchauffe)// obsoléte
+{
+    GG.GMC.VitesseMoto = VitesseMaxSurchauffe;
+}*/

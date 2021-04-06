@@ -1610,7 +1610,7 @@ GameObject:
   - component: {fileID: 881393446}
   m_Layer: 0
   m_Name: Cube (11)
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2169,7 +2169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.5499617, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.014413216, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2253,8 +2253,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VitesseMoto: 0
-  "Acc\xE9l\xE9rationMoto": 0.5
   vitesseMax: 1
+  "Acc\xE9l\xE9rationMoto": 0.5
   AccelerationSelonVitesseMax:
     serializedVersion: 2
     m_Curve:
@@ -2304,7 +2304,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  angleMaxInAir: 20
+  ForceRalentissement: 1.5
   Ralentissement:
     serializedVersion: 2
     m_Curve:
@@ -2329,16 +2329,17 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  ForceRalentissement: 1.5
-  VitesseRotation: 50
   DecellerationVitesseElleve: 1
-  TempsPourEtreEnLair: 0.5
+  VitesseRotation: 50
+  SnapVitesse: 0.01
   detecteur: {fileID: 1907201676}
   GroundRayLength: 0.65
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
   angleMax: 30
+  PerteParCollision: 0.2
+  TempsPourEtreEnLair: 0.3
 --- !u!114 &1314564572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2388,6 +2389,11 @@ MonoBehaviour:
   VitesseRechargeEnergie: 1
   NouvelleVitesseMax: 2
   TempsDeBoosting: 1
+  PourcentageVitesseParBoost:
+  - 0.25
+  - 0.5
+  - 1
+  TimeForInput: 0.5
   "TempsApr\xE8sSurchauffe": 3
   VitesseMaxSurchauffe: 3
   AccelerationSurchauffe: 0.5
@@ -2395,6 +2401,7 @@ MonoBehaviour:
   Recharge: 0
   boosting: 0
   Surchauffing: 0
+  PerteParCollisionInSurchauffe: 0.25
 --- !u!54 &1314564575
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2446,6 +2453,7 @@ MonoBehaviour:
   - VerticalManetteDroit
   TimeMaintenueAxes: []
   TimePressionAxes: []
+  InUse: 
   timeMinMaintien: 0
   TempsMaxMaintien: 0
 --- !u!136 &1314564578
