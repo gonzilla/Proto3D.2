@@ -46,9 +46,28 @@ public class GestionDesInputs : PersonnalMethod
             GG.GB.UseBoost();//Lance le boost
             SetBoolArray(0, true);
         }
-        if (Input.GetAxisRaw(Axes[0]) == 0)
+        if (Input.GetAxisRaw(Axes[0]) == 0 && InUse[0])
         {
             SetBoolArray(0, false);
+        }
+
+
+        if (Input.GetAxisRaw(Axes[7]) != 0 )
+        {
+            
+            bool state = true;
+            if (!InUse[7])
+            {
+                SetBoolArray(7, state);
+            }
+            GG.GMC.derapage(state);
+           
+        }
+        if (Input.GetAxisRaw(Axes[7]) == 0 && InUse[7])
+        {
+            bool state = false;
+            GG.GMC.derapage(state);
+            SetBoolArray(7, state);
         }
 
     }

@@ -82,6 +82,7 @@ public class GestionBoost : PersonnalMethod
         {
             actualBoostReserve += VitesseRechargeEnergie * Time.deltaTime; //augmente les ressources
             GG.GUI.setSliderBoost(actualBoostReserve);//met à jour le slider
+            SetNewvitesseMax();//recalcul la vitesse max
         }
         
     
@@ -93,6 +94,7 @@ public class GestionBoost : PersonnalMethod
         {
             actualBoostReserve += value;//donne la value
             GG.GUI.setSliderBoost(actualBoostReserve);//met à jour le slider
+            SetNewvitesseMax();//recalcul la vitesse max
         }
        
 
@@ -103,6 +105,7 @@ public class GestionBoost : PersonnalMethod
         actualBoostReserve -= value;//donne la value
         GG.GUI.setSliderBoost(actualBoostReserve);//met à jour le slider
         MakeSureBoostIsGood();//s'assure de clamp si necessaire 
+        SetNewvitesseMax();//recalcul la vitesse max
     }
 
     public void UseBoost() // utilise le boost
@@ -135,13 +138,15 @@ public class GestionBoost : PersonnalMethod
                 Invoke("finDeBoost", TempsDeBoosting);//lance la fin de boost 
             }
             GG.GUI.setSliderBoost(actualBoostReserve);//met a jour la reserve
+            SetNewvitesseMax();//recalcul la vitesse max
         }
         
     }
     void finDeBoost() // Lance la fin du boost
     {
         boosting = false;//ne boost plus
-        GG.GMC.vitesseMax = OldvitesseMax;// reset la vitesse max
+        SetNewvitesseMax();//recalcul la vitesse max
+        //GG.GMC.vitesseMax = OldvitesseMax;// reset la vitesse max
         NombreDeFoisApppuyerBoost = 0;//reset le nombre d'appuie
     }
 
@@ -171,11 +176,12 @@ public class GestionBoost : PersonnalMethod
 
    
     
-    void finDeSurchauffe() //
+    void SetNewvitesseMax() //
     {
-       
-       
-      
+        GG.GMC.vitesseMax = OldvitesseMax + Pourcentage;//calcul de la nouvelle vitesse max
+
+
+
     }
    
    

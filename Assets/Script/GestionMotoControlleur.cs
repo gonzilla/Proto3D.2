@@ -24,16 +24,26 @@ public class GestionMotoControlleur : PersonnalMethod
     public AnimationCurve Ralentissement;
     [Tooltip("vitesse de descente de la vitessemoto lorsque celle-ci est au dessus de la vitesse max")]
     public float DecellerationVitesseElleve;
-    [Tooltip("Vitesse de rotation")]
-    public float VitesseRotation;
     [Tooltip("Value à partir de laquel la vitesse clamp a 0")]
     public float SnapVitesse = 0.001f;
 
-    //[Tooltip("Angle max en l'air")]
-    //public float angleMaxInAir;
-
-
     
+    [Header("Tourner")]
+    [Tooltip("Value du joystic à partir de laquelle je start pour savoir si tourne")]
+    public float ValueStartRotateJoystick;
+    [Tooltip("Value à partir de laquelle la moto commence a tourner")]
+    public float ValueStartRotate;
+    [Tooltip("Vitesse à laquelle la rotation de moto augmente ")]
+    public float ValuePourcentageForRotate;
+    [Tooltip("Vitesse de rotation")]
+    public float VitesseRotation;
+    [Tooltip("Vitesse de rotation en derapage")]
+    public float VitesseRotationDerapage;
+    [Tooltip("Force de ralentissement lorsderapage")]
+    public float ForceRalentissementDerapage;
+    [Tooltip("Valeur du ralentissement lors du derapage selon vitesse en %")]
+    public AnimationCurve RalentissementDerapage;
+
 
     [Header("Pour Raycast")]
     [Tooltip("l'objet d'ou part le raycast")]
@@ -55,17 +65,25 @@ public class GestionMotoControlleur : PersonnalMethod
     public float TempsPourEtreEnLair;
     //Local variable
     float TimeCible; // le temps viser pour savoir si le joueur est en l'air
-    
+    float oldVitesseRotation;//stock la vitesse rotation de base
+    float actualRotatevalue;//actual value
+
     Vector3 DirectionForMoto; //
+    
     bool grounded; // pour savoir sur sol
     bool OnceForFloor; // pour détecter si en l'air
     
     Rigidbody Rb; // stock le rigidbody
     GestionGeneral GG;//stock les script
+
+
+
     void Start()
     {
         Rb = GetComponent<Rigidbody>();// récupére le rigidbody
         GetGestion(out GG, this.gameObject);// récupére les autres script
+        oldVitesseRotation = VitesseRotation;
+        
     }
     public void SetByNormal() 
     {
@@ -156,8 +174,30 @@ public class GestionMotoControlleur : PersonnalMethod
 
         if (grounded && Mathf.Abs(VitesseMoto) > 0.01f) // si la moto est au sol est à une vitesse sup a 0.01f
         {
-           
-            if (Mathf.Abs(X)<0.7f) // si le joystick est tourné a 70%
+            if (actualRotatevalue>= ValueStartRotate)
+            {
+                float Rotation = X * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
+                transform.rotation *= Quaternion.Euler(0, Rotation, 0);// tourne la moto
+            }
+            else 
+            {
+                float angle = X * angleMax;// decale selon angle max
+                DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;//calcul la rotation
+                if (Mathf.Abs(X) > ValueStartRotateJoystick) // si le joystick est tourné a 70%
+                {
+                    print("tourne");
+                    actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);
+                }
+                
+
+            }
+            if (Mathf.Abs(X) < ValueStartRotateJoystick)
+            {
+                actualRotatevalue = 0;
+            }
+            
+
+            /*if (Mathf.Abs(X)<0.7f) // si le joystick est tourné a 70% // vieuxcode
             {
                
                 float angle = X * angleMax;// decale selon angle max
@@ -171,12 +211,27 @@ public class GestionMotoControlleur : PersonnalMethod
                 transform.rotation *= Quaternion.Euler(0, Rotation, 0);// tourne la moto
             }
             Debug.DrawRay(transform.position, DirectionForMoto * 3, Color.red);//montrte la direction
-            
+            */
 
         }
 
 
         
+    }
+
+    public void derapage(bool state) //fais le dérapage
+    {
+        if (state && VitesseMoto!=0)//si dois déraper
+        {
+            VitesseRotation = VitesseRotationDerapage;//set la vitesse de rotation
+            float direction = Mathf.Abs(VitesseMoto) / VitesseMoto;// trouve la direction de la moto
+            float pourcentage = Mathf.Abs(VitesseMoto) / vitesseMax;// détermine le pourcentage de vitesse de la moto
+            VitesseMoto += -direction * ForceRalentissementDerapage * Time.deltaTime*RalentissementDerapage.Evaluate(pourcentage);//le calcul qui enléve
+        }
+        else if(!state)
+        {
+            VitesseRotation = oldVitesseRotation;
+        }
     }
 
     public void Freine(float directionFrein, float Input , float pourcentage) // fait freiner le véhicule
@@ -246,26 +301,29 @@ public class GestionMotoControlleur : PersonnalMethod
 
     void LorsqueCollision(Collision InfoDeCollision) 
     {
-        
+        GG.GUI.setTextCouleur();//cahnge la couleur du text
         if (GG.GB.Surchauffing)
         {
             
-            GG.GB.LostBoost(GG.GB.PerteParCollisionInSurchauffe);
+            GG.GB.LostBoost(GG.GB.PerteParCollisionInSurchauffe);//fait perdre du boost
         }
         else 
         {
            
             if (VitesseMoto>vitesseMax)
             {
-                VitesseMoto = vitesseMax;
+                VitesseMoto = vitesseMax;//set la moto à la vitesse max
             }
             else 
             {
-                VitesseMoto -= PerteParCollision;
+                VitesseMoto -= PerteParCollision;//fais perdre selon value
             }
         }
     
     } 
+
+
+    
 
 
     private void OnCollisionEnter(Collision collision)//si le joueur touche qqchose
@@ -284,6 +342,7 @@ public class GestionMotoControlleur : PersonnalMethod
         {
             
             LorsqueCollision(collision);
+
 
         }
     }

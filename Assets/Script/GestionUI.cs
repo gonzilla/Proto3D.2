@@ -14,12 +14,16 @@ public class GestionUI : PersonnalMethod
     public Rigidbody Moto;
     [Tooltip(" arrondis la valeur afficher ")]
     public int arrondisDecimal = 2;
+    [Tooltip(" temps pdt lequel le text change de couleur ")]
+    public float TimeFeedBackText = 1;
     //Local variable
     GestionGeneral GG;// récupére les autres script
+    Color OldColor;
 
     void Start()
     {
         GetGestion(out GG, this.gameObject);// récupére les autres script
+        OldColor = Speed.color;
     }
 
     
@@ -34,6 +38,18 @@ public class GestionUI : PersonnalMethod
     {
         
         BoostVisual.value = valueToShow; // set la value du slider
-    
+        
+    }
+
+    public void setTextCouleur() 
+    {
+        Speed.color = Color.red;
+        Invoke("resetTextCouleur", TimeFeedBackText);
+    }
+
+    void resetTextCouleur() 
+    {
+        Speed.color = OldColor;
+
     }
 }
