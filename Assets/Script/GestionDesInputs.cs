@@ -64,7 +64,7 @@ public class GestionDesInputs : PersonnalMethod
                 SetBoolArray(7, state);
             }
             GG.GMC.derapage(state);
-            GG.GMC.TourneDerapage(Input.GetAxisRaw(Axes[7]));
+            GG.GMC.TourneDerapage(Input.GetAxisRaw(Axes[7]), Input.GetAxis(Axes[3]));
             
            
         }

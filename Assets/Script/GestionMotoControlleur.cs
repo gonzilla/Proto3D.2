@@ -219,22 +219,38 @@ public class GestionMotoControlleur : PersonnalMethod
         
     }
 
-    public void TourneDerapage(float DirectionRotation) 
+    public void TourneDerapage(float DirectionRotation, float X) 
     {
-
-        float Rotation = DirectionRotation * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
+        float Rotation = 0;
+        float directionJoystick = 0;
+        if (X!=0)
+        {
+            directionJoystick = Mathf.Abs(X) / X;
+        }
+        if (Mathf.Abs(X)> ValueStartRotateJoystick && (directionJoystick==DirectionRotation||directionJoystick==0))
+        {
+             Rotation = DirectionRotation * (VitesseRotation+oldVitesseRotation) * Time.deltaTime; // trouve la valeur selon vitesse rotation
+        }
+        else {
+            Rotation = DirectionRotation * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
+        }
+        
         transform.rotation *= Quaternion.Euler(0, Rotation, 0);// tourne la moto
 
     }
 
     public void derapage(bool state) //fais le dérapage
     {
-        if (state && VitesseMoto!=0)//si dois déraper
+        if (state )//si dois déraper
         {
             VitesseRotation = VitesseRotationDerapage;//set la vitesse de rotation
             float direction = Mathf.Abs(VitesseMoto) / VitesseMoto;// trouve la direction de la moto
             float pourcentage = Mathf.Abs(VitesseMoto) / vitesseMax;// détermine le pourcentage de vitesse de la moto
-            VitesseMoto += -direction * ForceRalentissementDerapage * Time.deltaTime*RalentissementDerapage.Evaluate(pourcentage);//le calcul qui enléve
+            if (VitesseMoto!=0)
+            {
+                VitesseMoto += -direction * ForceRalentissementDerapage * Time.deltaTime * RalentissementDerapage.Evaluate(pourcentage);//le calcul qui enléve
+            }
+            
         }
         else if(!state)
         {
@@ -245,7 +261,7 @@ public class GestionMotoControlleur : PersonnalMethod
     public void Freine(float directionFrein, float Input , float pourcentage) // fait freiner le véhicule
     {
 
-        if (!GG.GB.Surchauffing) //si le joueur ne surchauffe pas
+        if (!GG.GB.Surchauffing && VitesseMoto!=0) //si le joueur ne surchauffe pas
         {
             if (Input == 0 || !grounded) //si le joueur n'appuie pas ou n'est plus sur le sol 
             {
