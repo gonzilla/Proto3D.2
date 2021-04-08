@@ -361,10 +361,10 @@ InputManager:
     m_Name: Drift
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
+    negativeButton: joystick button 4
     positiveButton: joystick button 5
     altNegativeButton: 
-    altPositiveButton: joystick button 4
+    altPositiveButton: 
     gravity: 1000
     dead: 0
     sensitivity: 1000

@@ -219,6 +219,14 @@ public class GestionMotoControlleur : PersonnalMethod
         
     }
 
+    public void TourneDerapage(float DirectionRotation) 
+    {
+
+        float Rotation = DirectionRotation * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
+        transform.rotation *= Quaternion.Euler(0, Rotation, 0);// tourne la moto
+
+    }
+
     public void derapage(bool state) //fais le dérapage
     {
         if (state && VitesseMoto!=0)//si dois déraper
@@ -230,7 +238,7 @@ public class GestionMotoControlleur : PersonnalMethod
         }
         else if(!state)
         {
-            VitesseRotation = oldVitesseRotation;
+            VitesseRotation = oldVitesseRotation;//
         }
     }
 
