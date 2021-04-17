@@ -1734,7 +1734,7 @@ PrefabInstance:
     - target: {fileID: 359217827109769022, guid: 14309152b2a8d0542a80d45034dfbb26,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.3
+      value: 55.1
       objectReference: {fileID: 0}
     - target: {fileID: 359217827109769022, guid: 14309152b2a8d0542a80d45034dfbb26,
         type: 3}
@@ -1849,12 +1849,12 @@ PrefabInstance:
     - target: {fileID: 1684518481691032028, guid: 14309152b2a8d0542a80d45034dfbb26,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.6599824
+      value: -0.65998256
       objectReference: {fileID: 0}
     - target: {fileID: 1684518481691032028, guid: 14309152b2a8d0542a80d45034dfbb26,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.6600286
+      value: 0.6600287
       objectReference: {fileID: 0}
     - target: {fileID: 1684518481691032029, guid: 14309152b2a8d0542a80d45034dfbb26,
         type: 3}
@@ -2225,6 +2225,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RoadPref
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470322567717457791, guid: 14309152b2a8d0542a80d45034dfbb26,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14309152b2a8d0542a80d45034dfbb26, type: 3}
@@ -3024,11 +3029,13 @@ MonoBehaviour:
   DecellerationVitesseElleve: 1
   SnapVitesse: 0.01
   ValueStartRotateJoystick: 0.5
-  ValueStartRotate: 0
+  ValueStartRotate: 0.2
   ValuePourcentageForRotate: 1
   VitesseRotation: 75
+  VitesseRotationNormalMax: 2
+  VitesseRotationProgressive: 0.4
   VitesseRotationDerapage: 200
-  ForceRalentissementDerapage: 0.2
+  ForceRalentissementDerapage: 0.25
   RalentissementDerapage:
     serializedVersion: 2
     m_Curve:

@@ -38,6 +38,10 @@ public class GestionDesInputs : PersonnalMethod
         {
             GG.GMC.tourne(Input.GetAxis(Axes[3])); //Lance void pour Tourner
         }
+        if (!InUse[7] && Input.GetAxis(Axes[3])==0)
+        {           
+            GG.GMC.straff(Input.GetAxis(Axes[5]));//lance le straff
+        }
         GG.GMC.avance(Input.GetAxis(Axes[1])); //Lance void pour avancer
 
 
@@ -63,7 +67,7 @@ public class GestionDesInputs : PersonnalMethod
             {
                 SetBoolArray(7, state);
             }
-            GG.GMC.derapage(state);
+            GG.GMC.derapage(state, Input.GetAxis(Axes[3]));
             GG.GMC.TourneDerapage(Input.GetAxisRaw(Axes[7]), Input.GetAxis(Axes[3]));
             
            
@@ -71,7 +75,7 @@ public class GestionDesInputs : PersonnalMethod
         if (Input.GetAxisRaw(Axes[7]) == 0 && InUse[7])
         {
             bool state = false;
-            GG.GMC.derapage(state);
+            GG.GMC.derapage(state, 0);
             SetBoolArray(7, state);
         }
 

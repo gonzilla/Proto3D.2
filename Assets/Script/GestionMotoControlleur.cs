@@ -35,8 +35,12 @@ public class GestionMotoControlleur : PersonnalMethod
     public float ValueStartRotate;
     [Tooltip("Vitesse à laquelle la rotation de moto augmente ")]
     public float ValuePourcentageForRotate;
-    [Tooltip("Vitesse de rotation")]
+    [Tooltip("Vitesse de rotation")]// /!\peut être obsoléte
     public float VitesseRotation;
+    [Tooltip("Vitesse de rotation maximum lorsque tourne normalement")]
+    public float VitesseRotationNormalMax;
+    [Tooltip("Vitesse de rotation progressive")]
+    public float VitesseRotationProgressive;
     [Tooltip("Vitesse de rotation en derapage")]
     public float VitesseRotationDerapage;
     [Tooltip("Force de ralentissement lorsderapage")]
@@ -67,6 +71,7 @@ public class GestionMotoControlleur : PersonnalMethod
     float TimeCible; // le temps viser pour savoir si le joueur est en l'air
     float oldVitesseRotation;//stock la vitesse rotation de base
     float actualRotatevalue;//actual value
+    float RotationProgressive;
 
     Vector3 DirectionForMoto; //
     
@@ -82,7 +87,7 @@ public class GestionMotoControlleur : PersonnalMethod
     {
         Rb = GetComponent<Rigidbody>();// récupére le rigidbody
         GetGestion(out GG, this.gameObject);// récupére les autres script
-        oldVitesseRotation = VitesseRotation;
+        oldVitesseRotation = VitesseRotation;//set old votesse rotation
         
     }
     public void SetByNormal() 
@@ -176,8 +181,14 @@ public class GestionMotoControlleur : PersonnalMethod
         {
             if (actualRotatevalue>= ValueStartRotate)
             {
-                float Rotation = X * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
-                transform.rotation *= Quaternion.Euler(0, Rotation, 0);// tourne la moto
+                RotationProgressive += X * VitesseRotationProgressive * Time.deltaTime;// ajoute la valeur
+                print(RotationProgressive);
+                if (RotationProgressive>VitesseRotationNormalMax)
+                {
+                    RotationProgressive = VitesseRotationNormalMax;
+                } 
+                //float Rotation = X * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
+                transform.rotation *= Quaternion.Euler(0, RotationProgressive, 0);// tourne la moto
             }
             else 
             {
@@ -185,7 +196,7 @@ public class GestionMotoControlleur : PersonnalMethod
                 DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;//calcul la rotation
                 if (Mathf.Abs(X) > ValueStartRotateJoystick) // si le joystick est tourné a 70%
                 {
-                    print("tourne");
+                    //print("tourne");
                     actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);
                 }
                 
@@ -193,7 +204,8 @@ public class GestionMotoControlleur : PersonnalMethod
             }
             if (Mathf.Abs(X) < ValueStartRotateJoystick)
             {
-                actualRotatevalue = 0;
+                actualRotatevalue = 0; //reset la valeur de actual a 0
+                RotationProgressive = 0;//reset la rotation progressive a 0
             }
             
 
@@ -219,6 +231,16 @@ public class GestionMotoControlleur : PersonnalMethod
         
     }
 
+    public void straff(float X) // fait straffer
+    {
+        
+        if (grounded && Mathf.Abs(VitesseMoto) > 0.01f) // si la moto est au sol est à une vitesse sup a 0.01f
+        {
+            float angle = X * angleMax;// decale selon angle max
+            DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;//calcul la rotation
+            actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);// l'applique la rotation
+        }
+    }
     public void TourneDerapage(float DirectionRotation, float X) 
     {
         float Rotation = 0;
@@ -231,22 +253,25 @@ public class GestionMotoControlleur : PersonnalMethod
         {
              Rotation = DirectionRotation * (VitesseRotation+oldVitesseRotation) * Time.deltaTime; // trouve la valeur selon vitesse rotation
         }
-        else {
-            Rotation = DirectionRotation * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
+        /*else {
+           // Rotation = DirectionRotation * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
+        }*/
+        if (Rotation!=0)
+        {
+            transform.rotation *= Quaternion.Euler(0, Rotation, 0);// tourne la moto
         }
         
-        transform.rotation *= Quaternion.Euler(0, Rotation, 0);// tourne la moto
 
     }
 
-    public void derapage(bool state) //fais le dérapage
+    public void derapage(bool state, float X) //fais le dérapage
     {
         if (state )//si dois déraper
         {
             VitesseRotation = VitesseRotationDerapage;//set la vitesse de rotation
             float direction = Mathf.Abs(VitesseMoto) / VitesseMoto;// trouve la direction de la moto
             float pourcentage = Mathf.Abs(VitesseMoto) / vitesseMax;// détermine le pourcentage de vitesse de la moto
-            if (VitesseMoto!=0)
+            if (VitesseMoto!=0 && Mathf.Abs(X) > ValueStartRotateJoystick)
             {
                 VitesseMoto += -direction * ForceRalentissementDerapage * Time.deltaTime * RalentissementDerapage.Evaluate(pourcentage);//le calcul qui enléve
             }
