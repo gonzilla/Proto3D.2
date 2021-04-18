@@ -182,24 +182,27 @@ public class GestionMotoControlleur : PersonnalMethod
             if (actualRotatevalue>= ValueStartRotate)
             {
                 RotationProgressive += X * VitesseRotationProgressive * Time.deltaTime;// ajoute la valeur
-                print(RotationProgressive);
+                //print(RotationProgressive);
                 if (RotationProgressive>VitesseRotationNormalMax)
                 {
                     RotationProgressive = VitesseRotationNormalMax;
-                } 
+                }
+                if (RotationProgressive<-VitesseRotationNormalMax)
+                {
+                    RotationProgressive = -VitesseRotationNormalMax;
+                }
                 //float Rotation = X * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
                 transform.rotation *= Quaternion.Euler(0, RotationProgressive, 0);// tourne la moto
             }
-            else 
+            else
             {
-                float angle = X * angleMax;// decale selon angle max
-                DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;//calcul la rotation
+               
                 if (Mathf.Abs(X) > ValueStartRotateJoystick) // si le joystick est tourné a 70%
                 {
                     //print("tourne");
                     actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);
                 }
-                
+
 
             }
             if (Mathf.Abs(X) < ValueStartRotateJoystick)
@@ -241,21 +244,26 @@ public class GestionMotoControlleur : PersonnalMethod
             actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);// l'applique la rotation
         }
     }
-    public void TourneDerapage(float DirectionRotation, float X) 
+    public void TourneDerapage(float DirectionRotation, float X, out bool ISitLosingSpeed) 
     {
         float Rotation = 0;
         float directionJoystick = 0;
         if (X!=0)
         {
-            directionJoystick = Mathf.Abs(X) / X;
+            directionJoystick = Mathf.Abs(X) / X;//regarde la direction du joystick
         }
-        if (Mathf.Abs(X)> ValueStartRotateJoystick && (directionJoystick==DirectionRotation||directionJoystick==0))
+        if (Mathf.Abs(X)> ValueStartRotateJoystick && (directionJoystick==DirectionRotation||directionJoystick==0) && VitesseMoto!=0)
         {
-             Rotation = DirectionRotation * (VitesseRotation+oldVitesseRotation) * Time.deltaTime; // trouve la valeur selon vitesse rotation
+            Rotation = DirectionRotation * (VitesseRotation+oldVitesseRotation) * Time.deltaTime; // trouve la valeur selon vitesse rotation
+            ISitLosingSpeed = true;
+            
+        } 
+        else 
+        {
+            ISitLosingSpeed = false;
         }
-        /*else {
-           // Rotation = DirectionRotation * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
-        }*/
+        
+
         if (Rotation!=0)
         {
             transform.rotation *= Quaternion.Euler(0, Rotation, 0);// tourne la moto
@@ -264,9 +272,10 @@ public class GestionMotoControlleur : PersonnalMethod
 
     }
 
-    public void derapage(bool state, float X) //fais le dérapage
+    public void derapage(bool state, float X ,bool MustloseSpeed) //fais le dérapage
     {
-        if (state )//si dois déraper
+        
+        if (state && MustloseSpeed)//si dois déraper
         {
             VitesseRotation = VitesseRotationDerapage;//set la vitesse de rotation
             float direction = Mathf.Abs(VitesseMoto) / VitesseMoto;// trouve la direction de la moto
@@ -407,49 +416,56 @@ public class GestionMotoControlleur : PersonnalMethod
 }
 /*ancien code
  
- // Gros Freinage
-            //VitesseMoto =
-            //VitesseMoto += directionFrein * PuissanceFrainage * Time.deltaTime * FreinageSelonVitesse.Evaluate();
- 
- 
-  // un faible ralentissement
-  //VitesseMoto += directionFrein*Mathf.Abs(Input)*ForceRalentissement*Input*Time.deltaTime;
- 
- //float Z = Input.GetAxis("VerticalManette");
-        //float angleToGo = X * angleMax;
 
-        //transform.rotation
-        //Vector3 DirectionRay = new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo));
-        //Debug.DrawRay(transform.position, DirectionRay * 10, Color.red);
- 
+//tourne
+/*else {
+           // Rotation = DirectionRotation * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
+        }*/
 
- //float Rotation = X * VitesseRotation * Time.deltaTime;
-            //transform.rotation *= Quaternion.Euler(0, Rotation, 0);
-            //float angleToGo = X * angleMax;
-            //DirectionForMoto = transform.position + new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo)).normalized ;
-            //float angle = X * angleMax;
-            //DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;
-            
+
+// Gros Freinage
+//VitesseMoto =
+//VitesseMoto += directionFrein * PuissanceFrainage * Time.deltaTime * FreinageSelonVitesse.Evaluate();
+
+
+// un faible ralentissement
+//VitesseMoto += directionFrein*Mathf.Abs(Input)*ForceRalentissement*Input*Time.deltaTime;
+
+//float Z = Input.GetAxis("VerticalManette");
+//float angleToGo = X * angleMax;
+
+//transform.rotation
+//Vector3 DirectionRay = new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo));
+//Debug.DrawRay(transform.position, DirectionRay * 10, Color.red);
+
+
+//float Rotation = X * VitesseRotation * Time.deltaTime;
+//transform.rotation *= Quaternion.Euler(0, Rotation, 0);
+//float angleToGo = X * angleMax;
+//DirectionForMoto = transform.position + new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo)).normalized ;
 //float angle = X * angleMax;
-                //DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;
+//DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;
+
+//float angle = X * angleMax;
+//DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;
 //transform.Translate(DirectionForMoto * VitesseMoto, Space.World);
 
 
- //transform.Translate((transform.forward + (transform.right * Input.GetAxis("HorizontalManette"))) * VitesseMoto, Space.World);
+//transform.Translate((transform.forward + (transform.right * Input.GetAxis("HorizontalManette"))) * VitesseMoto, Space.World);
 
 
-        /*if (grounded)
-        {
-            transform.Translate(transform.forward * VitesseMoto, Space.World);
-        }    
-        else if (!grounded) 
-        {
-            transform.Translate(Vector3.zero * VitesseMoto, Space.World);
-        
-        }
+/*if (grounded)
+{
+    transform.Translate(transform.forward * VitesseMoto, Space.World);
+}    
+else if (!grounded) 
+{
+    transform.Translate(Vector3.zero * VitesseMoto, Space.World);
 
- //DirectionForMoto += transform.right * Input.GetAxis("HorizontalManette");
- //DirectionForMoto += transform.right * Input.GetAxis("HorizontalManette");
+}
+
+//DirectionForMoto += transform.right * Input.GetAxis("HorizontalManette");
+//DirectionForMoto += transform.right * Input.GetAxis("HorizontalManette");
 //&& Mathf.Abs(VitesseMoto)>0.01f 
 
 //AngleX = UnityEditor.TransformUtils.GetInspectorRotation(this.gameObject.transform).x;

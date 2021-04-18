@@ -3033,8 +3033,8 @@ MonoBehaviour:
   ValuePourcentageForRotate: 1
   VitesseRotation: 75
   VitesseRotationNormalMax: 2
-  VitesseRotationProgressive: 0.4
-  VitesseRotationDerapage: 200
+  VitesseRotationProgressive: 1
+  VitesseRotationDerapage: 100
   ForceRalentissementDerapage: 0.25
   RalentissementDerapage:
     serializedVersion: 2

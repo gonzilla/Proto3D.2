@@ -67,15 +67,16 @@ public class GestionDesInputs : PersonnalMethod
             {
                 SetBoolArray(7, state);
             }
-            GG.GMC.derapage(state, Input.GetAxis(Axes[3]));
-            GG.GMC.TourneDerapage(Input.GetAxisRaw(Axes[7]), Input.GetAxis(Axes[3]));
+            bool LoseSpeed = false;
             
-           
+            GG.GMC.TourneDerapage(Input.GetAxisRaw(Axes[7]), Input.GetAxis(Axes[3]), out LoseSpeed);
+            GG.GMC.derapage(state, Input.GetAxis(Axes[3]),LoseSpeed);
+
         }
         if (Input.GetAxisRaw(Axes[7]) == 0 && InUse[7])
         {
             bool state = false;
-            GG.GMC.derapage(state, 0);
+            GG.GMC.derapage(state, 0,false);
             SetBoolArray(7, state);
         }
 
