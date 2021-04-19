@@ -2850,7 +2850,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 80, y: 24.111542}
+  m_AnchoredPosition: {x: 80, y: 24.111572}
   m_SizeDelta: {x: 160, y: 48.223083}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1248295110
@@ -3030,11 +3030,11 @@ MonoBehaviour:
   SnapVitesse: 0.01
   ValueStartRotateJoystick: 0.5
   ValueStartRotate: 0.2
-  ValuePourcentageForRotate: 1
-  VitesseRotation: 75
-  VitesseRotationNormalMax: 2
-  VitesseRotationProgressive: 1
-  VitesseRotationDerapage: 100
+  ValuePourcentageForRotate: 30
+  VitesseRotation: 20
+  VitesseRotationNormalMax: 5
+  VitesseRotationProgressive: 5
+  VitesseRotationDerapage: 300
   ForceRalentissementDerapage: 0.25
   RalentissementDerapage:
     serializedVersion: 2
