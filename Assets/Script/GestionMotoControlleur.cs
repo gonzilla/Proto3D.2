@@ -43,6 +43,8 @@ public class GestionMotoControlleur : PersonnalMethod
     public float VitesseRotationProgressive;
     [Tooltip("Vitesse de rotation en derapage")]
     public float VitesseRotationDerapage;
+    [Tooltip("Vitesse de rotation en derapage Max")]
+    public float VitesseRotationDerapageMax;
     [Tooltip("Force de ralentissement lorsderapage")]
     public float ForceRalentissementDerapage;
     [Tooltip("Valeur du ralentissement lors du derapage selon vitesse en %")]
@@ -71,6 +73,7 @@ public class GestionMotoControlleur : PersonnalMethod
     float TimeCible; // le temps viser pour savoir si le joueur est en l'air
     float oldVitesseRotation;//stock la vitesse rotation de base
     float actualRotatevalue;//actual value
+    float actualvitesseDerapage;
     float RotationProgressive;
 
     Vector3 DirectionForMoto; //
@@ -246,15 +249,32 @@ public class GestionMotoControlleur : PersonnalMethod
     }
     public void TourneDerapage(float DirectionRotation, float X, out bool ISitLosingSpeed) 
     {
-        float Rotation = 0;
+        
         float directionJoystick = 0;
+        float ValueDefin =  VitesseRotationDerapageMax * Time.deltaTime;
         if (X!=0)
         {
             directionJoystick = Mathf.Abs(X) / X;//regarde la direction du joystick
         }
         if (Mathf.Abs(X)> ValueStartRotateJoystick && (directionJoystick==DirectionRotation||directionJoystick==0) && VitesseMoto!=0)
         {
-            Rotation = DirectionRotation * (VitesseRotation+oldVitesseRotation) * Time.deltaTime; // trouve la valeur selon vitesse rotation
+            
+            if (actualvitesseDerapage == 0)
+            {
+                actualvitesseDerapage = oldVitesseRotation * DirectionRotation * Time.deltaTime;
+            }
+            else 
+            {
+                actualvitesseDerapage += VitesseRotationDerapage * DirectionRotation * Time.deltaTime;
+            }
+            
+            
+              // trouve la valeur selon vitesse rotation
+            print(actualvitesseDerapage);
+            if (actualvitesseDerapage > ValueDefin|| actualvitesseDerapage < -ValueDefin)
+            {
+                actualvitesseDerapage = ValueDefin;
+            }
             ISitLosingSpeed = true;
             
         } 
@@ -264,9 +284,10 @@ public class GestionMotoControlleur : PersonnalMethod
         }
         
 
-        if (Rotation!=0)
+        if (actualvitesseDerapage != 0)
         {
-            transform.rotation *= Quaternion.Euler(0, Rotation, 0);// tourne la moto
+            print(actualvitesseDerapage);
+            transform.rotation *= Quaternion.Euler(0, actualvitesseDerapage, 0);// tourne la moto
         }
         
 
@@ -274,10 +295,14 @@ public class GestionMotoControlleur : PersonnalMethod
 
     public void derapage(bool state, float X ,bool MustloseSpeed) //fais le dérapage
     {
-        
+        if (X==0)
+        {
+            actualvitesseDerapage = 0;
+            print("ne dérape pas");
+        }
         if (state && MustloseSpeed)//si dois déraper
         {
-            VitesseRotation = VitesseRotationDerapage;//set la vitesse de rotation
+            VitesseRotation = VitesseRotationDerapageMax;//set la vitesse de rotation
             float direction = Mathf.Abs(VitesseMoto) / VitesseMoto;// trouve la direction de la moto
             float pourcentage = Mathf.Abs(VitesseMoto) / vitesseMax;// détermine le pourcentage de vitesse de la moto
             if (VitesseMoto!=0 && Mathf.Abs(X) > ValueStartRotateJoystick)
