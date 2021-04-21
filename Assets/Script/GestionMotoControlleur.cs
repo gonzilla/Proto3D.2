@@ -273,7 +273,7 @@ public class GestionMotoControlleur : PersonnalMethod
             print(actualvitesseDerapage);
             if (actualvitesseDerapage > ValueDefin|| actualvitesseDerapage < -ValueDefin)
             {
-                actualvitesseDerapage = ValueDefin*DirectionRotation;
+                actualvitesseDerapage = ValueDefin;
             }
             ISitLosingSpeed = true;
             
