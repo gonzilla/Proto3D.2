@@ -69,6 +69,12 @@ public class GestionMotoControlleur : PersonnalMethod
     [Header("Autre")]
     [Tooltip("Le tempspour que le systéme estime le joueur dans les airs")]
     public float TempsPourEtreEnLair;
+
+    public GameObject ParticleCam;
+    public GameObject ParticleRoueGauche;
+    public GameObject ParticleRoueDroite;
+
+
     //Local variable
     float TimeCible; // le temps viser pour savoir si le joueur est en l'air
     float oldVitesseRotation;//stock la vitesse rotation de base
@@ -169,7 +175,15 @@ public class GestionMotoControlleur : PersonnalMethod
                  }
             }
         DirectionForMoto += transform.forward;//set la direction
-       
+        if (Mathf.Abs(VitesseMoto)>vitesseMax*0.5f)
+        {
+            ParticleCam.SetActive(true);
+        }
+        else
+        {
+
+            ParticleCam.SetActive(false);
+        }
         transform.Translate(DirectionForMoto.normalized * VitesseMoto, Space.World);//fais le déplacement
         DirectionForMoto = Vector3.zero;// remet la direction 
        
@@ -252,6 +266,15 @@ public class GestionMotoControlleur : PersonnalMethod
         
         float directionJoystick = 0;
         float ValueDefin =  VitesseRotationDerapageMax * Time.deltaTime;
+        if (DirectionRotation==-1)
+        {
+            ParticleRoueGauche.SetActive(true);
+        }
+        if (DirectionRotation == 1)
+        {
+            ParticleRoueDroite.SetActive(true);
+        }
+
         if (X!=0)
         {
             directionJoystick = Mathf.Abs(X) / X;//regarde la direction du joystick
@@ -273,7 +296,7 @@ public class GestionMotoControlleur : PersonnalMethod
             print(actualvitesseDerapage);
             if (actualvitesseDerapage > ValueDefin|| actualvitesseDerapage < -ValueDefin)
             {
-                actualvitesseDerapage = ValueDefin;
+                actualvitesseDerapage = ValueDefin* DirectionRotation;
             }
             ISitLosingSpeed = true;
             
@@ -298,6 +321,8 @@ public class GestionMotoControlleur : PersonnalMethod
         if (X==0)
         {
             actualvitesseDerapage = 0;
+            ParticleRoueGauche.SetActive(false);
+            ParticleRoueDroite.SetActive(false);
             print("ne dérape pas");
         }
         if (state && MustloseSpeed)//si dois déraper
