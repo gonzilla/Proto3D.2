@@ -32,15 +32,17 @@ public class GestionDesInputs : PersonnalMethod
     void FixedUpdate()
     {
         //Ce qui est sur de ce faire à chaque frame
-        GG.CSF.CameraMovement(); // fais le mouvement de la camera
+        GG.CSF.CameraComportement(); // fais les comportements de la camera
         GG.GMC.SetByNormal(); // check le sol 
         if (!InUse[7])
         {
             GG.GMC.tourne(Input.GetAxis(Axes[3])); //Lance void pour Tourner
+            GG.CSF.InfoRotationDeLaCam(Input.GetAxis(Axes[3])); //envois des info pour la cam
         }
         if (!InUse[7] && Input.GetAxis(Axes[3])==0)
         {           
             GG.GMC.straff(Input.GetAxis(Axes[5]));//lance le straff
+            GG.CSF.InfoRotationDeLaCam(0); //envois des info pour la cam
         }
         GG.GMC.avance(Input.GetAxis(Axes[1])); //Lance void pour avancer
 
@@ -71,11 +73,13 @@ public class GestionDesInputs : PersonnalMethod
             
             GG.GMC.TourneDerapage(Input.GetAxisRaw(Axes[7]), Input.GetAxis(Axes[3]), out LoseSpeed);
             GG.GMC.derapage(state, Input.GetAxis(Axes[3]),LoseSpeed);
+            GG.CSF.InfoRotationDeLaCam(Input.GetAxisRaw(Axes[3]), Input.GetAxis(Axes[7]));
 
         }
         if (Input.GetAxisRaw(Axes[7]) == 0 && InUse[7])
         {
             bool state = false;
+            GG.CSF.InfoRotationDeLaCam(Input.GetAxisRaw(Axes[3]), Input.GetAxis(Axes[7]));
             GG.GMC.derapage(state, 0,false);
             SetBoolArray(7, state);
         }

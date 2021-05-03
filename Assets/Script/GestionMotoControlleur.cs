@@ -27,29 +27,33 @@ public class GestionMotoControlleur : PersonnalMethod
     [Tooltip("Value à partir de laquel la vitesse clamp a 0")]
     public float SnapVitesse = 0.001f;
 
-    
+    [Header("Tourner/Déraper")]
+    [Tooltip("Le taux de pression du joystick pour débuter la rotation ou le dérapage")]
+    public float ValeurJoysticPourRotation;
+
+    [HideInInspector]
+    public float ActuelVitesseRotation;//variable commune qui sera utiliser pour déterminé le sens ainsi que la vitesse de rotation
     [Header("Tourner")]
-    [Tooltip("Value du joystic à partir de laquelle je start pour savoir si tourne")]
-    public float ValueStartRotateJoystick;
-    [Tooltip("Value à partir de laquelle la moto commence a tourner")]
-    public float ValueStartRotate;
-    [Tooltip("Vitesse à laquelle la rotation de moto augmente ")]
-    public float ValuePourcentageForRotate;
-    [Tooltip("Vitesse de rotation")]// /!\peut être obsoléte
-    public float VitesseRotation;
-    [Tooltip("Vitesse de rotation maximum lorsque tourne normalement")]
-    public float VitesseRotationNormalMax;
-    [Tooltip("Vitesse de rotation progressive")]
-    public float VitesseRotationProgressive;
-    [Tooltip("Vitesse de rotation en derapage")]
-    public float VitesseRotationDerapage;
-    [Tooltip("Vitesse de rotation en derapage Max")]
-    public float VitesseRotationDerapageMax;
-    [Tooltip("Force de ralentissement lorsderapage")]
+    [Tooltip("Vitesse à partir de laquelle la moto peut tourner")]
+    public float VitesseMinimumPourTourner;
+    [Tooltip("Vitesse à la quelle augmente sa rotation")]
+    public float VitesseDeProgressionDeLaRotation ;
+    [Tooltip("Vitesse de rotation pour tourner au maximum")]
+    public float VitesseDeRotationMax;
+
+
+    [Header("Dérapage")]
+    
+    [Tooltip("Vitesse  à partir de laquelle la moto peut deraper")]
+    public float VitesseMinimumPourDeraper;
+    [Tooltip("Vitesse à la quelle augmente son derapage")]
+    public float VitesseDeProgressionDuDerapage;
+    [Tooltip("Vitesse de rotation pour deraper au maximum")]
+    public float VitesseDeDerapageMax;
+    [Range(0,1),Tooltip("Force de ralentissement lorsderapage")]
     public float ForceRalentissementDerapage;
     [Tooltip("Valeur du ralentissement lors du derapage selon vitesse en %")]
     public AnimationCurve RalentissementDerapage;
-
 
     [Header("Pour Raycast")]
     [Tooltip("l'objet d'ou part le raycast")]
@@ -77,10 +81,8 @@ public class GestionMotoControlleur : PersonnalMethod
 
     //Local variable
     float TimeCible; // le temps viser pour savoir si le joueur est en l'air
-    float oldVitesseRotation;//stock la vitesse rotation de base
-    float actualRotatevalue;//actual value
-    float actualvitesseDerapage;
-    float RotationProgressive;
+    
+    
 
     Vector3 DirectionForMoto; //
     
@@ -96,7 +98,7 @@ public class GestionMotoControlleur : PersonnalMethod
     {
         Rb = GetComponent<Rigidbody>();// récupére le rigidbody
         GetGestion(out GG, this.gameObject);// récupére les autres script
-        oldVitesseRotation = VitesseRotation;//set old votesse rotation
+        //FirstVitesseRotation = ;//set old votesse rotation
         
     }
     public void SetByNormal() 
@@ -193,62 +195,25 @@ public class GestionMotoControlleur : PersonnalMethod
     }
     public void tourne(float X) //fait tourner la moto
     {
-
-        if (grounded && Mathf.Abs(VitesseMoto) > 0.01f) // si la moto est au sol est à une vitesse sup a 0.01f
+        if (grounded && Mathf.Abs(VitesseMoto) > VitesseMinimumPourTourner)//si je suis sur le sol et que la vitesse est suffisante
         {
-            if (actualRotatevalue>= ValueStartRotate)
-            {
-                RotationProgressive += X * VitesseRotationProgressive * Time.deltaTime;// ajoute la valeur
-                //print(RotationProgressive);
-                if (RotationProgressive>VitesseRotationNormalMax)
-                {
-                    RotationProgressive = VitesseRotationNormalMax;
-                }
-                if (RotationProgressive<-VitesseRotationNormalMax)
-                {
-                    RotationProgressive = -VitesseRotationNormalMax;
-                }
-                //float Rotation = X * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
-                transform.rotation *= Quaternion.Euler(0, RotationProgressive, 0);// tourne la moto
-            }
-            else
-            {
-               
-                if (Mathf.Abs(X) > ValueStartRotateJoystick) // si le joystick est tourné a 70%
-                {
-                    //print("tourne");
-                    actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);
-                }
-
-
-            }
-            if (Mathf.Abs(X) < ValueStartRotateJoystick)
-            {
-                actualRotatevalue = 0; //reset la valeur de actual a 0
-                RotationProgressive = 0;//reset la rotation progressive a 0
-            }
             
-
-            /*if (Mathf.Abs(X)<0.7f) // si le joystick est tourné a 70% // vieuxcode
+            if (Mathf.Abs(X) > ValeurJoysticPourRotation)// si la pressions est suffisante
             {
-               
-                float angle = X * angleMax;// decale selon angle max
-                DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;//calcul la rotation
-            } // A changer par une autre fonction pour un truc plus sympa
-            else 
-            {
-                
-
-                float Rotation = X * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
-                transform.rotation *= Quaternion.Euler(0, Rotation, 0);// tourne la moto
+                ActuelVitesseRotation += X * VitesseDeProgressionDeLaRotation  * Time.deltaTime; // augmente la vitesse de rotation 
             }
-            Debug.DrawRay(transform.position, DirectionForMoto * 3, Color.red);//montrte la direction
-            */
 
+            checkRotationMoto(VitesseDeRotationMax);
+        }
+        if (Mathf.Abs(X) < ValeurJoysticPourRotation)// si le joueur ne touche pas assez au joystick
+        {
+            ActuelVitesseRotation = 0;//reset la valeur de rotation
         }
 
 
-        
+        transform.rotation *= Quaternion.Euler(0, ActuelVitesseRotation, 0);// tourne la moto
+
+
     }
 
     public void straff(float X) // fait straffer
@@ -258,88 +223,60 @@ public class GestionMotoControlleur : PersonnalMethod
         {
             float angle = X * angleMax;// decale selon angle max
             DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;//calcul la rotation
-            actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);// l'applique la rotation
+            //actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);// l'applique la rotation
         }
     }
     public void TourneDerapage(float DirectionRotation, float X, out bool ISitLosingSpeed) 
     {
-        
         float directionJoystick = 0;
-        float ValueDefin =  VitesseRotationDerapageMax * Time.deltaTime;
-        if (DirectionRotation==-1)
+        if (X!=0)// si le joueur touche au joystick
+        {
+            directionJoystick = Mathf.Abs(X)/X;//divise par son opposé pour avoir le bon signe
+        }//détermine la direction du joystick
+        if (DirectionRotation == -1 && DirectionRotation == directionJoystick)
         {
             ParticleRoueGauche.SetActive(true);
-        }
-        if (DirectionRotation == 1)
+        }//pour l'activation des particules
+        if (DirectionRotation == 1 && DirectionRotation == directionJoystick)
         {
             ParticleRoueDroite.SetActive(true);
-        }
-
-        if (X!=0)
+        }//pour l'activation des particules
+        
+        if (Mathf.Abs(X) > ValeurJoysticPourRotation &&  (directionJoystick == DirectionRotation || directionJoystick == 0) && Mathf.Abs(VitesseMoto)>VitesseMinimumPourTourner && grounded)
         {
-            directionJoystick = Mathf.Abs(X) / X;//regarde la direction du joystick
+            ActuelVitesseRotation += VitesseDeProgressionDuDerapage * DirectionRotation * Time.deltaTime;//ajoute la rotation
+            checkRotationMoto(VitesseDeDerapageMax);//check si la rotation est encore bonne
+            ISitLosingSpeed = true;// indique que la moto perd de la vitesse
         }
-        if (Mathf.Abs(X)> ValueStartRotateJoystick && (directionJoystick==DirectionRotation||directionJoystick==0) && VitesseMoto!=0)
-        {
-            
-            if (actualvitesseDerapage == 0)
-            {
-                actualvitesseDerapage = oldVitesseRotation * DirectionRotation * Time.deltaTime;
-            }
-            else 
-            {
-                actualvitesseDerapage += VitesseRotationDerapage * DirectionRotation * Time.deltaTime;
-            }
-            
-            
-              // trouve la valeur selon vitesse rotation
-            print(actualvitesseDerapage);
-            if (actualvitesseDerapage > ValueDefin|| actualvitesseDerapage < -ValueDefin)
-            {
-                actualvitesseDerapage = ValueDefin* DirectionRotation;
-            }
-            ISitLosingSpeed = true;
-            
-        } 
         else 
         {
-            ISitLosingSpeed = false;
+            ISitLosingSpeed = false;//indique que la moto ne perd pas de vitesse
         }
-        
-
-        if (actualvitesseDerapage != 0)
+        if (ActuelVitesseRotation!=0)
         {
-            print(actualvitesseDerapage);
-            transform.rotation *= Quaternion.Euler(0, actualvitesseDerapage, 0);// tourne la moto
+            transform.rotation *= Quaternion.Euler(0, ActuelVitesseRotation, 0);// tourne la moto
         }
-        
-
-    }
+    }//tourne la moto pour le dérapage
 
     public void derapage(bool state, float X ,bool MustloseSpeed) //fais le dérapage
     {
         if (X==0)
         {
-            actualvitesseDerapage = 0;
-            ParticleRoueGauche.SetActive(false);
-            ParticleRoueDroite.SetActive(false);
-            print("ne dérape pas");
+            ActuelVitesseRotation = 0;
+            ParticleRoueGauche.SetActive(false);// particle
+            ParticleRoueDroite.SetActive(false);// particle
         }
-        if (state && MustloseSpeed)//si dois déraper
+        if (state && MustloseSpeed)// vérifie que je demande a déraper et que je dois perdre de la vitesse
         {
-            VitesseRotation = VitesseRotationDerapageMax;//set la vitesse de rotation
+            print("PERD");
             float direction = Mathf.Abs(VitesseMoto) / VitesseMoto;// trouve la direction de la moto
             float pourcentage = Mathf.Abs(VitesseMoto) / vitesseMax;// détermine le pourcentage de vitesse de la moto
-            if (VitesseMoto!=0 && Mathf.Abs(X) > ValueStartRotateJoystick)
+            if (Mathf.Abs(VitesseMoto) > VitesseMinimumPourDeraper && Mathf.Abs(X) > ValeurJoysticPourRotation)//  
             {
-                VitesseMoto += -direction * ForceRalentissementDerapage * Time.deltaTime * RalentissementDerapage.Evaluate(pourcentage);//le calcul qui enléve
+                VitesseMoto += -direction * ForceRalentissementDerapage  * RalentissementDerapage.Evaluate(pourcentage) * Time.deltaTime;//le calcul qui enléve
             }
-            
         }
-        else if(!state)
-        {
-            VitesseRotation = oldVitesseRotation;//
-        }
+
     }
 
     public void Freine(float directionFrein, float Input , float pourcentage) // fait freiner le véhicule
@@ -391,6 +328,20 @@ public class GestionMotoControlleur : PersonnalMethod
         
     
     }
+
+    void checkRotationMoto(float max) 
+    {
+
+       
+        if (ActuelVitesseRotation > max)
+        {
+            ActuelVitesseRotation = max;
+        }
+        if (ActuelVitesseRotation < -max)
+        {
+            ActuelVitesseRotation = -max;
+        }
+    }  // check si je dépasse pas la vitesse de rotation max
 
     void FreezeRotation()// freeze la rotation selon grounded ou non
     {
@@ -522,3 +473,21 @@ else if (!grounded)
 
 //print(UnityEditor.TransformUtils.GetInspectorRotation(this.gameObject.transform).x);
 */
+
+//float Rotation = X * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
+
+/*if (Mathf.Abs(X)<0.7f) // si le joystick est tourné a 70% // vieuxcode
+          {
+
+              float angle = X * angleMax;// decale selon angle max
+              DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;//calcul la rotation
+          } // A changer par une autre fonction pour un truc plus sympa
+          else 
+          {
+
+
+              float Rotation = X * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
+              transform.rotation *= Quaternion.Euler(0, Rotation, 0);// tourne la moto
+          }
+          Debug.DrawRay(transform.position, DirectionForMoto * 3, Color.red);//montrte la direction
+          */

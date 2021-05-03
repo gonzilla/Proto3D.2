@@ -6071,22 +6071,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c3b59eb0cb5f774c9d6500a2b420091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StateOfMoto: 0
+  AffichageEtatDebug: {fileID: 0}
   LesInfosDuSon:
   - LeSonAJouer: event:/Ball/Esquive
-    LaMethode:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 549172726}
-          m_MethodName: freine
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
     LeVoid: 
     BoucleDansFmod: 0
     BoucleParCode: 0
@@ -6094,10 +6082,10 @@ MonoBehaviour:
     OneShot: 0
     StopQuandChangementDetat: 0
     TempsDuSons: 0
+    ListeDesParametre: 
     ParameterToModify: []
     IndexDuSon: 0
     tempsPourArret: 0
-  StateOfMoto: 0
 --- !u!4 &549172727
 Transform:
   m_ObjectHideFlags: 0
@@ -6368,6 +6356,84 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &754240350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 754240351}
+  - component: {fileID: 754240353}
+  - component: {fileID: 754240352}
+  m_Layer: 5
+  m_Name: Debug
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &754240351
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754240350}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1735656346}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 101.9, y: -33.7}
+  m_SizeDelta: {x: 203.89844, y: 67.32391}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &754240352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754240350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 32
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &754240353
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754240350}
+  m_CullTransparentMesh: 0
 --- !u!1 &809740841
 GameObject:
   m_ObjectHideFlags: 0
@@ -16185,7 +16251,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 944659717}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.63, z: -15.66}
+  m_LocalPosition: {x: 0, y: 2.33, z: -13.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1314564570}
@@ -16896,8 +16962,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VitesseDeplacement: 0.3
-  VitesseRotation: 1
+  VitesseRotation: 10
   MotoToFollow: {fileID: 944659718}
+  LaMoto: {fileID: 1314564570}
+  StartValueOfFOV: 40
+  PourcentageVitesseFOVChange: 0.1
+  FOV_Max: 80
+  VitesseFOV: 1
+  AngleMaximalEnPlus: 65
+  VitesseRotationSurY: 5
 --- !u!1 &1097646716
 GameObject:
   m_ObjectHideFlags: 0
@@ -31765,15 +31838,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   DecellerationVitesseElleve: 1
   SnapVitesse: 0.01
-  ValueStartRotateJoystick: 0.5
-  ValueStartRotate: 0.2
-  ValuePourcentageForRotate: 30
-  VitesseRotation: 20
-  VitesseRotationNormalMax: 5
-  VitesseRotationProgressive: 5
-  VitesseRotationDerapage: 8
-  VitesseRotationDerapageMax: 500
-  ForceRalentissementDerapage: 0.25
+  ValeurJoysticPourRotation: 0.7
+  ActuelVitesseRotation: 0
+  VitesseMinimumPourTourner: 0.01
+  VitesseDeProgressionDeLaRotation: 1
+  VitesseDeRotationMax: 5
+  VitesseMinimumPourDeraper: 0.01
+  VitesseDeProgressionDuDerapage: 10
+  VitesseDeDerapageMax: 10
+  ForceRalentissementDerapage: 0.3
   RalentissementDerapage:
     serializedVersion: 2
     m_Curve:
@@ -32773,6 +32846,7 @@ RectTransform:
   m_Children:
   - {fileID: 1248295109}
   - {fileID: 706356030}
+  - {fileID: 754240351}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
