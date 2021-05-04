@@ -268,7 +268,7 @@ public class GestionMotoControlleur : PersonnalMethod
         }
         if (state && MustloseSpeed)// vérifie que je demande a déraper et que je dois perdre de la vitesse
         {
-            print("PERD");
+            
             float direction = Mathf.Abs(VitesseMoto) / VitesseMoto;// trouve la direction de la moto
             float pourcentage = Mathf.Abs(VitesseMoto) / vitesseMax;// détermine le pourcentage de vitesse de la moto
             if (Mathf.Abs(VitesseMoto) > VitesseMinimumPourDeraper && Mathf.Abs(X) > ValeurJoysticPourRotation)//  
@@ -332,7 +332,7 @@ public class GestionMotoControlleur : PersonnalMethod
     void checkRotationMoto(float max) 
     {
 
-       
+        GG.CSF.setRotationSpeedMax(max);
         if (ActuelVitesseRotation > max)
         {
             ActuelVitesseRotation = max;

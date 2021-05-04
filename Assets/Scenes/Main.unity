@@ -46096,6 +46096,10 @@ MonoBehaviour:
   VitesseFOV: 1
   AngleMaximalEnPlus: 65
   VitesseRotationSurY: 5
+  VitesseRetourSurY: 3
+  AngleMaxZ: 10
+  VitesseRotationSurZ: 2
+  VitesseRetourSurZ: 1
   DoitVibrer: 0
   ForceCameraShake: 1
   TempsDeVibration: 0.2

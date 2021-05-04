@@ -26,11 +26,20 @@ public class CameraScriptFollow : PersonnalMethod
     [Tooltip("la vitesse de transition du FOV entre chaque")]
     public float VitesseFOV;
 
-    [Header("RotationSurLeCoter")]
+    [Header("Rotation")]
     [Tooltip("l'angle vers lequel tends la caméra")]
     public float AngleMaximalEnPlus;
     [Tooltip("vitesse De la Rotation sur Y")]
     public float VitesseRotationSurY;
+    [Tooltip("vitesse De retour sur Y")]
+    public float VitesseRetourSurY;
+    [Tooltip("Angle Max Sur Z")]
+    public float AngleMaxZ;
+    [Tooltip("vitesse De la Rotation sur Y")]
+    public float VitesseRotationSurZ;
+    [Tooltip("vitesse De retour sur Y")]
+    public float VitesseRetourSurZ;
+
 
     [Header("CameraShake")]
     [Tooltip("bool pour savoir si la camera vibre ou doit vibrer")]
@@ -65,6 +74,7 @@ public class CameraScriptFollow : PersonnalMethod
     GestionGeneral GG;
     float directionDeRotation;
     float TempsArretCameraShake;
+    float vitesseRotationMaxMoto;
 
     AmbientOcclusion _AmbientOclu;
     AutoExposure _AutoExpo;
@@ -122,19 +132,35 @@ public class CameraScriptFollow : PersonnalMethod
 
     void cameraRotation() 
     {
-        /*float speedRotation = VitesseRotationSurY*directionDeRotation;
-        float angleRotation =  AngleMaximalEnPlus * directionDeRotation;
-        float valueYcaclculer = Mathf.Lerp(transform.rotation.eulerAngles.y, angleRotation, speedRotation*Time.deltaTime);*/
-        //float angleRotation = AngleMaximalEnPlus * directionDeRotation;
-        //transform.rotation = Quaternion.Euler(0, MotoToFollow.rotation.y, 0);
-        transform.rotation = Quaternion.Slerp(transform.rotation, MotoToFollow.rotation, VitesseRotation);//rotate la camera la camera
-        Quaternion angleRotation =Quaternion.Euler( 0,AngleMaximalEnPlus * directionDeRotation,0);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, MotoToFollow.rotation*angleRotation, VitesseRotationSurY*Time.deltaTime);//
+        
+        float angleCibleY = LaMoto.rotation.eulerAngles.y + AngleMaximalEnPlus * directionDeRotation;
+        float angleY = 0;
+        float vitesseAngleY = VitesseRotationSurY;
+        float angleCibleZ = AngleMaxZ*-directionDeRotation;
+        float angleZ =0;
+        float vitesseAngleZ = VitesseRotationSurZ;
 
+        if (directionDeRotation != 0)
+        {
+            vitesseAngleY = VitesseRotationSurY * PourcentageRotationSpeed() * Time.deltaTime;
+            vitesseAngleZ = VitesseRetourSurZ * PourcentageRotationSpeed() * Time.deltaTime;
+        }
+        if (directionDeRotation == 0)
+        {
+            if (angleY != LaMoto.rotation.eulerAngles.y)
+            {
+                vitesseAngleY = VitesseRetourSurY * Time.deltaTime; //VitesseRotationSurY *Mathf.Abs( PourcentageRotationSpeed()-1 )
 
-        //Quaternion Cible = Quaternion.Euler(0, angleRotation, 0)* Quaternion.Euler(0,LaMoto.rotation.y,0);
-        //transform.rotation = Quaternion.Lerp(transform.rotation, Cible, VitesseRotationSurY*Time.deltaTime);
-        // set la camera rotation // pas vraiment utile
+            }
+            if (angleZ != 0)
+            {
+                vitesseAngleY = VitesseRetourSurZ * Time.deltaTime;
+            }
+        }
+       
+        angleY = Mathf.LerpAngle(transform.rotation.eulerAngles.y, angleCibleY, vitesseAngleY);
+        angleZ = Mathf.LerpAngle(transform.rotation.eulerAngles.z, angleCibleZ, vitesseAngleZ);
+        transform.rotation = Quaternion.Euler(0, angleY, angleZ);
     }
     public void InfoRotationDeLaCam(float XJoystick) 
     {
@@ -161,18 +187,25 @@ public class CameraScriptFollow : PersonnalMethod
             directionDeRotation = 0;
         }
     }
-
-    public void LanceLeCameraShake() 
+    public void LanceLeCameraShake(float Force) 
     {
         if (!DoitVibrer)
         {
-            TempsArretCameraShake = TempsDeVibration + Time.time;
+            
+            DoitVibrer = true;
         }
         else 
         {
-            DoitVibrer = true;
+            TempsArretCameraShake = TempsDeVibration + Time.time;
+            ForceCameraShake = Force;
         }
     }
+    
+    public void setRotationSpeedMax(float newspeed) 
+    {
+        vitesseRotationMaxMoto = newspeed;
+    }
+    
     void CameraShake() 
     {
 
@@ -262,6 +295,18 @@ public class CameraScriptFollow : PersonnalMethod
         return actuelpourcentage;
     }
     
+    float vitesseDeRotationDeLaMoto() 
+    {
+        float actuelvitesseRotat = GG.GMC.ActuelVitesseRotation;
+        return actuelvitesseRotat;
+    }
+
+    float PourcentageRotationSpeed() 
+    {
+        float pourcentage = Mathf.Abs(vitesseDeRotationDeLaMoto()) / vitesseRotationMaxMoto;
+        return pourcentage;
+    }
+
     float rotationDelaMoto() 
     {
 
@@ -269,7 +314,11 @@ public class CameraScriptFollow : PersonnalMethod
         return YDelaMoto;
     }
     
-   
+   float directionDeRotationDelaMoto() 
+    {
+        float direction = Mathf.Abs(vitesseDeRotationDeLaMoto())/vitesseDeRotationDeLaMoto();
+        return direction;
+    }
     
     bool Avance() 
     {
@@ -287,3 +336,19 @@ public class CameraScriptFollow : PersonnalMethod
 
 
 }
+/*float speedRotation = VitesseRotationSurY*directionDeRotation;
+        float angleRotation =  AngleMaximalEnPlus * directionDeRotation;
+        float valueYcaclculer = Mathf.Lerp(transform.rotation.eulerAngles.y, angleRotation, speedRotation*Time.deltaTime);*/
+//float angleRotation = AngleMaximalEnPlus * directionDeRotation;
+//transform.rotation = Quaternion.Euler(0, MotoToFollow.rotation.y, 0);
+//transform.rotation = Quaternion.Slerp(transform.rotation, MotoToFollow.rotation*angleRotation, VitesseRotationSurY*Time.deltaTime);//
+//Quaternion Cible = Quaternion.Euler(0, angleRotation, 0)* Quaternion.Euler(0,LaMoto.rotation.y,0);
+//transform.rotation = Quaternion.Lerp(transform.rotation, Cible, VitesseRotationSurY*Time.deltaTime);
+// set la camera rotation // pas vraiment utile
+//float angleYDelacam =  Mathf.LerpAngle(transform.rotation.y, MotoToFollow.rotation.y + AngleMaximalEnPlus,Time.deltaTime*VitesseRotationSurY);
+//Quaternion.AngleAxis(angleYDelacam, transform.up)
+//transform.rotation = Quaternion.Slerp(transform.rotation, MotoToFollow.rotation, VitesseRotation);//rotate la camera la camera
+//Quaternion angleRotation = Quaternion.Euler(0, AngleMaximalEnPlus * directionDeRotation, 0);
+/*float anglecibleY = LaMoto.rotation.eulerAngles.y + AngleMaximalEnPlus * directionDeRotation;
+float anglePourY = Mathf.LerpAngle(transform.rotation.eulerAngles.y, anglecibleY, (vitesseDeRotationDeLaMoto()+VitesseRotationSurY)*Time.deltaTime);
+transform.rotation = Quaternion.AngleAxis(anglePourY, transform.up);*/
