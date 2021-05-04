@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
+
 
 public class CameraScriptFollow : PersonnalMethod
 {
@@ -30,16 +32,58 @@ public class CameraScriptFollow : PersonnalMethod
     [Tooltip("vitesse De la Rotation sur Y")]
     public float VitesseRotationSurY;
 
+    [Header("CameraShake")]
+    [Tooltip("bool pour savoir si la camera vibre ou doit vibrer")]
+    public bool DoitVibrer;
+    [Tooltip("La force de la vobration")]
+    public float ForceCameraShake;
+    [Tooltip("Le temp de la vobration")]
+    public float TempsDeVibration;
+
+    [Header("PostProcess")]
+    [Tooltip("l'objetContenant le post process Volume")]
+    public PostProcessVolume monPostProcess;
+    public enum PostProcessEffect 
+    {
+        AmbientOcclusions,
+        AutoExposure,
+        Bloom,
+        ChromaticAbberration,
+        ColorGrading,
+        DepthOfField,
+        Grain,
+        LensDistortion,
+        MotionBlur,
+        ScreenSpaceRefecltion,
+        Vignette
+    
+    };
+    [Tooltip("les effets que je vais utiliser")]
+    public PostProcessEffect[] MesPostProcessEffect;
     // Start is called before the first frame update
     Camera CamProperties;
     GestionGeneral GG;
     float directionDeRotation;
+    float TempsArretCameraShake;
+
+    AmbientOcclusion _AmbientOclu;
+    AutoExposure _AutoExpo;
+    Bloom _bloom;
+    ChromaticAberration _Chromatic;
+    ColorGrading _ColorGrad;
+    DepthOfField _DepthOf;
+    Grain _Grain;
+    LensDistortion _Lens;
+    MotionBlur _MotionBlur;
+    ScreenSpaceReflections _ScreenSpace;
+    Vignette _Vignette;
 
     void Start()
     {
         CamProperties = GetComponent<Camera>();
         CamProperties.fieldOfView = StartValueOfFOV;
         GetGestion(out GG, LaMoto.gameObject);
+        setPostProcess();
     }
 
     // Update is called once per frame
@@ -53,6 +97,10 @@ public class CameraScriptFollow : PersonnalMethod
         transform.position = Vector3.Lerp(transform.position, MotoToFollow.position, VitesseDeplacement);// bouge la camera vers l'objet à suivre
                                          //transform.rotation = Quaternion.Slerp(transform.rotation, MotoToFollow.rotation, VitesseRotation);//rotate la camera la camera
         cameraRotation();
+        if (DoitVibrer)
+        {
+            CameraShake();
+        }
     }
     
 
@@ -113,6 +161,95 @@ public class CameraScriptFollow : PersonnalMethod
             directionDeRotation = 0;
         }
     }
+
+    public void LanceLeCameraShake() 
+    {
+        if (!DoitVibrer)
+        {
+            TempsArretCameraShake = TempsDeVibration + Time.time;
+        }
+        else 
+        {
+            DoitVibrer = true;
+        }
+    }
+    void CameraShake() 
+    {
+
+        if (TempsArretCameraShake ==0)
+        {
+            TempsArretCameraShake = TempsDeVibration + Time.time;
+        }
+        else 
+        {
+            float x = Random.Range(-1f, 1f) * ForceCameraShake;
+            float y = Random.Range(-1f, 1f) * ForceCameraShake;
+            transform.localPosition = new Vector3(transform.localPosition.x+x, transform.localPosition.y + y, transform.localPosition.z);
+        }
+        if (Time.time>TempsArretCameraShake)
+        {
+            DoitVibrer = false;
+            TempsArretCameraShake = 0;
+        }
+
+    }
+
+
+
+    void setPostProcess() 
+    {
+        foreach (PostProcessEffect Effect in MesPostProcessEffect)
+        {
+            if (Effect==PostProcessEffect.AmbientOcclusions)
+            {
+               _AmbientOclu = monPostProcess.GetComponent<AmbientOcclusion>();
+            }
+            else if (Effect == PostProcessEffect.AutoExposure)
+            {
+               _AutoExpo = monPostProcess.GetComponent<AutoExposure>();
+            }
+            else if (Effect == PostProcessEffect.Bloom)
+            {
+              _bloom = monPostProcess.GetComponent<Bloom>();
+            }
+            else if (Effect == PostProcessEffect.ChromaticAbberration)
+            {
+              _Chromatic = monPostProcess.GetComponent<ChromaticAberration>();
+            }
+            else if (Effect == PostProcessEffect.ColorGrading)
+            {
+              _ColorGrad = monPostProcess.GetComponent<ColorGrading>();
+            }
+            else if (Effect == PostProcessEffect.DepthOfField)
+            {
+              _DepthOf = monPostProcess.GetComponent<DepthOfField>();
+            }
+            else if (Effect == PostProcessEffect.Grain)
+            {
+              _Grain = monPostProcess.GetComponent<Grain>();
+            }
+            else if (Effect == PostProcessEffect.LensDistortion)
+            {
+              _Lens = monPostProcess.GetComponent<LensDistortion>();
+            }
+            else if (Effect == PostProcessEffect.MotionBlur)
+            {
+              _MotionBlur = monPostProcess.GetComponent<MotionBlur>();
+            }
+            else if (Effect == PostProcessEffect.ScreenSpaceRefecltion)
+            {
+              _ScreenSpace = monPostProcess.GetComponent<ScreenSpaceReflections>();
+            }
+            else if (Effect == PostProcessEffect.Vignette)
+            {
+              _Vignette = monPostProcess.GetComponent<Vignette>();
+            }
+        }
+    
+    }
+
+
+
 
     float  VitesseActuelDeLaMoto() 
     {
