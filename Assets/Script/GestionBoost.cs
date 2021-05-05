@@ -123,6 +123,21 @@ public class GestionBoost : PersonnalMethod
                     NombreDeFoisApppuyerBoost = 0;//je met le nombre d'appuie a 0
                     NouveauxTempsForInput = Time.time + TimeForInput;// le temps + le temps 
                 }
+                if (NombreDeFoisApppuyerBoost==0)
+                {
+                    print("Lance Lv1");
+                    GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV1);
+                }
+                if (NombreDeFoisApppuyerBoost == 1)
+                {
+                    print("Lance Lv2");
+                    GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV2);
+                }
+                if (NombreDeFoisApppuyerBoost == 2)
+                {
+                    print("Lance Lv3");
+                    GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV3);
+                }
 
                 float newVitesse = NouvelleVitesseMax + ( PourcentageVitesseParBoost[NombreDeFoisApppuyerBoost] * NouvelleVitesseMax); // calcule la nouvelle vitesse
                 GG.GMC.vitesseMax = newVitesse;//donne la vitesse max
@@ -156,7 +171,7 @@ public class GestionBoost : PersonnalMethod
         GG.GUI.setSliderBoost(actualBoostReserve); // met à jour le slider
         GG.GMC.vitesseMax = VitesseMaxSurchauffe; // set la nouvelle vitesse max
         GG.GMC.VitesseMoto = VitesseMaxSurchauffe; // set la vitesse
-       
+        GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.Fusion);
         if (actualBoostReserve <= 0)//si la reserve est tombé à 0
         {
             actualBoostReserve = 0;//la remet a 0
@@ -179,9 +194,6 @@ public class GestionBoost : PersonnalMethod
     void SetNewvitesseMax() //
     {
         GG.GMC.vitesseMax = OldvitesseMax + Pourcentage;//calcul de la nouvelle vitesse max
-
-
-
     }
    
    

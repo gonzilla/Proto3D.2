@@ -375,7 +375,7 @@ public class GestionMotoControlleur : PersonnalMethod
             }
             else 
             {
-                VitesseMoto -= PerteParCollision;//fais perdre selon value
+                VitesseMoto += -PerteParCollision * Mathf.Abs(VitesseMoto)/VitesseMoto;//fais perdre selon value
             }
         }
     

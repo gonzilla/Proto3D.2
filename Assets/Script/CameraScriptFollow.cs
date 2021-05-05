@@ -4,18 +4,47 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
 
-public class CameraScriptFollow : PersonnalMethod
+[System.Serializable]
+public class ScreenShakeInfo
+{
+    
+    [Tooltip("La force de la vobration")]
+    public float ForcePourCameraShake;
+    [Tooltip("Le temp de la vobration")]
+    public float TempsPourVibration;
+    public enum Action
+    {
+        BoostLV1,
+        BoostLV2,
+        BoostLV3,
+        Fusion,
+        Collisions
+
+    };
+    public Action ListeDesActions;
+
+}
+
+    public class CameraScriptFollow : PersonnalMethod
 {
     //Public variable
+    #region Cam
     [Tooltip("vitesse de deplacement de la cam ")]
     public float VitesseDeplacement;
+    [Tooltip("vitesse de deplacement de la cam lors d'une transition avant arriere")]
+    public float VitesseDeplacementTransition;
+    [Tooltip("DistanceMaxcam ")]
+    public float distanceMaxTransition;
     [Tooltip("vitesse de rotation de la cam ")]
     public float VitesseRotation;
-    [Tooltip("l'objet a suivre en position")]
-    public Transform MotoToFollow;
+    [Tooltip("l'objet a suivre en position de marche avant")]
+    public Transform MotoToFollowAvant;
+    [Tooltip("l'objet a suivre en position de marche arriere")]
+    public Transform MotoToFollowArreire;
     [Tooltip("le transform de la moto")]
     public Transform LaMoto;
-    // après changement
+    #endregion
+    #region FOV
     [Header("FOV")]
     [Tooltip(" quelle value commence le FOV ")]
     public float StartValueOfFOV;
@@ -23,9 +52,12 @@ public class CameraScriptFollow : PersonnalMethod
     public float PourcentageVitesseFOVChange;
     [Tooltip("Le Fov Maximum ")]
     public float FOV_Max;
+    [Tooltip("Le Multiplicateur de FOV lorsque je dépasse la vitesse de 100 ")]
+    public float MultiplicateurFOV;
     [Tooltip("la vitesse de transition du FOV entre chaque")]
     public float VitesseFOV;
-
+    #endregion
+    #region rotation
     [Header("Rotation")]
     [Tooltip("l'angle vers lequel tends la caméra")]
     public float AngleMaximalEnPlus;
@@ -39,16 +71,14 @@ public class CameraScriptFollow : PersonnalMethod
     public float VitesseRotationSurZ;
     [Tooltip("vitesse De retour sur Y")]
     public float VitesseRetourSurZ;
-
-
+    #endregion
+    #region shake
     [Header("CameraShake")]
+    public List<ScreenShakeInfo> InfoPourScreenShake = new List<ScreenShakeInfo>();
     [Tooltip("bool pour savoir si la camera vibre ou doit vibrer")]
     public bool DoitVibrer;
-    [Tooltip("La force de la vobration")]
-    public float ForceCameraShake;
-    [Tooltip("Le temp de la vobration")]
-    public float TempsDeVibration;
-
+    #endregion
+    #region PostProcess
     [Header("PostProcess")]
     [Tooltip("l'objetContenant le post process Volume")]
     public PostProcessVolume monPostProcess;
@@ -69,13 +99,21 @@ public class CameraScriptFollow : PersonnalMethod
     };
     [Tooltip("les effets que je vais utiliser")]
     public PostProcessEffect[] MesPostProcessEffect;
-    // Start is called before the first frame update
+    #endregion
+
     Camera CamProperties;
     GestionGeneral GG;
+    bool TransitionCible = false;
     float directionDeRotation;
     float TempsArretCameraShake;
     float vitesseRotationMaxMoto;
+    float FOVmaxOriginelle;
+    float ForceCameraShake;
+    float TempsDeVibration;
+    float DistanceForCam;
+    Transform MotoToFollow;
 
+    #region PostProcess2
     AmbientOcclusion _AmbientOclu;
     AutoExposure _AutoExpo;
     Bloom _bloom;
@@ -87,9 +125,12 @@ public class CameraScriptFollow : PersonnalMethod
     MotionBlur _MotionBlur;
     ScreenSpaceReflections _ScreenSpace;
     Vignette _Vignette;
-
+    #endregion
     void Start()
     {
+        DistanceForCam = Vector3.Distance(MotoToFollowArreire.position, MotoToFollowAvant.position);
+         MotoToFollow = MotoToFollowAvant;
+        FOVmaxOriginelle = FOV_Max;
         CamProperties = GetComponent<Camera>();
         CamProperties.fieldOfView = StartValueOfFOV;
         GetGestion(out GG, LaMoto.gameObject);
@@ -104,9 +145,17 @@ public class CameraScriptFollow : PersonnalMethod
         
         //print(PourcentageDeVitesse());
         CameraFOV();
-        transform.position = Vector3.Lerp(transform.position, MotoToFollow.position, VitesseDeplacement);// bouge la camera vers l'objet à suivre
-                                         //transform.rotation = Quaternion.Slerp(transform.rotation, MotoToFollow.rotation, VitesseRotation);//rotate la camera la camera
-        cameraRotation();
+        checkCible();
+
+        if (!TransitionCible)
+        {
+            cameraRotation();
+        }
+        if(TransitionCible)
+        {
+            print("loook");
+            transform.LookAt(LaMoto.position);//new Vector3(LaMoto.position.x, transform.position.y,LaMoto.position.z));
+        }
         if (DoitVibrer)
         {
             CameraShake();
@@ -116,6 +165,11 @@ public class CameraScriptFollow : PersonnalMethod
 
     void CameraFOV() 
     {
+        if (Mathf.Abs(vitesseDeRotationDeLaMoto())>1)
+        {
+            FOV_Max = FOVmaxOriginelle * MultiplicateurFOV;
+        }
+        else
         if (PourcentageVitesseFOVChange < PourcentageDeVitesse())
         {
             //print("je fais des trucs");
@@ -130,37 +184,93 @@ public class CameraScriptFollow : PersonnalMethod
        
     }
 
+    void checkCible() 
+    {
+        Transform previousCible = null;
+        float speedTransition = VitesseDeplacement;
+        if (!TransitionCible)
+        {
+            previousCible = MotoToFollow;
+            
+        }
+        else 
+        {
+            speedTransition = VitesseDeplacementTransition;
+        }
+        if (Vector3.Distance(transform.position, MotoToFollow.position) > distanceMaxTransition + DistanceForCam && TransitionCible)
+        {
+            speedTransition = VitesseDeplacementTransition * 100;
+        }
+        if (Avance() || VitesseActuelDeLaMoto()==0)
+        {
+            MotoToFollow = MotoToFollowAvant;
+        }
+        else if (!Avance()) 
+        {
+            MotoToFollow = MotoToFollowArreire;
+        }
+        if (MotoToFollow != previousCible)
+        {
+            TransitionCible = true;
+        }
+        transform.position = Vector3.Lerp(transform.position, MotoToFollow.position, speedTransition*Time.deltaTime);// bouge la camera vers l'objet à suivre
+        if (Vector3.Distance(transform.position,MotoToFollow.position)<1f && TransitionCible)
+        {
+            TransitionCible = false;
+            transform.position = MotoToFollow.position;
+            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        }
+       
+    }
+
     void cameraRotation() 
     {
         
-        float angleCibleY = LaMoto.rotation.eulerAngles.y + AngleMaximalEnPlus * directionDeRotation;
+        float angleCibleY = LaMoto.rotation.eulerAngles.y + AngleMaximalEnPlus * directionDeRotation ;
         float angleY = 0;
         float vitesseAngleY = VitesseRotationSurY;
         float angleCibleZ = AngleMaxZ*-directionDeRotation;
         float angleZ =0;
         float vitesseAngleZ = VitesseRotationSurZ;
+        float angleX = 0;
+        float vitesseAngleX = (vitesseAngleY + vitesseAngleZ) / 2;
+        
 
         if (directionDeRotation != 0)
         {
             vitesseAngleY = VitesseRotationSurY * PourcentageRotationSpeed() * Time.deltaTime;
-            vitesseAngleZ = VitesseRetourSurZ * PourcentageRotationSpeed() * Time.deltaTime;
+            vitesseAngleZ = VitesseRotationSurZ * PourcentageRotationSpeed() * Time.deltaTime;
         }
         if (directionDeRotation == 0)
         {
+
             if (angleY != LaMoto.rotation.eulerAngles.y)
             {
                 vitesseAngleY = VitesseRetourSurY * Time.deltaTime; //VitesseRotationSurY *Mathf.Abs( PourcentageRotationSpeed()-1 )
 
             }
-            if (angleZ != 0)
+            if (angleZ == 0 && transform.rotation.eulerAngles.z!=0)
             {
-                vitesseAngleY = VitesseRetourSurZ * Time.deltaTime;
+                
+                vitesseAngleZ = VitesseRetourSurZ * Time.deltaTime;
             }
         }
-       
-        angleY = Mathf.LerpAngle(transform.rotation.eulerAngles.y, angleCibleY, vitesseAngleY);
+        // essayer de trouver une méthode pour faire la meme chose que en marche avant
+
+        if (VitesseActuelDeLaMoto() != 0 && !Avance())
+        {
+            angleY = Mathf.LerpAngle(transform.rotation.eulerAngles.y, angleCibleY+180, vitesseAngleY);
+        }
+        else 
+        {
+            angleY = Mathf.LerpAngle(transform.rotation.eulerAngles.y, angleCibleY, vitesseAngleY);
+        }
+        if (transform.rotation.eulerAngles.x !=0)
+        {
+            angleX = Mathf.LerpAngle(transform.rotation.eulerAngles.z, 0, vitesseAngleX);
+        }
         angleZ = Mathf.LerpAngle(transform.rotation.eulerAngles.z, angleCibleZ, vitesseAngleZ);
-        transform.rotation = Quaternion.Euler(0, angleY, angleZ);
+        transform.rotation = Quaternion.Euler(angleX, angleY, angleZ);
     }
     public void InfoRotationDeLaCam(float XJoystick) 
     {
@@ -187,34 +297,70 @@ public class CameraScriptFollow : PersonnalMethod
             directionDeRotation = 0;
         }
     }
-    public void LanceLeCameraShake(float Force) 
+
+    #region cameraShake
+    public void GestionCameraShake(ScreenShakeInfo.Action ActionProduite) 
     {
+        print("gestion");
+        foreach (ScreenShakeInfo Act in InfoPourScreenShake)
+        {
+            if (ActionProduite == Act.ListeDesActions && Act.ListeDesActions== ScreenShakeInfo.Action.BoostLV1)
+            {
+                print("Level 1");
+                LanceLeCameraShake(Act.ForcePourCameraShake, Act.TempsPourVibration);
+            }
+            else if (ActionProduite == Act.ListeDesActions && Act.ListeDesActions == ScreenShakeInfo.Action.BoostLV2)
+            {
+                print("Level 2");
+                LanceLeCameraShake(Act.ForcePourCameraShake, Act.TempsPourVibration);
+            }
+            else if (ActionProduite == Act.ListeDesActions && Act.ListeDesActions == ScreenShakeInfo.Action.BoostLV3)
+            {
+                print("Level 3");
+                LanceLeCameraShake(Act.ForcePourCameraShake, Act.TempsPourVibration);
+            }
+            else if (ActionProduite == Act.ListeDesActions && Act.ListeDesActions == ScreenShakeInfo.Action.Collisions)
+            {
+                LanceLeCameraShake(Act.ForcePourCameraShake, Act.TempsPourVibration);
+            }
+            else if (ActionProduite == Act.ListeDesActions && Act.ListeDesActions == ScreenShakeInfo.Action.Fusion)
+            {
+                LanceLeCameraShake(Act.ForcePourCameraShake, Act.TempsPourVibration);
+            }
+        }
+        
+
+    }
+
+    void LanceLeCameraShake(float Force,float TempsOfVibration) 
+    {
+        print("Lance");
         if (!DoitVibrer)
         {
-            
+            print("Doit vibrer");
             DoitVibrer = true;
         }
-        else 
+        if (DoitVibrer)
         {
+            print(TempsOfVibration);
+            TempsDeVibration = TempsOfVibration;
             TempsArretCameraShake = TempsDeVibration + Time.time;
             ForceCameraShake = Force;
         }
+        
     }
-    
-    public void setRotationSpeedMax(float newspeed) 
-    {
-        vitesseRotationMaxMoto = newspeed;
-    }
-    
+
     void CameraShake() 
     {
 
+        print("Shake");
         if (TempsArretCameraShake ==0)
         {
             TempsArretCameraShake = TempsDeVibration + Time.time;
         }
         else 
         {
+            
             float x = Random.Range(-1f, 1f) * ForceCameraShake;
             float y = Random.Range(-1f, 1f) * ForceCameraShake;
             transform.localPosition = new Vector3(transform.localPosition.x+x, transform.localPosition.y + y, transform.localPosition.z);
@@ -227,7 +373,11 @@ public class CameraScriptFollow : PersonnalMethod
 
     }
 
-
+    #endregion
+    public void setRotationSpeedMax(float newspeed)
+    {
+        vitesseRotationMaxMoto = newspeed;
+    }
 
     void setPostProcess() 
     {
@@ -283,6 +433,7 @@ public class CameraScriptFollow : PersonnalMethod
 
 
 
+    
 
     float  VitesseActuelDeLaMoto() 
     {
@@ -352,3 +503,9 @@ public class CameraScriptFollow : PersonnalMethod
 /*float anglecibleY = LaMoto.rotation.eulerAngles.y + AngleMaximalEnPlus * directionDeRotation;
 float anglePourY = Mathf.LerpAngle(transform.rotation.eulerAngles.y, anglecibleY, (vitesseDeRotationDeLaMoto()+VitesseRotationSurY)*Time.deltaTime);
 transform.rotation = Quaternion.AngleAxis(anglePourY, transform.up);*/
+//transform.rotation = Quaternion.Slerp(transform.rotation, MotoToFollow.rotation, VitesseRotation);//rotate la camera la camera
+/*float directionDeLaMoto() 
+    {
+        float direction = Mathf.Abs(GG.GMC.VitesseMoto) / GG.GMC.VitesseMoto;
+        return direction;
+    }*/
