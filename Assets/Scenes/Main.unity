@@ -46136,7 +46136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4370a90f222c93247aa8572af52baad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VitesseDeplacement: 0.3
+  VitesseDeplacement: 10
+  VitesseDeplacementTransition: 10
+  distanceMaxTransition: 1
   VitesseRotation: 10
   MotoToFollowAvant: {fileID: 944659718}
   MotoToFollowArreire: {fileID: 139387603}
