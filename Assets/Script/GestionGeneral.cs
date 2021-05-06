@@ -15,7 +15,9 @@ public class GestionGeneral : PersonnalMethod
     public GestionMotoControlleur GMC;
     [Tooltip(" Script de la cam ")]
     public CameraScriptFollow CSF;
+    [Tooltip(" Script de la cam ")]
+    public GestionEtatEtFeedback EtatEtFeedback;
     //Local variable
 
-    
+
 }
