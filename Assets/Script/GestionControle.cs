@@ -45,12 +45,14 @@ public class GestionControle : PersonnalMethod
     Rigidbody Rb;
     float ActualStreeringFront;
     float ActualStreeringBack;
+    
 
     void Start()
     {
         //Rb.centerOfMass = offsetCenterMass + transform.position;
         GetGestion(out GG, this.gameObject);
         Rb = GetComponent<Rigidbody>();
+        
     }
 
     
@@ -80,10 +82,7 @@ public class GestionControle : PersonnalMethod
          
         foreach (InfoDelaRoue InfoDuRoux in Roux)
         {
-           
-            
 
-           
              if (InfoDuRoux.roue == InfoDelaRoue.TypeDeroue.Avant)
             {
                 X = Input.GetAxis("HorizontalManette");

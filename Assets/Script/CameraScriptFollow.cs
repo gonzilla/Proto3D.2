@@ -61,6 +61,8 @@ public class ScreenShakeInfo
     [Header("Rotation")]
     [Tooltip("l'angle vers lequel tends la caméra")]
     public float AngleMaximalEnPlus;
+    [Tooltip("l'angle vers lequel tends la caméra en dérapage")]
+    public float AngleMaximalEnPlusEnDerapage;
     [Tooltip("vitesse De la Rotation sur Y")]
     public float VitesseRotationSurY;
     [Tooltip("vitesse De retour sur Y")]
@@ -135,6 +137,7 @@ public class ScreenShakeInfo
         CamProperties.fieldOfView = StartValueOfFOV;
         GetGestion(out GG, LaMoto.gameObject);
         setPostProcess();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -225,8 +228,16 @@ public class ScreenShakeInfo
 
     void cameraRotation() 
     {
+        float angleCibleY = 0;
+        if (deraping())
+        {
+             angleCibleY = LaMoto.rotation.eulerAngles.y + AngleMaximalEnPlusEnDerapage * directionDeRotation;
+        }
+        else 
+        {
+             angleCibleY = LaMoto.rotation.eulerAngles.y + AngleMaximalEnPlus * directionDeRotation;
+        }
         
-        float angleCibleY = LaMoto.rotation.eulerAngles.y + AngleMaximalEnPlus * directionDeRotation ;
         float angleY = 0;
         float vitesseAngleY = VitesseRotationSurY;
         float angleCibleZ = AngleMaxZ*-directionDeRotation;
@@ -274,29 +285,40 @@ public class ScreenShakeInfo
     }
     public void InfoRotationDeLaCam(float XJoystick) 
     {
-        if (XJoystick!=0)
-        {
-            directionDeRotation = XJoystick / Mathf.Abs(XJoystick);
-        }
-        else 
-        {
-            directionDeRotation = 0;
-        }
-       
-    }
-    public void InfoRotationDeLaCam(float XJoystick, float InputDerapage) 
-    {
-        float directionDuJoystick = XJoystick / Mathf.Abs(XJoystick);
 
-        if (XJoystick != 0 && directionDuJoystick == InputDerapage && InputDerapage!=0)
+        float directionDuJoystick = 0;
+        if (XJoystick != 0)
+        {
+            directionDuJoystick = XJoystick / Mathf.Abs(XJoystick);
+        }
+        directionDeRotation = directionDuJoystick;
+
+    }
+    /*public void InfoRotationDeLaCam(float XJoystick, float InputDerapage) 
+    {
+        
+        float directionDuJoystick = 0;
+        if (XJoystick != 0)
+        {
+            directionDuJoystick = XJoystick / Mathf.Abs(XJoystick);
+        }
+        
+        
+        if (deraping())
         {
             directionDeRotation = directionDuJoystick;
+            
+
         }
         else
         {
-            directionDeRotation = 0;
+            directionDeRotation = directionDuJoystick;
         }
-    }
+
+
+
+
+    }*/
 
     #region cameraShake
     public void GestionCameraShake(ScreenShakeInfo.Action ActionProduite) 
@@ -432,8 +454,21 @@ public class ScreenShakeInfo
     }
 
 
+    bool deraping() 
+    {
+        bool derape;
+        if (vitesseRotationMaxMoto==GG.GMC.VitesseDeDerapageMax)
+        {
+            derape = true;
+        }
+        else 
+        {
+            derape = false;
+        }
+        return derape;
+    }
 
-    
+
 
     float  VitesseActuelDeLaMoto() 
     {
@@ -442,7 +477,13 @@ public class ScreenShakeInfo
     }
     float PourcentageDeVitesse() 
     {
-        float actuelpourcentage = Mathf.Abs(GG.GMC.VitesseMoto)/GG.GMC.vitesseMax;
+        float value = GG.GMC.VitesseMoto;
+        float actuelpourcentage = 0;
+        if (value !=0)
+        {
+            actuelpourcentage = Mathf.Abs(value) / value;
+        }
+       
         return actuelpourcentage;
     }
     
@@ -465,11 +506,7 @@ public class ScreenShakeInfo
         return YDelaMoto;
     }
     
-   float directionDeRotationDelaMoto() 
-    {
-        float direction = Mathf.Abs(vitesseDeRotationDeLaMoto())/vitesseDeRotationDeLaMoto();
-        return direction;
-    }
+  
     
     bool Avance() 
     {
@@ -509,3 +546,12 @@ transform.rotation = Quaternion.AngleAxis(anglePourY, transform.up);*/
         float direction = Mathf.Abs(GG.GMC.VitesseMoto) / GG.GMC.VitesseMoto;
         return direction;
     }*/
+
+/*if (XJoystick != 0 && directionDuJoystick == InputDerapage && InputDerapage != 0)
+            {
+                directionDeRotation = directionDuJoystick;
+            }
+            else if (XJoystick != 0 && directionDuJoystick != InputDerapage)
+            {
+                InfoRotationDeLaCam(XJoystick);
+            }*/

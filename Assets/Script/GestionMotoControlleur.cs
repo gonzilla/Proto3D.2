@@ -227,17 +227,28 @@ public class GestionMotoControlleur : PersonnalMethod
         }//détermine la direction du joystick
         
         
-        if (Mathf.Abs(X) > ValeurJoysticPourRotation &&  (directionJoystick == DirectionRotation || directionJoystick == 0) && Mathf.Abs(VitesseMoto)>VitesseMinimumPourTourner && grounded)
+        if (Mathf.Abs(X) > ValeurJoysticPourRotation &&  (directionJoystick == DirectionRotation ) && Mathf.Abs(VitesseMoto)>VitesseMinimumPourTourner && grounded)
         {
             ActuelVitesseRotation += VitesseDeProgressionDuDerapage * DirectionRotation * Time.deltaTime;//ajoute la rotation
             checkRotationMoto(VitesseDeDerapageMax);//check si la rotation est encore bonne
             ISitLosingSpeed = true;// indique que la moto perd de la vitesse
            
         }
+        else if (Mathf.Abs(X) > ValeurJoysticPourRotation && (directionJoystick != DirectionRotation) && Mathf.Abs(VitesseMoto) > VitesseMinimumPourTourner && grounded)
+        {
+            ISitLosingSpeed = false;//indique que la moto ne perd pas de vitesse
+            checkRotationMoto(VitesseDeRotationMax);//check si la rotation est encore bonne
+            tourne(X);
+        }
         else 
         {
             ISitLosingSpeed = false;//indique que la moto ne perd pas de vitesse
+            checkRotationMoto(VitesseDeRotationMax);//check si la rotation est encore bonne
+            ActuelVitesseRotation = 0;
         }
+        GG.FeedBackVisu.GestionSmoke(ISitLosingSpeed);
+        GG.FeedBackVisu.GestionWheelTrail(ISitLosingSpeed);
+        GG.FeedBackVisu.GestionParticleRoue(ISitLosingSpeed);
         if (ActuelVitesseRotation!=0)
         {
             transform.rotation *= Quaternion.Euler(0, ActuelVitesseRotation, 0);// tourne la moto
@@ -246,11 +257,11 @@ public class GestionMotoControlleur : PersonnalMethod
 
     public void derapage(bool state, float X ,bool MustloseSpeed) //fais le dérapage
     {
-        if (X==0)
+        /*if (X==0)
         {
             ActuelVitesseRotation = 0;
             
-        }
+        }*/
         if (state && MustloseSpeed)// vérifie que je demande a déraper et que je dois perdre de la vitesse
         {
             
@@ -263,9 +274,7 @@ public class GestionMotoControlleur : PersonnalMethod
             
         }
         
-            GG.FeedBackVisu.GestionSmoke(state);
-            GG.FeedBackVisu.GestionWheelTrail(state);
-            GG.FeedBackVisu.GestionParticleRoue(state);
+          
 
 
 

@@ -80,17 +80,21 @@ public class GestionDesInputs : PersonnalMethod
             
             GG.GMC.TourneDerapage(Input.GetAxisRaw(Axes[7]), Input.GetAxis(Axes[3]), out LoseSpeed);
             GG.GMC.derapage(state, Input.GetAxis(Axes[3]),LoseSpeed);
-            GG.CSF.InfoRotationDeLaCam(Input.GetAxisRaw(Axes[3]), Input.GetAxis(Axes[7]));
-            //GG.FeedBackVisu.GestionStraff(state, false);
+            GG.CSF.InfoRotationDeLaCam(Input.GetAxis(Axes[3])); //envois des info pour la cam
+
+
 
         }
         if (Input.GetAxisRaw(Axes[7]) == 0 && InUse[7])
         {
             bool state = false;
-            GG.CSF.InfoRotationDeLaCam(Input.GetAxisRaw(Axes[3]), Input.GetAxis(Axes[7]));
+            GG.CSF.InfoRotationDeLaCam(Input.GetAxis(Axes[3])); //envois des info pour la cam
             GG.GMC.derapage(state, 0,false);
             SetBoolArray(7, state);
             GG.FeedBackVisu.GestionStraff(state,false);
+            GG.FeedBackVisu.GestionSmoke(state);
+            GG.FeedBackVisu.GestionWheelTrail(state);
+            GG.FeedBackVisu.GestionParticleRoue(state);
         }
 
     }
