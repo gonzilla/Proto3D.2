@@ -127,16 +127,19 @@ public class GestionBoost : PersonnalMethod
                 {
                     print("Lance Lv1");
                     GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV1);
+                    GG.FeedBackVisu.gestionBoost(0, true);
                 }
                 if (NombreDeFoisApppuyerBoost == 1)
                 {
                     print("Lance Lv2");
                     GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV2);
+                    GG.FeedBackVisu.gestionBoost(1, true);
                 }
                 if (NombreDeFoisApppuyerBoost == 2)
                 {
                     print("Lance Lv3");
                     GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV3);
+                    GG.FeedBackVisu.gestionBoost(2, true);
                 }
 
                 float newVitesse = NouvelleVitesseMax + ( PourcentageVitesseParBoost[NombreDeFoisApppuyerBoost] * NouvelleVitesseMax); // calcule la nouvelle vitesse
@@ -163,6 +166,7 @@ public class GestionBoost : PersonnalMethod
         SetNewvitesseMax();//recalcul la vitesse max
         //GG.GMC.vitesseMax = OldvitesseMax;// reset la vitesse max
         NombreDeFoisApppuyerBoost = 0;//reset le nombre d'appuie
+        GG.FeedBackVisu.gestionBoost(0, false);
     }
 
     public void surchauffe()// fonction de surchauffe

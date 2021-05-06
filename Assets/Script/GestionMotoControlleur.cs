@@ -74,14 +74,12 @@ public class GestionMotoControlleur : PersonnalMethod
     [Tooltip("Le tempspour que le systéme estime le joueur dans les airs")]
     public float TempsPourEtreEnLair;
 
-    public GameObject ParticleCam;
-    public GameObject ParticleRoueGauche;
-    public GameObject ParticleRoueDroite;
+    
 
 
     //Local variable
     float TimeCible; // le temps viser pour savoir si le joueur est en l'air
-    
+    float originalVitesseMax;
     
 
     Vector3 DirectionForMoto; //
@@ -96,6 +94,7 @@ public class GestionMotoControlleur : PersonnalMethod
 
     void Start()
     {
+        originalVitesseMax = vitesseMax;
         Rb = GetComponent<Rigidbody>();// récupére le rigidbody
         GetGestion(out GG, this.gameObject);// récupére les autres script
         //FirstVitesseRotation = ;//set old votesse rotation
@@ -177,15 +176,7 @@ public class GestionMotoControlleur : PersonnalMethod
                  }
             }
         DirectionForMoto += transform.forward;//set la direction
-        if (Mathf.Abs(VitesseMoto)>vitesseMax*0.5f)
-        {
-            ParticleCam.SetActive(true);
-        }
-        else
-        {
-
-            ParticleCam.SetActive(false);
-        }
+        DeclenchementParticuleSelonVitesse();
         transform.Translate(DirectionForMoto.normalized * VitesseMoto, Space.World);//fais le déplacement
         DirectionForMoto = Vector3.zero;// remet la direction 
        
@@ -223,6 +214,7 @@ public class GestionMotoControlleur : PersonnalMethod
         {
             float angle = X * angleMax;// decale selon angle max
             DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;//calcul la rotation
+            GG.FeedBackVisu.GestionStraff(true,true);
             //actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);// l'applique la rotation
         }
     }
@@ -233,20 +225,14 @@ public class GestionMotoControlleur : PersonnalMethod
         {
             directionJoystick = Mathf.Abs(X)/X;//divise par son opposé pour avoir le bon signe
         }//détermine la direction du joystick
-        if (DirectionRotation == -1 && DirectionRotation == directionJoystick)
-        {
-            ParticleRoueGauche.SetActive(true);
-        }//pour l'activation des particules
-        if (DirectionRotation == 1 && DirectionRotation == directionJoystick)
-        {
-            ParticleRoueDroite.SetActive(true);
-        }//pour l'activation des particules
+        
         
         if (Mathf.Abs(X) > ValeurJoysticPourRotation &&  (directionJoystick == DirectionRotation || directionJoystick == 0) && Mathf.Abs(VitesseMoto)>VitesseMinimumPourTourner && grounded)
         {
             ActuelVitesseRotation += VitesseDeProgressionDuDerapage * DirectionRotation * Time.deltaTime;//ajoute la rotation
             checkRotationMoto(VitesseDeDerapageMax);//check si la rotation est encore bonne
             ISitLosingSpeed = true;// indique que la moto perd de la vitesse
+           
         }
         else 
         {
@@ -263,8 +249,7 @@ public class GestionMotoControlleur : PersonnalMethod
         if (X==0)
         {
             ActuelVitesseRotation = 0;
-            ParticleRoueGauche.SetActive(false);// particle
-            ParticleRoueDroite.SetActive(false);// particle
+            
         }
         if (state && MustloseSpeed)// vérifie que je demande a déraper et que je dois perdre de la vitesse
         {
@@ -275,7 +260,14 @@ public class GestionMotoControlleur : PersonnalMethod
             {
                 VitesseMoto += -direction * ForceRalentissementDerapage  * RalentissementDerapage.Evaluate(pourcentage) * Time.deltaTime;//le calcul qui enléve
             }
+            
         }
+        
+            GG.FeedBackVisu.GestionSmoke(state);
+            GG.FeedBackVisu.GestionWheelTrail(state);
+            GG.FeedBackVisu.GestionParticleRoue(state);
+
+
 
     }
 
@@ -382,8 +374,43 @@ public class GestionMotoControlleur : PersonnalMethod
     } 
 
 
-    
+    void DeclenchementParticuleSelonVitesse() 
+    {
+        if (VitesseMoto>=1)
+        {
+            GG.FeedBackVisu.GestionWindTrail(true);
+        }
+        else 
+        {
+            GG.FeedBackVisu.GestionWindTrail(false);
+        }
+        if (VitesseMoto >0)
+        {
+            GG.FeedBackVisu.GestionRedLight(true);
+        }
+        else 
+        {
+            GG.FeedBackVisu.GestionRedLight(false);
+        }
+        if (VitesseMoto>0.5f)
+        {
+            GG.FeedBackVisu.GestionParticleCam(true);
+        }
+        else 
+        {
+            GG.FeedBackVisu.GestionParticleCam(false);
+        }
+        /*if (Mathf.Abs(VitesseMoto) > vitesseMax * 0.5f)
+        {
+            ParticleCam.SetActive(true);
+        }
+        else
+        {
 
+            ParticleCam.SetActive(false);
+        }*/
+    }
+    
 
     private void OnCollisionEnter(Collision collision)//si le joueur touche qqchose
     {
