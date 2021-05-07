@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 3678694a5fbcc974d9033a4341741c02
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _lignestexture: {fileID: 2800000, guid: c36b0de1f6f72e942ba651cf4aa5f103, type: 3}
+  - _Hextexture: {fileID: 2800000, guid: 5015eac529cf6d545abe68e55b99ef35, type: 3}
+  - _cloudtexture: {fileID: 2800000, guid: aef1fdd9589826640b5a3f1d82fed53c, type: 3}
+  - _texcoord: {instanceID: 0}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
