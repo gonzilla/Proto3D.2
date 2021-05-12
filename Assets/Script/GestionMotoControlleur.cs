@@ -179,9 +179,16 @@ public class GestionMotoControlleur : PersonnalMethod
         DeclenchementParticuleSelonVitesse();
         transform.Translate(DirectionForMoto.normalized * VitesseMoto, Space.World);//fais le déplacement
         DirectionForMoto = Vector3.zero;// remet la direction 
-       
+        if (VitesseMoto >0 && ActuelVitesseRotation==0)
+        {
+            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Avance);
+        }
+        if (VitesseMoto < 0 && ActuelVitesseRotation == 0)
+        {
+            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Recule);
+        }
 
-        
+
 
     }
     public void tourne(float X) //fait tourner la moto
@@ -204,7 +211,10 @@ public class GestionMotoControlleur : PersonnalMethod
 
         transform.rotation *= Quaternion.Euler(0, ActuelVitesseRotation, 0);// tourne la moto
 
-
+        if (ActuelVitesseRotation !=0)
+        {
+            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Tourne);
+        }
     }
 
     public void straff(float X) // fait straffer

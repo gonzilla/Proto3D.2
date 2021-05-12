@@ -156,7 +156,7 @@ public class ScreenShakeInfo
         }
         if(TransitionCible)
         {
-            print("loook");
+            
             transform.LookAt(LaMoto.position);//new Vector3(LaMoto.position.x, transform.position.y,LaMoto.position.z));
         }
         if (DoitVibrer)

@@ -14,4 +14,9 @@ public class PersonnalMethod : MonoBehaviour
         GG=Contenant.GetComponent<GestionGeneral>();
     
     }
+
+    /*public static void GetVariableByname(string Name, MonoBehaviour script) 
+    {
+       var achercher =(float)script.GetType().GetField(Name).GetValue(script);
+    }*/
 }
