@@ -13,6 +13,7 @@ public class SoundInfo
     public string LeSonAJouer;
     public string LeVoid;
     public FMOD.Studio.EventInstance MonEvenementFMOD;
+    
     //public FMOD.Studio. MonParamettre;
     public bool BoucleDansFmod;
     public bool BoucleParCode;
@@ -22,8 +23,7 @@ public class SoundInfo
     public float TempsDuSons;
     public enum ParametreUtiliser 
     {
-        vitesseDeMoto,
-        VitesseDeRotation,
+        vitessemoto,
         AccelInput,
         DriftInput,
         FreinInput,
@@ -33,7 +33,7 @@ public class SoundInfo
 
     };
     public ParametreUtiliser[] ListeDesParametre;
-    [HideInInspector] public string[] ParameterToModify;
+    public string[] ParameterToModify;
     [HideInInspector] public int IndexDuSon;
     [HideInInspector] public float tempsPourArret;
 
@@ -84,7 +84,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
 
     public void changementDetat(MotoActualState etat)
     {
-
+        
         StateOfMoto = etat;
         GereLeBonsonSaMere();
 
@@ -104,7 +104,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
         }
         else if (StateOfMoto == MotoActualState.Avance)
         {
-            // Avance();
+            Avance();
             
             AffichageEtatDebug.text = "Avance";
         }
@@ -115,40 +115,41 @@ public class GestionEtatEtFeedback : PersonnalMethod
         }
         else if (StateOfMoto == MotoActualState.Derape)
         {
-           // Derape();
+            Derape();
             AffichageEtatDebug.text = "Derape";
         }
         else if (StateOfMoto == MotoActualState.Freine)
         {
-           // Freine();
+            Freine();
             AffichageEtatDebug.text = "Freine";
         }
         else if (StateOfMoto == MotoActualState.Ralenti)
         {
-           // Ralenti();
+            Ralenti();
             AffichageEtatDebug.text = "Ralenti";
         }
         else if (StateOfMoto == MotoActualState.Recule)
         {
-           // Recule();
+            Recule();
             AffichageEtatDebug.text = "Recule";
         }
         else if (StateOfMoto == MotoActualState.Surchauffe)
         {
-           // Surchauffe();
+            Surchauffe();
             AffichageEtatDebug.text = "Surchauffe";
         }
         else if (StateOfMoto == MotoActualState.Tourne)
         {
-           // Tourne();
+            Tourne();
             AffichageEtatDebug.text = "Tourne";
         }
         else if (StateOfMoto == MotoActualState.Straff)
         {
-           // Straff();
+            Straff();
             AffichageEtatDebug.text = "Straff";
         }
     }
+    #region voidPourEtat
     public void Stationnaire()
     {
         print("stationnaire");
@@ -218,19 +219,20 @@ public class GestionEtatEtFeedback : PersonnalMethod
         LanceLeSon(IndexDusons);
 
     }
+    #endregion
     void LanceLeSon(int[] Lesindex)
     {
-        print("lance le son");
+        
         foreach (int index in Lesindex)//
         {
             if (!LesInfosDuSon[index].BoucleDansFmod)// si le boucle pas dans Fmod
             {
                 if (LesInfosDuSon[index].OneShot)// si c'est un oneshot 
                 {
-                    print("one shot");
+                   
                     if (LesInfosDuSon[index].event3D)// 3D
                     {
-                        print("event 3D");
+                        
                         FMODUnity.RuntimeManager.PlayOneShot(LesInfosDuSon[index].LeSonAJouer, Moto.transform.position);// joue le sons
                         
                        
@@ -245,6 +247,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
                     if (LesInfosDuSon[index].BoucleParCode)// s'il  boucle  par code
                     {
                         LesInfosDuSon[index].MonEvenementFMOD.start();//start l'event
+                        SonEntrainDeJouer.Add(LesInfosDuSon[index]);
 
                     }
                     /*else//!\\ Problème logique
@@ -261,13 +264,14 @@ public class GestionEtatEtFeedback : PersonnalMethod
             }
             else // s'il boucle
             {
-                print(" lance le sons qui boucle FMOD");
+                
                 FMOD.Studio.PLAYBACK_STATE state;//créer la variable
                 LesInfosDuSon[index].MonEvenementFMOD.getPlaybackState(out state);//recupérer les infos
                 if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING)//si le son ne joue pas
                 {
-                    print("je lance le sons qui boucle FMOD");
+                    
                     LesInfosDuSon[index].MonEvenementFMOD.start();//lance le sons
+                    SonEntrainDeJouer.Add(LesInfosDuSon[index]);
                 }
             }
 
@@ -299,10 +303,14 @@ public class GestionEtatEtFeedback : PersonnalMethod
         {
             if (Info.ParameterToModify.Length > 0)//s'il y des param
             {
-                print(Info.ParameterToModify.Length);
+                
                 foreach (string Parameter in Info.ParameterToModify)
                 {
-                    Info.MonEvenementFMOD.setParameterByName("Parameter", LeBonParametre("Parameter"));// vas chercher le bon param et le mettre à la bonne value 
+                    if (Info.event3D)
+                    {
+                        Info.MonEvenementFMOD.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(Moto.gameObject));// si l'event est 3D set son attribute
+                    }
+                    Info.MonEvenementFMOD.setParameterByName(Parameter, LeBonParametre(Parameter));// vas chercher le bon param et le mettre à la bonne value 
                 }
             }
         }
@@ -317,7 +325,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
             setParameter(Info); // set les paramètre necessaire
             if (Info.event3D)
             {
-                Info.MonEvenementFMOD.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(this.gameObject));// si l'event est 3D set son attribute
+                Info.MonEvenementFMOD.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(Moto.gameObject));// si l'event est 3D set son attribute
             }
             if (Info.ParameterToModify.Length > 0)// si le sons a des paramètres
             {
@@ -329,21 +337,27 @@ public class GestionEtatEtFeedback : PersonnalMethod
     }
     void soundsToStop()
     {
-        foreach (SoundInfo Info in LesInfosDuSon)// pour chaque sons
+        foreach (SoundInfo Info in SonEntrainDeJouer)// pour chaque sons entrain d'être jouer
         {
             if (Info.tempsPourArret >= Time.time) // si leurs temps d'arret sont dépassé
             {
                 Info.tempsPourArret = 0; //leur remets a 0
                 Info.MonEvenementFMOD.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);//stop le son
+                SonEntrainDeJouer.Remove(Info);
             }
         }
     }
-
-    void getParamaterByName() 
+    void StopASound(int IndexDuSonAStop) 
     {
-       
+        SonEntrainDeJouer.RemoveAt(IndexDuSonAStop);
+        foreach (SoundInfo Info in LesInfosDuSon)
+        {
+            if (Info.IndexDuSon == IndexDuSonAStop)
+            {
+                Info.MonEvenementFMOD.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
     }
-
     void setParameter(SoundInfo InfoDuSon) 
     {
         int indexer = 0;
@@ -351,29 +365,35 @@ public class GestionEtatEtFeedback : PersonnalMethod
         {
             InfoDuSon.ParameterToModify = new string[InfoDuSon.ListeDesParametre.Length];// je refais le tableau des variables
         }
+        /*for (int i = 0; i < InfoDuSon.ListeDesParametre.Length; i++)
+        {
+            if (InfoDuSon.ListeDesParametre[i] == SoundInfo.ParametreUtiliser.vitessemoto)
+            {
+                InfoDuSon.ParameterToModify[indexer] = "vitessemoto";
+            }
+            else if (InfoDuSon.ListeDesParametre[i] == SoundInfo.ParametreUtiliser.AccelInput)
+            {
+                InfoDuSon.ParameterToModify[indexer] = "AccelInput";
+            }
+        }*/
         foreach (SoundInfo.ParametreUtiliser Param in InfoDuSon.ListeDesParametre)// pour chaque param utiliser
         {
 
-            if (Param == SoundInfo.ParametreUtiliser.vitesseDeMoto)
+            if (Param == SoundInfo.ParametreUtiliser.vitessemoto)
             {
-                InfoDuSon.ParameterToModify[indexer] = "VitesseMoto";
-            }
-            else if (Param == SoundInfo.ParametreUtiliser.VitesseDeRotation)
-            {
-                InfoDuSon.ParameterToModify[indexer] = "VitesseRotation";
+                InfoDuSon.ParameterToModify[indexer] = "vitessemoto";
             }
             else if (Param == SoundInfo.ParametreUtiliser.AccelInput)
             {
                 InfoDuSon.ParameterToModify[indexer] = "AccelInput";
             }
+            indexer++;
         }
     }
-   
-
     float LeBonParametre(string LeparametreAchercher) // faire des trucs
     {
         float ValueToReturn=0;
-        if (LeparametreAchercher == "VitesseMoto")
+        if (LeparametreAchercher == "vitessemoto")
         {
             float actuel = 0;
             if (Mathf.Abs(GG.GMC.VitesseMoto)>0)
@@ -383,7 +403,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
             float Max = GG.GMC.vitesseMax;
             ValueToReturn = Mathf.Abs(actuel) / Max;
         }
-        else if (LeparametreAchercher == "VitesseRotation")
+       /* else if (LeparametreAchercher == "VitesseRotation")
         {
             float actuel = 0;
             if (Mathf.Abs(GG.GMC.ActuelVitesseRotation) > 0)
@@ -393,7 +413,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
             float Max = GG.GMC.VitesseDeRotationMax;
 
             ValueToReturn = Mathf.Abs(actuel) / Max;
-        }
+        }*/
         else if (LeparametreAchercher == "AccelInput")
         {
             float actuel = 0;
@@ -409,6 +429,11 @@ public class GestionEtatEtFeedback : PersonnalMethod
 
 
         return ValueToReturn;
+    }
+
+    void getParamaterByName()
+    {
+
     }
 }
 // float lavitessedemamotoSuperchouette = 0;
