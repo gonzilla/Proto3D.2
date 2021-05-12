@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{854b6ffb-c951-413a-ad94-b73d388f4420}">
+		<property name="assetPath">
+			<value>motorcycle-engine-30km.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>10</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c008a0c2-00c6-4a0a-8f50-881915c927f8}</destination>
+		</relationship>
+	</object>
+</objects>

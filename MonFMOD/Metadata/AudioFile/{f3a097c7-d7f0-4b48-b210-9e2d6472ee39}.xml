@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{f3a097c7-d7f0-4b48-b210-9e2d6472ee39}">
+		<property name="assetPath">
+			<value>accel high 2.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.1579138321995466</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c008a0c2-00c6-4a0a-8f50-881915c927f8}</destination>
+		</relationship>
+	</object>
+</objects>

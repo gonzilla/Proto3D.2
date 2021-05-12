@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{dc10c7d7-85f1-4e16-a061-3eeb8bc0b4e4}">
+		<property name="name">
+			<value>FreinInput</value>
+		</property>
+		<relationship name="folder">
+			<destination>{bc66545e-706d-4ce5-ae40-b98d9b476d52}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{ae63f61a-2b48-41e5-babb-6b5c205a3a2e}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{ae63f61a-2b48-41e5-babb-6b5c205a3a2e}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

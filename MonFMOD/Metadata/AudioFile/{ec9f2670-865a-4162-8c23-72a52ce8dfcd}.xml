@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{ec9f2670-865a-4162-8c23-72a52ce8dfcd}">
+		<property name="assetPath">
+			<value>boost recolt debut01.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.1944444444444444</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c008a0c2-00c6-4a0a-8f50-881915c927f8}</destination>
+		</relationship>
+	</object>
+</objects>

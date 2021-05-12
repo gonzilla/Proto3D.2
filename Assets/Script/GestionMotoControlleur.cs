@@ -86,7 +86,8 @@ public class GestionMotoControlleur : PersonnalMethod
     
     bool grounded; // pour savoir sur sol
     bool OnceForFloor; // pour détecter si en l'air
-    
+    bool staffing=false;
+
     Rigidbody Rb; // stock le rigidbody
     GestionGeneral GG;//stock les script
 
@@ -155,8 +156,21 @@ public class GestionMotoControlleur : PersonnalMethod
             {
                 DirectionVoulue = Direction / Mathf.Abs(Direction);//détermine la direction voulue
             }
+            if (DirectionVoulue>0 && ActuelVitesseRotation == 0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing )
+            {
+            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Avance);
+            }
+            if (DirectionVoulue < 0 && ActuelVitesseRotation == 0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing)
+            {
+            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Recule);
+            }
+            if (VitesseMoto==0)
+            {
+            print("je suis a 0");
+            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Stationnaire);
+            }
 
-            if (DirectionMoteur != DirectionVoulue && DirectionMoteur != 0)// si la direction moteur n(est pas la direction voulue et la direction moteur n'est pas 0
+        if (DirectionMoteur != DirectionVoulue && DirectionMoteur != 0)// si la direction moteur n(est pas la direction voulue et la direction moteur n'est pas 0
             {
                 Freine(DirectionVoulue, Direction, pourcentage);//Lance le frein
             }
@@ -179,14 +193,7 @@ public class GestionMotoControlleur : PersonnalMethod
         DeclenchementParticuleSelonVitesse();
         transform.Translate(DirectionForMoto.normalized * VitesseMoto, Space.World);//fais le déplacement
         DirectionForMoto = Vector3.zero;// remet la direction 
-        if (VitesseMoto >0 && ActuelVitesseRotation==0)
-        {
-            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Avance);
-        }
-        if (VitesseMoto < 0 && ActuelVitesseRotation == 0)
-        {
-            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Recule);
-        }
+        
 
 
 
@@ -219,12 +226,18 @@ public class GestionMotoControlleur : PersonnalMethod
 
     public void straff(float X) // fait straffer
     {
-        
+        staffing = false;
         if (grounded && Mathf.Abs(VitesseMoto) > 0.01f) // si la moto est au sol est à une vitesse sup a 0.01f
         {
             float angle = X * angleMax;// decale selon angle max
             DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;//calcul la rotation
             GG.FeedBackVisu.GestionStraff(true,true);
+            if (X!=0)
+            {
+                staffing = true;
+                GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Straff);
+            }
+           
             //actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);// l'applique la rotation
         }
     }
@@ -239,8 +252,10 @@ public class GestionMotoControlleur : PersonnalMethod
         
         if (Mathf.Abs(X) > ValeurJoysticPourRotation &&  (directionJoystick == DirectionRotation ) && Mathf.Abs(VitesseMoto)>VitesseMinimumPourTourner && grounded)
         {
+            
             ActuelVitesseRotation += VitesseDeProgressionDuDerapage * DirectionRotation * Time.deltaTime;//ajoute la rotation
             checkRotationMoto(VitesseDeDerapageMax);//check si la rotation est encore bonne
+            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Derape);
             ISitLosingSpeed = true;// indique que la moto perd de la vitesse
            
         }
@@ -299,13 +314,13 @@ public class GestionMotoControlleur : PersonnalMethod
             {
 
                 VitesseMoto = Mathf.Lerp(VitesseMoto, 0, ForceRalentissement * Time.deltaTime * Ralentissement.Evaluate(pourcentage));// calcul la vitesse de la moto
-
+                GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Ralenti);
             }
-            else if (grounded )// sinon si le joueur est sur le sol
+            else if (grounded)// sinon si le joueur est sur le sol
             {
 
                 VitesseMoto = Mathf.Lerp(VitesseMoto, directionFrein, PuissanceFrainage * Time.deltaTime * FreinageSelonVitesse.Evaluate(pourcentage));// calcul la vitesse de la moto
-
+                GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Freine);
             }
         }
        

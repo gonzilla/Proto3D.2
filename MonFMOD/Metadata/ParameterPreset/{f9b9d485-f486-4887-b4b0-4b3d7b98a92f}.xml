@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{f9b9d485-f486-4887-b4b0-4b3d7b98a92f}">
+		<property name="name">
+			<value>DriftInput</value>
+		</property>
+		<relationship name="folder">
+			<destination>{bc66545e-706d-4ce5-ae40-b98d9b476d52}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{0f5ed2eb-f6d4-4505-a4c7-1eb353d79648}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{0f5ed2eb-f6d4-4505-a4c7-1eb353d79648}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

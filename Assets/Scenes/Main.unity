@@ -73787,7 +73787,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StateOfMoto: 0
   AffichageEtatDebug: {fileID: 754240352}
-  LesInfosDuSon: []
+  LesInfosDuSon:
+  - LeSonAJouer: event:/Collision
+    LeVoid: Boost
+    BoucleDansFmod: 0
+    BoucleParCode: 0
+    event3D: 0
+    OneShot: 0
+    StopQuandChangementDetat: 0
+    TempsDuSons: 0
+    ListeDesParametre: 
+    ParameterToModify: []
+    IndexDuSon: 0
+    tempsPourArret: 0
   Moto: {fileID: 1314564569}
 --- !u!4 &2005513286
 Transform:

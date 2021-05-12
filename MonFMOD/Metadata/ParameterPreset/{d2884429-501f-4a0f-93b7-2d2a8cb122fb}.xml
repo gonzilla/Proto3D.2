@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{d2884429-501f-4a0f-93b7-2d2a8cb122fb}">
+		<property name="name">
+			<value>OnPlaque</value>
+		</property>
+		<relationship name="folder">
+			<destination>{bc66545e-706d-4ce5-ae40-b98d9b476d52}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{0769fbec-3104-42a4-99aa-c09c20a5bd78}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{0769fbec-3104-42a4-99aa-c09c20a5bd78}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

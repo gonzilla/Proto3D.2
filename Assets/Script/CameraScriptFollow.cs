@@ -147,10 +147,10 @@ public class ScreenShakeInfo
         
         
         //print(PourcentageDeVitesse());
-        CameraFOV();
+        CameraFOV();// régle le FOV
         checkCible();
-
-        if (!TransitionCible)
+        cameraRotation();
+        /*if (!TransitionCible)
         {
             cameraRotation();
         }
@@ -158,7 +158,7 @@ public class ScreenShakeInfo
         {
             
             transform.LookAt(LaMoto.position);//new Vector3(LaMoto.position.x, transform.position.y,LaMoto.position.z));
-        }
+        }*/
         if (DoitVibrer)
         {
             CameraShake();
@@ -168,99 +168,98 @@ public class ScreenShakeInfo
 
     void CameraFOV() 
     {
-        if (Mathf.Abs(vitesseDeRotationDeLaMoto())>1)
+        if (Mathf.Abs(vitesseDeRotationDeLaMoto())>1)// si la rotation de la moto
         {
             FOV_Max = FOVmaxOriginelle * MultiplicateurFOV;
         }
-        else
-        if (PourcentageVitesseFOVChange < PourcentageDeVitesse())
+        else if (PourcentageVitesseFOVChange < PourcentageDeVitesse())// si j'atteint une certaine vitesse
         {
-            //print("je fais des trucs");
-            float FOVCible = StartValueOfFOV + ((FOV_Max - StartValueOfFOV) * PourcentageDeVitesse());
-            CamProperties.fieldOfView = Mathf.Lerp(CamProperties.fieldOfView, FOVCible, VitesseFOV*Time.deltaTime);
+           
+            float FOVCible = StartValueOfFOV + ((FOV_Max - StartValueOfFOV) * PourcentageDeVitesse());// calcul de  La valeur du FOV cible 
+            CamProperties.fieldOfView = Mathf.Lerp(CamProperties.fieldOfView, FOVCible, VitesseFOV*Time.deltaTime);//set le FOV de la cam
             
         }
         else 
         {
-            CamProperties.fieldOfView = Mathf.Lerp(CamProperties.fieldOfView, StartValueOfFOV, VitesseFOV * Time.deltaTime); 
+            CamProperties.fieldOfView = Mathf.Lerp(CamProperties.fieldOfView, StartValueOfFOV, VitesseFOV * Time.deltaTime); //fais revenir le FOV à sa value de départ
         }
        
     }
 
-    void checkCible() 
+    void checkCible() // verifie la cible de la moto
     {
-        Transform previousCible = null;
-        float speedTransition = VitesseDeplacement;
-        if (!TransitionCible)
+        Transform previousCible = null;// la précédente cible
+        float speedTransition = VitesseDeplacement; // la vitesse de transition est set sur la vitesse de déplacement
+        if (!TransitionCible)//s'il n'y a pas de transition 
         {
-            previousCible = MotoToFollow;
+            previousCible = MotoToFollow; // la cible est set sur MotoToFollow
             
         }
         else 
         {
-            speedTransition = VitesseDeplacementTransition;
+            speedTransition = VitesseDeplacementTransition; //sinon la vitesse de transition sur celle prévu pour
         }
-        if (Vector3.Distance(transform.position, MotoToFollow.position) > distanceMaxTransition + DistanceForCam && TransitionCible)
+        if (Vector3.Distance(transform.position, MotoToFollow.position) > distanceMaxTransition + DistanceForCam && TransitionCible) // si la cam est trop loin de sa cible
         {
-            speedTransition = VitesseDeplacementTransition * 100;
+            speedTransition = VitesseDeplacementTransition * 100; //augmente la vitesse
         }
-        if (Avance() || VitesseActuelDeLaMoto()==0)
+        if (Avance() || VitesseActuelDeLaMoto()==0) //si avance ou la vitesse de la moto est 0
         {
-            MotoToFollow = MotoToFollowAvant;
+            MotoToFollow = MotoToFollowAvant; // la cible deviens la vue de l'arrière
         }
-        else if (!Avance()) 
+        else if (!Avance()) // si n'avance pas
         {
-            MotoToFollow = MotoToFollowArreire;
+            MotoToFollow = MotoToFollowArreire; // la cible deviens la vue de l'avant
         }
-        if (MotoToFollow != previousCible)
+        if (MotoToFollow != previousCible) //  si la cible n'est pas égale à la précédente
         {
-            TransitionCible = true;
+            TransitionCible = true; // la transition s'enclenche
         }
         transform.position = Vector3.Lerp(transform.position, MotoToFollow.position, speedTransition*Time.deltaTime);// bouge la camera vers l'objet à suivre
-        if (Vector3.Distance(transform.position,MotoToFollow.position)<1f && TransitionCible)
+        if (Vector3.Distance(transform.position,MotoToFollow.position)<1f && TransitionCible) // si la cible et la cam sont à - d'une certaine distance 
         {
-            TransitionCible = false;
-            transform.position = MotoToFollow.position;
-            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            TransitionCible = false;//la transition s'arréte
+            transform.position = MotoToFollow.position; // la position deviens celle de la cible
+            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);// set la rotation
         }
        
     }
 
-    void cameraRotation() 
+    void cameraRotation() // effectue la rotation
     {
         float angleCibleY = 0;
-        if (deraping())
+        if (deraping())// si dérape
         {
-             angleCibleY = LaMoto.rotation.eulerAngles.y + AngleMaximalEnPlusEnDerapage * directionDeRotation;
+             angleCibleY = LaMoto.rotation.eulerAngles.y + AngleMaximalEnPlusEnDerapage * directionDeRotation; //calcul angle cible 
         }
         else 
         {
-             angleCibleY = LaMoto.rotation.eulerAngles.y + AngleMaximalEnPlus * directionDeRotation;
+             angleCibleY = LaMoto.rotation.eulerAngles.y + AngleMaximalEnPlus * directionDeRotation;//calcul angle cible 
         }
         
-        float angleY = 0;
-        float vitesseAngleY = VitesseRotationSurY;
-        float angleCibleZ = AngleMaxZ*-directionDeRotation;
-        float angleZ =0;
-        float vitesseAngleZ = VitesseRotationSurZ;
+        float angleY = 0; // angle Y 
+        float vitesseAngleY = VitesseRotationSurY; // 
+        float angleCibleZ = AngleMaxZ*-directionDeRotation; //calcul de l'angle cible
+        float angleZ = 0;
+        float vitesseAngleZ = VitesseRotationSurZ; //
         float angleX = 0;
-        float vitesseAngleX = (vitesseAngleY + vitesseAngleZ) / 2;
+        float vitesseAngleX = (vitesseAngleY + vitesseAngleZ) / 2; // vitesse de l'angle x
         
 
-        if (directionDeRotation != 0)
+        if (directionDeRotation != 0) // Si la direction de rotation est différente de 0
         {
-            vitesseAngleY = VitesseRotationSurY * PourcentageRotationSpeed() * Time.deltaTime;
+            vitesseAngleY = VitesseRotationSurY * PourcentageRotationSpeed() * Time.deltaTime; // recalcul de la vitesse
             vitesseAngleZ = VitesseRotationSurZ * PourcentageRotationSpeed() * Time.deltaTime;
         }
         if (directionDeRotation == 0)
         {
 
-            if (angleY != LaMoto.rotation.eulerAngles.y)
+            if (angleY != LaMoto.rotation.eulerAngles.y)// si la moto n'a pas le même Y que la caméra
             {
                 vitesseAngleY = VitesseRetourSurY * Time.deltaTime; //VitesseRotationSurY *Mathf.Abs( PourcentageRotationSpeed()-1 )
 
             }
-            if (angleZ == 0 && transform.rotation.eulerAngles.z!=0)
+            if (angleZ == 0 && transform.rotation.eulerAngles.z!=0)//calcul de la vitesse de retour
             {
                 
                 vitesseAngleZ = VitesseRetourSurZ * Time.deltaTime;
@@ -268,15 +267,15 @@ public class ScreenShakeInfo
         }
         // essayer de trouver une méthode pour faire la meme chose que en marche avant
 
-        if (VitesseActuelDeLaMoto() != 0 && !Avance())
+        if (VitesseActuelDeLaMoto() != 0 && !Avance())// si la moto recule
         {
-            angleY = Mathf.LerpAngle(transform.rotation.eulerAngles.y, angleCibleY+180, vitesseAngleY);
+            angleY = Mathf.LerpAngle(transform.rotation.eulerAngles.y, angleCibleY+180, vitesseAngleY);// set l'angle y
         }
-        else 
+        else // si avance
         {
-            angleY = Mathf.LerpAngle(transform.rotation.eulerAngles.y, angleCibleY, vitesseAngleY);
+            angleY = Mathf.LerpAngle(transform.rotation.eulerAngles.y, angleCibleY, vitesseAngleY);  // set l'angle y
         }
-        if (transform.rotation.eulerAngles.x !=0)
+        if (transform.rotation.eulerAngles.x !=0) // a changer
         {
             angleX = Mathf.LerpAngle(transform.rotation.eulerAngles.z, 0, vitesseAngleX);
         }
@@ -323,22 +322,22 @@ public class ScreenShakeInfo
     #region cameraShake
     public void GestionCameraShake(ScreenShakeInfo.Action ActionProduite) 
     {
-        print("gestion");
+        
         foreach (ScreenShakeInfo Act in InfoPourScreenShake)
         {
             if (ActionProduite == Act.ListeDesActions && Act.ListeDesActions== ScreenShakeInfo.Action.BoostLV1)
             {
-                print("Level 1");
+                
                 LanceLeCameraShake(Act.ForcePourCameraShake, Act.TempsPourVibration);
             }
             else if (ActionProduite == Act.ListeDesActions && Act.ListeDesActions == ScreenShakeInfo.Action.BoostLV2)
             {
-                print("Level 2");
+                
                 LanceLeCameraShake(Act.ForcePourCameraShake, Act.TempsPourVibration);
             }
             else if (ActionProduite == Act.ListeDesActions && Act.ListeDesActions == ScreenShakeInfo.Action.BoostLV3)
             {
-                print("Level 3");
+                
                 LanceLeCameraShake(Act.ForcePourCameraShake, Act.TempsPourVibration);
             }
             else if (ActionProduite == Act.ListeDesActions && Act.ListeDesActions == ScreenShakeInfo.Action.Collisions)
@@ -356,15 +355,15 @@ public class ScreenShakeInfo
 
     void LanceLeCameraShake(float Force,float TempsOfVibration) 
     {
-        print("Lance");
+        
         if (!DoitVibrer)
         {
-            print("Doit vibrer");
+            
             DoitVibrer = true;
         }
         if (DoitVibrer)
         {
-            print(TempsOfVibration);
+            
             TempsDeVibration = TempsOfVibration;
             TempsArretCameraShake = TempsDeVibration + Time.time;
             ForceCameraShake = Force;
@@ -375,7 +374,7 @@ public class ScreenShakeInfo
     void CameraShake() 
     {
 
-        print("Shake");
+        
         if (TempsArretCameraShake ==0)
         {
             TempsArretCameraShake = TempsDeVibration + Time.time;

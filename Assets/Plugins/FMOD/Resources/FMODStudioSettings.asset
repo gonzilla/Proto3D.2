@@ -267,7 +267,7 @@ MonoBehaviour:
   SwitchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: MonFMOD/Clean_Project.fspro
+  sourceProjectPath: MonFMOD/Course Fmod.fspro
   sourceBankPath: MonFMOD\Build
   SourceBankPathUnformatted: 
   AutomaticEventLoading: 1
