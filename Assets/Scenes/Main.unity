@@ -32246,7 +32246,6 @@ GameObject:
   - component: {fileID: 1032094564}
   - component: {fileID: 1032094565}
   - component: {fileID: 1032094566}
-  - component: {fileID: 1032094562}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -32269,20 +32268,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 43.69, y: 0, z: 0}
---- !u!114 &1032094562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1032094560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attenuationObject: {fileID: 0}
-  ListenerNumber: -1
 --- !u!20 &1032094563
 Camera:
   m_ObjectHideFlags: 0
@@ -52072,6 +52057,7 @@ GameObject:
   - component: {fileID: 1314564574}
   - component: {fileID: 1314564573}
   - component: {fileID: 1314564576}
+  - component: {fileID: 1314564579}
   m_Layer: 0
   m_Name: Moto
   m_TagString: Player
@@ -52396,6 +52382,20 @@ CapsuleCollider:
   m_Height: 7.17
   m_Direction: 2
   m_Center: {x: 0, y: 0.4302826, z: 0}
+--- !u!114 &1314564579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314564569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
+  ListenerNumber: -1
 --- !u!1 &1321859341
 GameObject:
   m_ObjectHideFlags: 0
@@ -73794,18 +73794,19 @@ MonoBehaviour:
   StateOfMoto: 8
   AffichageEtatDebug: {fileID: 754240352}
   LesInfosDuSon:
-  - LeSonAJouer: event:/Collision
-    LeVoid: Boost
-    BoucleDansFmod: 0
+  - LeSonAJouer: event:/Drift
+    LeVoid: Derape
+    BoucleDansFmod: 1
     BoucleParCode: 0
     event3D: 1
-    OneShot: 1
-    StopQuandChangementDetat: 0
+    OneShot: 0
+    StopQuandChangementDetat: 1
     TempsDuSons: 0
-    ListeDesParametre: 
+    ListeDesParametre: 02000000
     ParameterToModify: []
     IndexDuSon: 0
     tempsPourArret: 0
+    NombreDePlay: 0
   - LeSonAJouer: event:/Moteur/Moteru
     LeVoid: Stationnaire
     BoucleDansFmod: 1
@@ -73818,7 +73819,74 @@ MonoBehaviour:
     ParameterToModify: []
     IndexDuSon: 0
     tempsPourArret: 0
+    NombreDePlay: 0
+  - LeSonAJouer: event:/Straff
+    LeVoid: Straff
+    BoucleDansFmod: 0
+    BoucleParCode: 0
+    event3D: 1
+    OneShot: 1
+    StopQuandChangementDetat: 0
+    TempsDuSons: 0
+    ListeDesParametre: 
+    ParameterToModify: []
+    IndexDuSon: 0
+    tempsPourArret: 0
+    NombreDePlay: 0
+  - LeSonAJouer: event:/Whoosh
+    LeVoid: Avance
+    BoucleDansFmod: 1
+    BoucleParCode: 0
+    event3D: 1
+    OneShot: 0
+    StopQuandChangementDetat: 0
+    TempsDuSons: 0
+    ListeDesParametre: 00000000
+    ParameterToModify: []
+    IndexDuSon: 0
+    tempsPourArret: 0
+    NombreDePlay: 0
+  - LeSonAJouer: event:/Frein 2
+    LeVoid: Freine
+    BoucleDansFmod: 1
+    BoucleParCode: 0
+    event3D: 0
+    OneShot: 0
+    StopQuandChangementDetat: 1
+    TempsDuSons: 0
+    ListeDesParametre: 03000000
+    ParameterToModify: []
+    IndexDuSon: 0
+    tempsPourArret: 0
+    NombreDePlay: 0
+  - LeSonAJouer: event:/Boost/Recolte
+    LeVoid: RecolteDeBoost
+    BoucleDansFmod: 0
+    BoucleParCode: 0
+    event3D: 0
+    OneShot: 0
+    StopQuandChangementDetat: 0
+    TempsDuSons: 0
+    ListeDesParametre: 05000000
+    ParameterToModify: []
+    IndexDuSon: 0
+    tempsPourArret: 0
+    NombreDePlay: 0
+  - LeSonAJouer: event:/Boost/Utilisationboost 3
+    LeVoid: BoostLV3
+    BoucleDansFmod: 1
+    BoucleParCode: 0
+    event3D: 0
+    OneShot: 0
+    StopQuandChangementDetat: 0
+    TempsDuSons: 0
+    ListeDesParametre: 04000000
+    ParameterToModify: []
+    IndexDuSon: 0
+    tempsPourArret: 0
+    NombreDePlay: 0
   Moto: {fileID: 1314564569}
+  SonEntrainDeJouer: []
 --- !u!4 &2005513286
 Transform:
   m_ObjectHideFlags: 0

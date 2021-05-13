@@ -156,18 +156,22 @@ public class GestionMotoControlleur : PersonnalMethod
             {
                 DirectionVoulue = Direction / Mathf.Abs(Direction);//détermine la direction voulue
             }
-            if (DirectionVoulue>0 && ActuelVitesseRotation == 0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing )
+            if (DirectionVoulue>0 && DirectionMoteur == DirectionVoulue && ActuelVitesseRotation == 0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge)
             {
             GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Avance);
             }
-            if (DirectionVoulue < 0 && ActuelVitesseRotation == 0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing)
+            if (DirectionVoulue < 0 && DirectionMoteur==DirectionVoulue && ActuelVitesseRotation == 0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing &&!GG.GB.Recharge)
             {
             GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Recule);
             }
             if (VitesseMoto==0)
             {
-            print("je suis a 0");
-            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Stationnaire);
+            
+                if (DirectionVoulue!=0)
+                {
+                GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Stationnaire);
+                }
+           
             }
 
         if (DirectionMoteur != DirectionVoulue && DirectionMoteur != 0)// si la direction moteur n(est pas la direction voulue et la direction moteur n'est pas 0
@@ -218,7 +222,7 @@ public class GestionMotoControlleur : PersonnalMethod
 
         transform.rotation *= Quaternion.Euler(0, ActuelVitesseRotation, 0);// tourne la moto
 
-        if (ActuelVitesseRotation !=0)
+        if (ActuelVitesseRotation !=0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge)
         {
             GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Tourne);
         }

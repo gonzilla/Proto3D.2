@@ -32,6 +32,7 @@ public class GestionBoost : PersonnalMethod
     [HideInInspector] public bool Recharge; //bool pour savoir si le joueur recharge
     [HideInInspector] public bool boosting; // bool pour savoir si le joueur boost // peut être obsoléte 
     [HideInInspector] public bool Surchauffing;// bool pour savoir si c'est en surchauffe
+    
 
     [Header("Collision")]
     [Tooltip("La perte de boost lorsqu'entre en collision pdt surchauffe")]
@@ -62,6 +63,7 @@ public class GestionBoost : PersonnalMethod
         {
             GetBoost();//lance la fonction getboost
         }
+        
         MakeSureBoostIsGood();// s'assure que la reserve de boost est bonne
         if (Pourcentage==1)
         {
@@ -83,6 +85,7 @@ public class GestionBoost : PersonnalMethod
             actualBoostReserve += VitesseRechargeEnergie * Time.deltaTime; //augmente les ressources
             GG.GUI.setSliderBoost(actualBoostReserve);//met à jour le slider
             SetNewvitesseMax();//recalcul la vitesse max
+            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.RecolteDeBoost);
         }
         
     
@@ -125,23 +128,23 @@ public class GestionBoost : PersonnalMethod
                 }
                 if (NombreDeFoisApppuyerBoost==0)
                 {
-
+                    GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.BoostLV1);
                     GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV1);
                     GG.FeedBackVisu.gestionBoost(0, true);
                 }
                 if (NombreDeFoisApppuyerBoost == 1)
                 {
-                   
-                    GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV2);
+                    GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.BoostLV2);
+                    GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV3);
                     GG.FeedBackVisu.gestionBoost(1, true);
                 }
                 if (NombreDeFoisApppuyerBoost == 2)
                 {
-                   
+                    GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.BoostLV1);
                     GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV3);
                     GG.FeedBackVisu.gestionBoost(2, true);
                 }
-                GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Boost);
+                
                 float newVitesse = NouvelleVitesseMax + ( PourcentageVitesseParBoost[NombreDeFoisApppuyerBoost] * NouvelleVitesseMax); // calcule la nouvelle vitesse
                 GG.GMC.vitesseMax = newVitesse;//donne la vitesse max
                 GG.GMC.VitesseMoto = newVitesse;//met la moto à la vitesse

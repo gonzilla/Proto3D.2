@@ -20,6 +20,7 @@ public class SoundInfo
     public bool event3D;
     public bool OneShot;
     public bool StopQuandChangementDetat;
+    
     public float TempsDuSons;
     public enum ParametreUtiliser 
     {
@@ -33,9 +34,10 @@ public class SoundInfo
 
     };
     public ParametreUtiliser[] ListeDesParametre;
-    public string[] ParameterToModify;
+    [HideInInspector] public string[] ParameterToModify;
     [HideInInspector] public int IndexDuSon;
     [HideInInspector] public float tempsPourArret;
+    [HideInInspector] public int NombreDePlay = 0;
 
 }
 
@@ -55,12 +57,15 @@ public class GestionEtatEtFeedback : PersonnalMethod
         Recule,
         Tourne,
         Derape,
-        Boost,
         Surchauffe,
         Freine,
         Ralenti,
         Stationnaire,
-        Straff
+        Straff,
+        BoostLV1,
+        BoostLV2,
+        BoostLV3,
+        RecolteDeBoost
 
     };
     public MotoActualState StateOfMoto;
@@ -71,9 +76,10 @@ public class GestionEtatEtFeedback : PersonnalMethod
     public GameObject Moto;
     //Local variable
 
-    List<SoundInfo> SonAvecParameter = new List<SoundInfo>();
-    List<SoundInfo> SonEntrainDeJouer = new List<SoundInfo>();
+     List<SoundInfo> SonAvecParameter = new List<SoundInfo>();
+     public List<SoundInfo> SonEntrainDeJouer = new List<SoundInfo>();
 
+    string EtatActuel;
     GestionGeneral GG;//stock les script
     void Start()
     {
@@ -87,6 +93,8 @@ public class GestionEtatEtFeedback : PersonnalMethod
         
         StateOfMoto = etat;
         GereLeBonsonSaMere();
+        CheckSiDoitSarreter();// a test à d'autre endroit
+
 
     }
 
@@ -100,83 +108,124 @@ public class GestionEtatEtFeedback : PersonnalMethod
         if (StateOfMoto == MotoActualState.Stationnaire)
         {
             Stationnaire();
-            AffichageEtatDebug.text = "Stationnaire";
+            EtatActuel = "Stationnaire";
+            AffichageEtatDebug.text = EtatActuel;
         }
         else if (StateOfMoto == MotoActualState.Avance)
         {
             Avance();
-            
-            AffichageEtatDebug.text = "Avance";
-        }
-        else if (StateOfMoto == MotoActualState.Boost)
-        {
-            Boost();
-            AffichageEtatDebug.text = "Boost";
+            EtatActuel = "Avance";
+            AffichageEtatDebug.text = EtatActuel;
         }
         else if (StateOfMoto == MotoActualState.Derape)
         {
             Derape();
-            AffichageEtatDebug.text = "Derape";
+            EtatActuel = "Derape";
+            AffichageEtatDebug.text = EtatActuel;
         }
         else if (StateOfMoto == MotoActualState.Freine)
         {
             Freine();
-            AffichageEtatDebug.text = "Freine";
+            EtatActuel = "Freine";
+            AffichageEtatDebug.text = EtatActuel;
         }
         else if (StateOfMoto == MotoActualState.Ralenti)
         {
             Ralenti();
-            AffichageEtatDebug.text = "Ralenti";
+            EtatActuel = "Ralenti";
+            AffichageEtatDebug.text = EtatActuel;
         }
         else if (StateOfMoto == MotoActualState.Recule)
         {
             Recule();
-            AffichageEtatDebug.text = "Recule";
+            EtatActuel = "Recule";
+            AffichageEtatDebug.text = EtatActuel;
         }
         else if (StateOfMoto == MotoActualState.Surchauffe)
         {
             Surchauffe();
-            AffichageEtatDebug.text = "Surchauffe";
+            EtatActuel = "Surchauffe";
+            AffichageEtatDebug.text = EtatActuel;
         }
         else if (StateOfMoto == MotoActualState.Tourne)
         {
             Tourne();
-            AffichageEtatDebug.text = "Tourne";
+            EtatActuel = "Tourne";
+            AffichageEtatDebug.text = EtatActuel;
         }
         else if (StateOfMoto == MotoActualState.Straff)
         {
             Straff();
-            AffichageEtatDebug.text = "Straff";
+            EtatActuel = "Straff";
+            AffichageEtatDebug.text = EtatActuel;
+        }
+        else if (StateOfMoto == MotoActualState.BoostLV1)
+        {
+            BoostLV1();
+            EtatActuel = "BoostLV1";
+            AffichageEtatDebug.text = EtatActuel;
+        }
+        else if (StateOfMoto == MotoActualState.BoostLV2)
+        {
+            BoostLV2();
+            EtatActuel = "BoostLV2";
+            AffichageEtatDebug.text = EtatActuel;
+        }
+        else if (StateOfMoto == MotoActualState.BoostLV3)
+        {
+            BoostLV3();
+            EtatActuel = "BoostLV3";
+            AffichageEtatDebug.text = EtatActuel;
+        }
+        else if (StateOfMoto == MotoActualState.RecolteDeBoost)
+        {
+            RecolteDeBoost();
+            EtatActuel = "RecolteDeBoost";
+            AffichageEtatDebug.text = EtatActuel;
         }
     }
     #region voidPourEtat
-    public void Stationnaire()
+    void Stationnaire()
     {
-        print("stationnaire");
+        
         int[] IndexDusons = new int[0]; // stock les int des sons à lancé à l'état
         setInfoSurSonByVoid("Stationnaire", out IndexDusons);
         LanceLeSon(IndexDusons);
     }
-    public void Avance()
+    void Avance()
     {
         int[] IndexDusons = new int[0];
         setInfoSurSonByVoid("Avance", out IndexDusons);
         LanceLeSon(IndexDusons);
     }
-    public void Boost()
+    void BoostLV1()
     {
-        print("boost");
+        
         int[] IndexDusons = new int[0];
-        setInfoSurSonByVoid("Boost", out IndexDusons);
+        setInfoSurSonByVoid("BoostLV1", out IndexDusons);
         LanceLeSon(IndexDusons);
     }
-    public void Derape()
+    void BoostLV2()
+    {
+
+        int[] IndexDusons = new int[0];
+        setInfoSurSonByVoid("BoostLV2", out IndexDusons);
+        LanceLeSon(IndexDusons);
+    }
+    void BoostLV3()
+    {
+
+        int[] IndexDusons = new int[0];
+        setInfoSurSonByVoid("BoostLV3", out IndexDusons);
+        LanceLeSon(IndexDusons);
+    }
+    void Derape()
     {
         int[] IndexDusons = new int[0];
         setInfoSurSonByVoid("Derape", out IndexDusons);
         LanceLeSon(IndexDusons);
     }
-    public void Freine()
+    void Freine()
     {
 
 
@@ -187,37 +236,46 @@ public class GestionEtatEtFeedback : PersonnalMethod
 
 
     }
-    public void Ralenti()
+    void Ralenti()
     {
         int[] IndexDusons = new int[0];
         setInfoSurSonByVoid("Ralenti", out IndexDusons);
         LanceLeSon(IndexDusons);
     }
-    public void Recule()
+    void Recule()
     {
         int[] IndexDusons = new int[0];
         setInfoSurSonByVoid("Recule", out IndexDusons);
         LanceLeSon(IndexDusons);
     }
-    public void Surchauffe()
+    void Surchauffe()
     {
         int[] IndexDusons = new int[0];
         setInfoSurSonByVoid("Surchauffe", out IndexDusons);
         LanceLeSon(IndexDusons);
     }
-    public void Tourne()
+    void Tourne()
     {
         int[] IndexDusons = new int[0];
         setInfoSurSonByVoid("Tourne", out IndexDusons);
         LanceLeSon(IndexDusons);
 
     }
-    public void Straff()
+    void Straff()
     {
+        
         int[] IndexDusons = new int[0];
         setInfoSurSonByVoid("Straff", out IndexDusons);
+        
         LanceLeSon(IndexDusons);
 
+    }
+    void RecolteDeBoost()
+    {
+
+        int[] IndexDusons = new int[0];
+        setInfoSurSonByVoid("RecolteDeBoost", out IndexDusons);
+        LanceLeSon(IndexDusons);
     }
     #endregion
     void LanceLeSon(int[] Lesindex)
@@ -227,12 +285,12 @@ public class GestionEtatEtFeedback : PersonnalMethod
         {
             if (!LesInfosDuSon[index].BoucleDansFmod)// si le boucle pas dans Fmod
             {
-                if (LesInfosDuSon[index].OneShot)// si c'est un oneshot 
+                if (LesInfosDuSon[index].OneShot && LesInfosDuSon[index].NombreDePlay==0)// si c'est un oneshot 
                 {
                    
                     if (LesInfosDuSon[index].event3D)// 3D
                     {
-                        
+                        LesInfosDuSon[index].NombreDePlay++;
                         FMODUnity.RuntimeManager.PlayOneShot(LesInfosDuSon[index].LeSonAJouer, Moto.transform.position);// joue le sons
                         
                        
@@ -250,13 +308,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
                         SonEntrainDeJouer.Add(LesInfosDuSon[index]);
 
                     }
-                    /*else//!\\ Problème logique
-                    {
-                        if (Time.time > LesInfosDuSon[index].tempsPourArret)
-                        {
-                            LesInfosDuSon[index].MonEvenementFMOD.start();
-                        }
-                    }*/
+                    
                     float tempsPourArretCeSon = Time.time + LesInfosDuSon[index].TempsDuSons;//le temps d'arret du sons
                     LesInfosDuSon[index].tempsPourArret = tempsPourArretCeSon; // set le temps d'arret du sons 
                     Invoke("soundsToStop", tempsPourArretCeSon);//lance le son a arrété dans X seconde
@@ -271,13 +323,26 @@ public class GestionEtatEtFeedback : PersonnalMethod
                 {
                     
                     LesInfosDuSon[index].MonEvenementFMOD.start();//lance le sons
-                    SonEntrainDeJouer.Add(LesInfosDuSon[index]);
+                    int nombreDeFoisLeSon = 0;
+                    foreach (SoundInfo item in SonEntrainDeJouer)
+                    {
+                        if (item == LesInfosDuSon[index])
+                        {
+                            nombreDeFoisLeSon++;
+                        }
+                    }
+                    if (nombreDeFoisLeSon==0)
+                    {
+                        SonEntrainDeJouer.Add(LesInfosDuSon[index]);
+                       
+                    }
+                    
                 }
             }
 
 
         }
-
+       
 
     }
     void setInfoSurSonByVoid(string LeVoid, out int[] IndexSon)// gére le sons lorsque je change d'état
@@ -289,7 +354,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
             {
                 IndexDunSon.Add(i);// ajoute l'index à la list
                 LesInfosDuSon[i].IndexDuSon = i; // set l'index du son
-
+                
             }
 
         }
@@ -299,6 +364,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
     }
     void UpdateSoundWithParamater()
     {
+       
         foreach (SoundInfo Info in SonEntrainDeJouer)//pour chaque sons avec des paramètres
         {
             if (Info.ParameterToModify.Length > 0)//s'il y des param
@@ -331,9 +397,10 @@ public class GestionEtatEtFeedback : PersonnalMethod
             {
                 SonAvecParameter.Add(Info);//ajoute Info dans la liste des sons avec paramètre
             }
+           
             
         }
-        print("j'ai trouvé" + SonAvecParameter.Count);
+        
     }
     void soundsToStop()
     {
@@ -387,33 +454,80 @@ public class GestionEtatEtFeedback : PersonnalMethod
             {
                 InfoDuSon.ParameterToModify[indexer] = "AccelInput";
             }
+            else if (Param == SoundInfo.ParametreUtiliser.DriftInput)
+            {
+                InfoDuSon.ParameterToModify[indexer] = "DriftInput";
+            }
+            else if (Param == SoundInfo.ParametreUtiliser.FreinInput)
+            {
+                InfoDuSon.ParameterToModify[indexer] = "FreinInput";
+            }
+            else if (Param == SoundInfo.ParametreUtiliser.BoostActivation)
+            {
+                InfoDuSon.ParameterToModify[indexer] = "BoostActivation";
+            }
+            else if (Param == SoundInfo.ParametreUtiliser.OnPlaque)
+            {
+                InfoDuSon.ParameterToModify[indexer] = "OnPlaque";
+            }
+            else if (Param == SoundInfo.ParametreUtiliser.Distance)
+            {
+                InfoDuSon.ParameterToModify[indexer] = "Distance";
+            }
             indexer++;
         }
     }
+
+     void ResetOneShot(SoundInfo Info)
+    {
+       
+            if (Info.NombreDePlay>0)
+            {
+                Info.NombreDePlay = 0;
+            }
+        
+    }
+
+    void CheckSiDoitSarreter() //SoundInfo SonsACheck
+    {
+       
+        foreach (SoundInfo Info in SonEntrainDeJouer)
+        {
+            if (Info.StopQuandChangementDetat && EtatActuel != Info.LeVoid)
+            {
+                
+                Info.MonEvenementFMOD.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                SonEntrainDeJouer.Remove(Info);
+                
+            }
+            if (EtatActuel != Info.LeVoid)
+            {
+                ResetOneShot(Info);
+            }
+        }
+
+        
+    }
+
+    void getParamaterByName()
+    {
+
+    }
+
     float LeBonParametre(string LeparametreAchercher) // faire des trucs
     {
-        float ValueToReturn=0;
+        float ValueToReturn = 0;
         if (LeparametreAchercher == "vitessemoto")
         {
             float actuel = 0;
-            if (Mathf.Abs(GG.GMC.VitesseMoto)>0)
+            if (Mathf.Abs(GG.GMC.VitesseMoto) > 0)
             {
                 actuel = GG.GMC.VitesseMoto;
             }
             float Max = GG.GMC.vitesseMax;
             ValueToReturn = Mathf.Abs(actuel) / Max;
         }
-       /* else if (LeparametreAchercher == "VitesseRotation")
-        {
-            float actuel = 0;
-            if (Mathf.Abs(GG.GMC.ActuelVitesseRotation) > 0)
-            {
-                actuel = GG.GMC.ActuelVitesseRotation;
-            }
-            float Max = GG.GMC.VitesseDeRotationMax;
 
-            ValueToReturn = Mathf.Abs(actuel) / Max;
-        }*/
         else if (LeparametreAchercher == "AccelInput")
         {
             float actuel = 0;
@@ -425,16 +539,69 @@ public class GestionEtatEtFeedback : PersonnalMethod
 
             ValueToReturn = Mathf.Abs(actuel) / Max;
         }
+        else if (LeparametreAchercher == "DriftInput")
+        {
+            float actuel = 0;
+            if (Mathf.Abs(Input.GetAxis(GG.GDI.Axes[7])) > 0)
+            {
+                actuel = Input.GetAxis(GG.GDI.Axes[7]);
+            }
+            float Max = 1;
+
+            ValueToReturn = Mathf.Abs(actuel) / Max;
+        }
+        else if (LeparametreAchercher == "FreinInput")
+        {
+            float actuel = 0;
+            float max = 1;
+            float valueInput = 0;
+            if (Input.GetAxis(GG.GDI.Axes[1]) != 0)
+            {
+                valueInput = Mathf.Abs(Input.GetAxis(GG.GDI.Axes[1])) / Input.GetAxis(GG.GDI.Axes[1]);
+            }
+
+            if (GG.GMC.VitesseMoto > 0 && valueInput == -1)
+            {
+                actuel = Mathf.Abs(Input.GetAxis(GG.GDI.Axes[1]));
+            }
+            else if (GG.GMC.VitesseMoto < 0 && valueInput == 1)
+            {
+                actuel = Input.GetAxis(GG.GDI.Axes[1]);
+            }
+            print(actuel + "actuel");
+            ValueToReturn = actuel / max;
 
 
+        }
+        else if (LeparametreAchercher == "OnPlaque")
+        {
+            ValueToReturn = 1;
+        }
+        else if (LeparametreAchercher == "BoostActivation")
+        {
+            ValueToReturn = 1;
+        }
 
         return ValueToReturn;
-    }
-
-    void getParamaterByName()
-    {
-
     }
 }
 // float lavitessedemamotoSuperchouette = 0;
 // lavitessedemamotoSuperchouette = (float)GMC.GetType().GetField("VitesseMoto").GetValue(GMC);
+/* else if (LeparametreAchercher == "VitesseRotation")
+        {
+            float actuel = 0;
+            if (Mathf.Abs(GG.GMC.ActuelVitesseRotation) > 0)
+            {
+                actuel = GG.GMC.ActuelVitesseRotation;
+            }
+            float Max = GG.GMC.VitesseDeRotationMax;
+
+            ValueToReturn = Mathf.Abs(actuel) / Max;
+        }*/
+/*else//!\\ Problème logique
+                    {
+                        if (Time.time > LesInfosDuSon[index].tempsPourArret)
+                        {
+                            LesInfosDuSon[index].MonEvenementFMOD.start();
+                        }
+                    }*/
