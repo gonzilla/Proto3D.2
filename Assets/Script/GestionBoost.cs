@@ -135,12 +135,12 @@ public class GestionBoost : PersonnalMethod
                 if (NombreDeFoisApppuyerBoost == 1)
                 {
                     GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.BoostLV2);
-                    GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV3);
+                    GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV2);
                     GG.FeedBackVisu.gestionBoost(1, true);
                 }
                 if (NombreDeFoisApppuyerBoost == 2)
                 {
-                    GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.BoostLV1);
+                    GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.BoostLV3);
                     GG.CSF.GestionCameraShake(ScreenShakeInfo.Action.BoostLV3);
                     GG.FeedBackVisu.gestionBoost(2, true);
                 }

@@ -318,13 +318,21 @@ public class GestionMotoControlleur : PersonnalMethod
             {
 
                 VitesseMoto = Mathf.Lerp(VitesseMoto, 0, ForceRalentissement * Time.deltaTime * Ralentissement.Evaluate(pourcentage));// calcul la vitesse de la moto
-                GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Ralenti);
+                if (!staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge)
+                {
+                    GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Ralenti);
+                }
+               
             }
             else if (grounded)// sinon si le joueur est sur le sol
             {
 
                 VitesseMoto = Mathf.Lerp(VitesseMoto, directionFrein, PuissanceFrainage * Time.deltaTime * FreinageSelonVitesse.Evaluate(pourcentage));// calcul la vitesse de la moto
-                GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Freine);
+                if (!staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge)
+                {
+                    GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Freine);
+                }
+               
             }
         }
        

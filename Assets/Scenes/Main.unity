@@ -73835,9 +73835,9 @@ MonoBehaviour:
     NombreDePlay: 0
   - LeSonAJouer: event:/Whoosh
     LeVoid: Avance
-    BoucleDansFmod: 1
+    BoucleDansFmod: 0
     BoucleParCode: 0
-    event3D: 1
+    event3D: 0
     OneShot: 0
     StopQuandChangementDetat: 0
     TempsDuSons: 0
@@ -73861,11 +73861,11 @@ MonoBehaviour:
     NombreDePlay: 0
   - LeSonAJouer: event:/Boost/Recolte
     LeVoid: RecolteDeBoost
-    BoucleDansFmod: 0
+    BoucleDansFmod: 1
     BoucleParCode: 0
     event3D: 0
     OneShot: 0
-    StopQuandChangementDetat: 0
+    StopQuandChangementDetat: 1
     TempsDuSons: 0
     ListeDesParametre: 05000000
     ParameterToModify: []
@@ -73876,9 +73876,9 @@ MonoBehaviour:
     LeVoid: BoostLV3
     BoucleDansFmod: 1
     BoucleParCode: 0
-    event3D: 0
+    event3D: 1
     OneShot: 0
-    StopQuandChangementDetat: 0
+    StopQuandChangementDetat: 1
     TempsDuSons: 0
     ListeDesParametre: 04000000
     ParameterToModify: []
@@ -73886,7 +73886,7 @@ MonoBehaviour:
     tempsPourArret: 0
     NombreDePlay: 0
   Moto: {fileID: 1314564569}
-  SonEntrainDeJouer: []
+  EtatActuel: 
 --- !u!4 &2005513286
 Transform:
   m_ObjectHideFlags: 0
