@@ -505,12 +505,12 @@ public class GestionEtatEtFeedback : PersonnalMethod
 
     void CheckSiDoitSarreter() //SoundInfo SonsACheck
     {
-        print("Je check");
+        //print("Je check");
         foreach (SoundInfo Info in LesInfosDuSon)
         {
             if (Info.StopQuandChangementDetat && EtatActuel != Info.LeVoid)
             {
-                print("j'ai changé d'état et le void n'est pas le bon");
+                //print("j'ai changé d'état et le void n'est pas le bon");
                 Info.MonEvenementFMOD.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
                 SonEntrainDeJouer.Remove(Info);
                 

@@ -90,7 +90,7 @@ public class GestionMotoControlleur : PersonnalMethod
 
     Rigidbody Rb; // stock le rigidbody
     GestionGeneral GG;//stock les script
-
+    ConstantForce LantiGravite;
 
 
     void Start()
@@ -99,11 +99,11 @@ public class GestionMotoControlleur : PersonnalMethod
         Rb = GetComponent<Rigidbody>();// récupére le rigidbody
         GetGestion(out GG, this.gameObject);// récupére les autres script
         //FirstVitesseRotation = ;//set old votesse rotation
-        
+        LantiGravite = GetComponent<ConstantForce>();
     }
     public void SetByNormal() 
     {
-
+        Vector3 PourForceConstante = Vector3.up*Physics.gravity.magnitude;
         grounded = false; // lui dis qu'il n'est pas au sol
         RaycastHit hit;// stock les infos du raycast
        
@@ -115,10 +115,12 @@ public class GestionMotoControlleur : PersonnalMethod
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; // set la rotation selon le sol
             Debug.DrawRay(detecteur.position, -transform.up * GroundRayLength, Color.magenta);//  draw a ray
             OnceForFloor = false; // set le once a false
+            PourForceConstante += -transform.up * Physics.gravity.magnitude;
             FreezeRotation();// freeze la rotation selon resultat
         }
         if (!grounded)// si n'est pas ground
         {
+            PourForceConstante = Vector3.zero;
             if (!OnceForFloor)// et que le Once est false
             {
                 TimeCible = Time.time+TempsPourEtreEnLair; //set le temps pour check
@@ -133,8 +135,8 @@ public class GestionMotoControlleur : PersonnalMethod
             }
             
         }
-        
 
+        LantiGravite.force = PourForceConstante;
 
     }
     

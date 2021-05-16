@@ -275,10 +275,12 @@ public class ScreenShakeInfo
         {
             angleY = Mathf.LerpAngle(transform.rotation.eulerAngles.y, angleCibleY, vitesseAngleY);  // set l'angle y
         }
-        if (transform.rotation.eulerAngles.x !=0) // a changer
+        /*if (transform.rotation.eulerAngles.x !=0) // a changer
         {
             angleX = Mathf.LerpAngle(transform.rotation.eulerAngles.z, 0, vitesseAngleX);
-        }
+        }*/
+        angleX = LaMoto.transform.rotation.eulerAngles.x;
+        print(angleX);
         angleZ = Mathf.LerpAngle(transform.rotation.eulerAngles.z, angleCibleZ, vitesseAngleZ);
         transform.rotation = Quaternion.Euler(angleX, angleY, angleZ);
     }
