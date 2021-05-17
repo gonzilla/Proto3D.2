@@ -34,6 +34,7 @@ public class GestionDesInputs : PersonnalMethod
         //Ce qui est sur de ce faire à chaque frame
         GG.CSF.CameraComportement(); // fais les comportements de la camera
         GG.GMC.SetByNormal(); // check le sol 
+        GG.GMC.RotateMotoInWorld();
         if (!InUse[7])
         {
             GG.GMC.tourne(Input.GetAxis(Axes[3])); //Lance void pour Tourner
@@ -51,9 +52,9 @@ public class GestionDesInputs : PersonnalMethod
             GG.CSF.InfoRotationDeLaCam(0); //envois des info pour la cam
         }
         
-        GG.GMC.avance(Input.GetAxis(Axes[1])); //Lance void pour avancer
-                                              //GG.FeedBackVisu.GestionStraff(false);
-
+        GG.GMC.avance(Input.GetAxis(Axes[1]));
+        //Lance void pour avancer
+        //GG.FeedBackVisu.GestionStraff(false);
         //Input
 
 

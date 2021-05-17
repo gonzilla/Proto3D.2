@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GestionMotoControlleur : PersonnalMethod
 {
+    #region publicVariable
     //Public variable
     [Header("Vitesse")]
     [Tooltip("vitesse actuelle de la moto")]
@@ -30,6 +31,10 @@ public class GestionMotoControlleur : PersonnalMethod
     [Header("Tourner/Déraper")]
     [Tooltip("Le taux de pression du joystick pour débuter la rotation ou le dérapage")]
     public float ValeurJoysticPourRotation;
+    [Tooltip("jusqu'à quelle angle la moto s'incline")]
+    public float AngleMotoLorsDeRotation;
+    [Tooltip("Transform contenant le modele de la moto")]
+    public Transform ModeleMoto;
 
     [HideInInspector]
     public float ActuelVitesseRotation;//variable commune qui sera utiliser pour déterminé le sens ainsi que la vitesse de rotation
@@ -62,9 +67,8 @@ public class GestionMotoControlleur : PersonnalMethod
     public float GroundRayLength;
     [Tooltip("permet de choisir le layer du ground")]
     public LayerMask whatIsGround;
-
-    [Tooltip("l'angle pour se décaler ")]
-    public float angleMax;
+   
+    
 
     [Header("Collision")]
     [Tooltip("La perte de boost lorsqu'entre en collision pdt surchauffe")]
@@ -73,10 +77,14 @@ public class GestionMotoControlleur : PersonnalMethod
     [Header("Autre")]
     [Tooltip("Le tempspour que le systéme estime le joueur dans les airs")]
     public float TempsPourEtreEnLair;
+    [Tooltip("l'angle pour se décaler ")]
+    public float angleMax;
+    [Tooltip("les wheels pour l'animation ")]
+    public Animator[] wheelAnimation;
 
-    
+    #endregion
 
-
+    #region local
     //Local variable
     float TimeCible; // le temps viser pour savoir si le joueur est en l'air
     float originalVitesseMax;
@@ -91,7 +99,9 @@ public class GestionMotoControlleur : PersonnalMethod
     Rigidbody Rb; // stock le rigidbody
     GestionGeneral GG;//stock les script
     ConstantForce LantiGravite;
+    Quaternion PreviousRotation;
 
+    #endregion
 
     void Start()
     {
@@ -103,10 +113,10 @@ public class GestionMotoControlleur : PersonnalMethod
     }
     public void SetByNormal() 
     {
-        Vector3 PourForceConstante = Vector3.up*Physics.gravity.magnitude;
+       // Vector3 PourForceConstante = Vector3.up*Physics.gravity.magnitude;
         grounded = false; // lui dis qu'il n'est pas au sol
         RaycastHit hit;// stock les infos du raycast
-       
+        
        
         if (Physics.Raycast(detecteur.position, -transform.up, out hit, GroundRayLength, whatIsGround)) // si le raycast detect le sol
         {
@@ -115,12 +125,13 @@ public class GestionMotoControlleur : PersonnalMethod
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; // set la rotation selon le sol
             Debug.DrawRay(detecteur.position, -transform.up * GroundRayLength, Color.magenta);//  draw a ray
             OnceForFloor = false; // set le once a false
-            PourForceConstante += -transform.up * Physics.gravity.magnitude;
+            //PourForceConstante += -transform.up * Physics.gravity.magnitude;
+            Physics.gravity = -hit.normal* Physics.gravity.magnitude; //-transform.up * Physics.gravity.magnitude;
             FreezeRotation();// freeze la rotation selon resultat
         }
         if (!grounded)// si n'est pas ground
         {
-            PourForceConstante = Vector3.zero;
+           // PourForceConstante = Vector3.zero;
             if (!OnceForFloor)// et que le Once est false
             {
                 TimeCible = Time.time+TempsPourEtreEnLair; //set le temps pour check
@@ -129,14 +140,14 @@ public class GestionMotoControlleur : PersonnalMethod
             }
             if (OnceForFloor && TimeCible<= Time.time )//si le temps est dépassé
             {
-                
-                
+
+                Physics.gravity = new Vector3(0, -9.81f, 0);
                 FreezeRotation(); // freeze la rotation
             }
             
         }
-
-        LantiGravite.force = PourForceConstante;
+        
+      // LantiGravite.force = PourForceConstante;
 
     }
     
@@ -197,6 +208,10 @@ public class GestionMotoControlleur : PersonnalMethod
             }
         DirectionForMoto += transform.forward;//set la direction
         DeclenchementParticuleSelonVitesse();
+        foreach (Animator item in wheelAnimation)
+        {
+            item.speed = VitesseMoto;
+        }
         transform.Translate(DirectionForMoto.normalized * VitesseMoto, Space.World);//fais le déplacement
         DirectionForMoto = Vector3.zero;// remet la direction 
         
@@ -206,6 +221,7 @@ public class GestionMotoControlleur : PersonnalMethod
     }
     public void tourne(float X) //fait tourner la moto
     {
+        
         if (grounded && Mathf.Abs(VitesseMoto) > VitesseMinimumPourTourner)//si je suis sur le sol et que la vitesse est suffisante
         {
             
@@ -228,6 +244,27 @@ public class GestionMotoControlleur : PersonnalMethod
         {
             GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Tourne);
         }
+        PreviousRotation = transform.rotation;
+    }
+
+    public void RotateMotoInWorld() 
+    {
+        float pourcentage = 0;
+        float direction = 0;
+        float angleZ = 0;
+        if (ActuelVitesseRotation !=0)
+        {
+            pourcentage = Mathf.Abs(ActuelVitesseRotation) / VitesseDeRotationMax;
+            direction = Mathf.Abs(ActuelVitesseRotation) / ActuelVitesseRotation;
+            angleZ = AngleMotoLorsDeRotation * -direction * pourcentage;
+        }
+        else 
+        {
+            angleZ = Mathf.LerpAngle(ModeleMoto.localRotation.eulerAngles.z,0, VitesseDeProgressionDeLaRotation*Time.deltaTime);
+        }
+       
+        ModeleMoto.localRotation = Quaternion.Euler(0, 0, angleZ);
+    
     }
 
     public void straff(float X) // fait straffer
@@ -247,6 +284,8 @@ public class GestionMotoControlleur : PersonnalMethod
             //actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);// l'applique la rotation
         }
     }
+
+    #region Derapage
     public void TourneDerapage(float DirectionRotation, float X, out bool ISitLosingSpeed) 
     {
         float directionJoystick = 0;
@@ -288,11 +327,7 @@ public class GestionMotoControlleur : PersonnalMethod
 
     public void derapage(bool state, float X ,bool MustloseSpeed) //fais le dérapage
     {
-        /*if (X==0)
-        {
-            ActuelVitesseRotation = 0;
-            
-        }*/
+        
         if (state && MustloseSpeed)// vérifie que je demande a déraper et que je dois perdre de la vitesse
         {
             
@@ -310,7 +345,7 @@ public class GestionMotoControlleur : PersonnalMethod
 
 
     }
-
+    #endregion
     public void Freine(float directionFrein, float Input , float pourcentage) // fait freiner le véhicule
     {
 
@@ -343,6 +378,7 @@ public class GestionMotoControlleur : PersonnalMethod
         checkVitesseMoto();//check la vitesse
     }
 
+    #region checker
     void checkVitesseMoto() // check la vitesse de la moto
     {
         if (Mathf.Abs(VitesseMoto)-vitesseMax>=0.1)//si la moto vas plus vite que la vitesse max
@@ -382,14 +418,16 @@ public class GestionMotoControlleur : PersonnalMethod
             ActuelVitesseRotation = -max;
         }
     }  // check si je dépasse pas la vitesse de rotation max
-
+    #endregion
     void FreezeRotation()// freeze la rotation selon grounded ou non
     {
         
         
         if (grounded)//si sur le soll
         {
-            Rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; // freeze Y et Z 
+            Rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ ; // freeze Y et Z 
+            //Rb.angularVelocity = new Vector3(Rb.angularVelocity.x, 0, Rb.angularVelocity.z);
+            
         }
         else
         {
@@ -460,6 +498,8 @@ public class GestionMotoControlleur : PersonnalMethod
     }
     
 
+    
+
     private void OnCollisionEnter(Collision collision)//si le joueur touche qqchose
     {
         if ( collision.transform.gameObject.layer == 8) // si le layer est sol //utile? sers à mettre le vhéhicule correctement
@@ -467,7 +507,15 @@ public class GestionMotoControlleur : PersonnalMethod
            
             if (!grounded  ) //si n'est pas sur le sol
             {
-                transform.rotation = Quaternion.Euler(0, transform.rotation.y, 0);//reset rot
+               Vector3 H = collision.GetContact(0).point;
+               RaycastHit Info;
+               Physics.Raycast(detecteur.position, -transform.up, out Info, GroundRayLength, whatIsGround);
+                float angleX = transform.rotation.eulerAngles.x;
+                float angleY = transform.rotation.eulerAngles.y;
+                float angleZ = transform.rotation.eulerAngles.z;
+                transform.rotation = Quaternion.FromToRotation(transform.up, Info.normal);
+               // transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, angleY, transform.rotation.eulerAngles.z);//reset rot
+                //transform.rotation = Quaternion.Euler(0, angleY, 0);
             }
             Rb.velocity = Vector3.zero;//met la velocity a 0
 
