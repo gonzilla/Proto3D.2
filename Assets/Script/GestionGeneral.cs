@@ -19,6 +19,8 @@ public class GestionGeneral : PersonnalMethod
     public GestionEtatEtFeedback EtatEtFeedback;
     [Tooltip(" Pour Les feedBack pour le moment ")]
     public GestionFeedBackVisu FeedBackVisu;
+    [Tooltip(" Pour Les feedBack pour le moment ")]
+    public GestionCheckPoint GestionPointDeControle;
     //Local variable
 
 

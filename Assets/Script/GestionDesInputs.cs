@@ -32,8 +32,9 @@ public class GestionDesInputs : PersonnalMethod
     void FixedUpdate()
     {
         //Ce qui est sur de ce faire à chaque frame
-        GG.CSF.CameraComportement(); // fais les comportements de la camera
+      
         GG.GMC.SetByNormal(); // check le sol 
+        GG.CSF.CameraComportement(); // fais les comportements de la camera
         GG.GMC.RotateMotoInWorld();
         if (!InUse[7])
         {

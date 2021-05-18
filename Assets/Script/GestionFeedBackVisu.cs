@@ -14,6 +14,8 @@ public class GestionFeedBackVisu : PersonnalMethod
     public GameObject[] Straff;
     public GameObject[] ParticleRoue;
     public GameObject ParticleCam;
+    public GameObject Fusion;
+    public GameObject Recharge;
 
     //private
     bool[] BoostLVEtat;
@@ -120,7 +122,6 @@ public class GestionFeedBackVisu : PersonnalMethod
         }
         
     }
-
     public void GestionWheelTrail(bool Etat)
     {
         
@@ -236,7 +237,14 @@ public class GestionFeedBackVisu : PersonnalMethod
     {
         ParticleCam.SetActive(etat);
     }
-
+    public void GestionParticleFusion(bool Etat) 
+    {
+        Fusion.SetActive(Etat);
+    }
+    public void GestionParticleRecharge(bool Etat) 
+    {
+        Recharge.SetActive(Etat);
+    }
     float VitesseActuelDeLaMoto()
     {
         float ActualSpeedMoto = GG.GMC.VitesseMoto;
@@ -293,15 +301,6 @@ public class GestionFeedBackVisu : PersonnalMethod
         ParticleRoueEtat = resetDeBool(ParticleRoueEtat);
     }
 
-    /*void setParticleSystemArray() 
-    {
-        for (int i = 0; i < Smoker.Length; i++)
-        {
-            Smoker[i] = Smoke[i].GetComponent<ParticleSystem.MainModule>();
-        }
-    
-    }*/
-
     bool[] resetDeBool (bool[] toReset)
     {
 
@@ -328,3 +327,11 @@ public class GestionFeedBackVisu : PersonnalMethod
                 }
                 Smoke[i].GetComponent<ParticleSystem>().Play();
             }*/
+/*void setParticleSystemArray() 
+   {
+       for (int i = 0; i < Smoker.Length; i++)
+       {
+           Smoker[i] = Smoke[i].GetComponent<ParticleSystem.MainModule>();
+       }
+
+   }*/

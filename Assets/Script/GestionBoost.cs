@@ -62,16 +62,23 @@ public class GestionBoost : PersonnalMethod
         if (Recharge)//si il rechage
         {
             GetBoost();//lance la fonction getboost
+            GG.FeedBackVisu.GestionParticleRecharge(true);
+        }
+        else 
+        {
+            GG.FeedBackVisu.GestionParticleRecharge(false);
         }
         
         MakeSureBoostIsGood();// s'assure que la reserve de boost est bonne
         if (Pourcentage==1)
         {
             Surchauffing = true;//met la moto en surchauffe
+            GG.FeedBackVisu.GestionParticleFusion(true);
         }
          if (Surchauffing)
         {
             surchauffe();//Lance levennement surchauffe
+            
         }
 
     }
@@ -182,9 +189,11 @@ public class GestionBoost : PersonnalMethod
         GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Surchauffe);
         if (actualBoostReserve <= 0)//si la reserve est tombé à 0
         {
+            GG.FeedBackVisu.GestionParticleFusion(false);
             actualBoostReserve = 0;//la remet a 0
             Surchauffing = false;// n'est pas en surchauffe
             GG.GMC.vitesseMax = OldvitesseMax;//remet la vitesse max
+            
             Invoke("canRechargeAgain", TempsAprèsSurchauffe);//
         }
     }

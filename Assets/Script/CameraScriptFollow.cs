@@ -63,16 +63,17 @@ public class ScreenShakeInfo
     public float AngleMaximalEnPlus;
     [Tooltip("l'angle vers lequel tends la caméra en dérapage")]
     public float AngleMaximalEnPlusEnDerapage;
-    [Tooltip("vitesse De la Rotation sur Y")]
-    public float VitesseRotationSurY;
-    [Tooltip("vitesse De retour sur Y")]
-    public float VitesseRetourSurY;
+    //[Tooltip("vitesse De la Rotation sur Y")]
+    //public float VitesseRotationSurY;
+    //[Tooltip("vitesse De retour sur Y")]
+    //public float VitesseRetourSurY;
     [Tooltip("Angle Max Sur Z")]
     public float AngleMaxZ;
-    [Tooltip("vitesse De la Rotation sur Y")]
-    public float VitesseRotationSurZ;
-    [Tooltip("vitesse De retour sur Y")]
-    public float VitesseRetourSurZ;
+    [Tooltip("vitesse De retour De la Rotation ")]
+    public float vitesseRetour;
+    //public float VitesseRotationSurZ;
+    //[Tooltip("vitesse De retour sur Y")]
+    //public float VitesseRetourSurZ;
     #endregion
     #region shake
     [Header("CameraShake")]
@@ -114,6 +115,8 @@ public class ScreenShakeInfo
     float TempsDeVibration;
     float DistanceForCam;
     Transform MotoToFollow;
+
+    Vector3 previousRotate;
 
     #region PostProcess2
     AmbientOcclusion _AmbientOclu;
@@ -227,60 +230,56 @@ public class ScreenShakeInfo
 
     void cameraRotation() // effectue la rotation
     {
+        
+        
+        
+        /*Vector3 UpMoto = LaMoto.transform.up;
+        Vector3 RightMoto = LaMoto.transform.right;
+        Vector3 ForwardMoto = LaMoto.transform.forward;//new Vector3(Mathf.Abs(LaMoto.transform.forward.x), Mathf.Abs(LaMoto.transform.forward.y), Mathf.Abs(LaMoto.transform.forward.z)); 
+        transform.up = UpMoto;
+        transform.right = RightMoto;
+        transform.forward = ForwardMoto;*/
+        transform.rotation = LaMoto.rotation;
+       
         float angleCibleY = 0;
+        
         if (deraping())// si dérape
         {
-             angleCibleY = LaMoto.localRotation.eulerAngles.y + AngleMaximalEnPlusEnDerapage * directionDeRotation; //calcul angle cible 
+            angleCibleY =  AngleMaximalEnPlusEnDerapage * directionDeRotation; //calcul angle cible 
+        }
+        else
+        {
+            angleCibleY =  AngleMaximalEnPlus * directionDeRotation;//calcul angle cible LaMoto.rotation.eulerAngles.y +
+        }
+        if (directionDeRotation != 0) // Si la direction de rotation est différente de 0
+        {
+            angleCibleY *=  PourcentageRotationSpeed() ; // recalcul de la vitesse
+            
+        }
+        if (VitesseActuelDeLaMoto() != 0 && !Avance())// si la moto recule
+        {
+            
+            angleCibleY +=  180;// set l'angle y
+        }
+
+        //transform.rotation.ToAngleAxis(axisY, angle);
+
+        //Quaternion Y = Quaternion.AngleAxis(angleCibleY, transform.TransformDirection(transform.up));
+        Vector3 Rotation = Vector3.zero;
+
+        if (angleCibleY == 0)
+        {
+            
+            Rotation =  Vector3.Lerp(previousRotate,Rotation,(vitesseRetour*Time.deltaTime));
         }
         else 
         {
-             angleCibleY = LaMoto.localRotation.eulerAngles.y + AngleMaximalEnPlus * directionDeRotation;//calcul angle cible 
+             Rotation = new Vector3(0, angleCibleY, (AngleMaxZ * -directionDeRotation));
         }
-        
-        float angleY = 0; // angle Y 
-        float vitesseAngleY = VitesseRotationSurY; // 
-        float angleCibleZ = LaMoto.localRotation.eulerAngles.z + (AngleMaxZ *-directionDeRotation); //calcul de l'angle cible
-        float angleZ = 0;
-        float vitesseAngleZ = VitesseRotationSurZ; //
-        float angleX = LaMoto.localRotation.eulerAngles.x;
-        float vitesseAngleX = (vitesseAngleY + vitesseAngleZ) / 2; // vitesse de l'angle x
-        
 
-        if (directionDeRotation != 0) // Si la direction de rotation est différente de 0
-        {
-            vitesseAngleY = VitesseRotationSurY * PourcentageRotationSpeed() * Time.deltaTime; // recalcul de la vitesse
-            vitesseAngleZ = VitesseRotationSurZ * PourcentageRotationSpeed() * Time.deltaTime;
-        }
-        if (directionDeRotation == 0)
-        {
-
-            if (angleY != LaMoto.localRotation.eulerAngles.y)// si la moto n'a pas le même Y que la caméra
-            {
-                vitesseAngleY = VitesseRetourSurY * Time.deltaTime; //VitesseRotationSurY *Mathf.Abs( PourcentageRotationSpeed()-1 )
-
-            }
-            if (angleZ == 0 && transform.localRotation.eulerAngles.z!=0)//calcul de la vitesse de retour
-            {
-                
-                vitesseAngleZ = VitesseRetourSurZ * Time.deltaTime;
-            }
-        }
-        // essayer de trouver une méthode pour faire la meme chose que en marche avant
-
-        if (VitesseActuelDeLaMoto() != 0 && !Avance())// si la moto recule
-        {
-            angleY = Mathf.LerpAngle(transform.localRotation.eulerAngles.y, angleCibleY+180, vitesseAngleY);// set l'angle y
-        }
-        else // si avance
-        {
-            angleY = Mathf.LerpAngle(transform.localRotation.eulerAngles.y, angleCibleY, vitesseAngleY);  // set l'angle y
-        }
-        
-        angleX = Mathf.LerpAngle(transform.localRotation.eulerAngles.x,angleX,vitesseAngleX);
-        
-        angleZ = Mathf.LerpAngle(transform.localRotation.eulerAngles.z, angleCibleZ, vitesseAngleZ);
-        transform.localRotation =  Quaternion.Euler(angleX, angleY, angleZ);
-        
+       
+        previousRotate = Rotation;
+        transform.Rotate(Rotation, Space.Self);
     }
     public void InfoRotationDeLaCam(float XJoystick) 
     {
@@ -494,7 +493,12 @@ public class ScreenShakeInfo
 
     float PourcentageRotationSpeed() 
     {
-        float pourcentage = Mathf.Abs(vitesseDeRotationDeLaMoto()) / vitesseRotationMaxMoto;
+        float pourcentage = 0;
+        if (Mathf.Abs(vitesseDeRotationDeLaMoto())!=0)
+        {
+            pourcentage = Mathf.Abs(vitesseDeRotationDeLaMoto()) / vitesseRotationMaxMoto;
+        }
+        
         return pourcentage;
     }
 
