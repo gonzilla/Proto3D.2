@@ -34,6 +34,11 @@ public class GestionCheckPoint : PersonnalMethod
         if (lecheckPoint==0 && passageActuel==NombrePointDePassage)
         {
             tourActuel++;
+            if (tourActuel> NombreDeTour)
+            {
+                tourActuel = NombreDeTour;
+                FinDeLaPartie();
+            }
             passageActuel = 0;
             string affichage = tourActuel.ToString() + "/" + NombreDeTour.ToString();
             AffichageTour.text = affichage;
@@ -42,7 +47,6 @@ public class GestionCheckPoint : PersonnalMethod
 
     void FinDeLaPartie() 
     {
-    // Désactiver 
-    //Gestion Input + Gestion Cam
+        GG.CanPlay = false;
     }
 }

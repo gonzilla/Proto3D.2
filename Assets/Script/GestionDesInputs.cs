@@ -16,6 +16,8 @@ public class GestionDesInputs : PersonnalMethod
     public float timeMinMaintien;// temps à partir duquel on décide qu'une touche est maintenue volontairement 
     [Tooltip("temps a partir duquel un maintient n'est plus nécessaire")]
     public float TempsMaxMaintien;
+
+    [HideInInspector] public bool CanPlay;
     //Local variable
     GestionGeneral GG;//stock les script
 

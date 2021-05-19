@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GestionGeneral : PersonnalMethod
 {
+    [HideInInspector] public bool CanPlay;
     //Public variable
     [Tooltip(" Script pour input ")]
     public GestionDesInputs GDI;
