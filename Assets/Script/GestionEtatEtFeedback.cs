@@ -97,6 +97,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
         bool Check = false;
         if (previousState!=StateOfMoto)
         {
+            print("se passe un truc invisible"+StateOfMoto);
             Check = true;
         }
         GereLeBonsonSaMere();

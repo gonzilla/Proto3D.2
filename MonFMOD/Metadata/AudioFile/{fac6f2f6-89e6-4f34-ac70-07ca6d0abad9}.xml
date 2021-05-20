@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.01.00">
-	<object class="AudioFile" id="{3b626f31-2be1-4111-8973-1291025a018d}">
+	<object class="AudioFile" id="{fac6f2f6-89e6-4f34-ac70-07ca6d0abad9}">
 		<property name="assetPath">
-			<value>ducat_v2.wav</value>
+			<value>depart02.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>
@@ -11,7 +11,7 @@
 			<value>2</value>
 		</property>
 		<property name="length">
-			<value>3.52</value>
+			<value>4.7644671201814059</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{c008a0c2-00c6-4a0a-8f50-881915c927f8}</destination>

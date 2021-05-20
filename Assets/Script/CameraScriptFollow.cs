@@ -492,12 +492,7 @@ public class ScreenShakeInfo
         return pourcentage;
     }
 
-    float rotationDelaMoto() 
-    {
-
-        float YDelaMoto = UnityEditor.TransformUtils.GetInspectorRotation(LaMoto).y;
-        return YDelaMoto;
-    }
+    
     
   
     

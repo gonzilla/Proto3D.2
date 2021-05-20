@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.01.00">
-	<object class="AudioFile" id="{39238128-5589-460d-97d4-592aaed45284}">
+	<object class="AudioFile" id="{81ada0a2-3b08-448a-a399-e50d9e4827da}">
 		<property name="assetPath">
-			<value>test straf 01.wav</value>
+			<value>depart01.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>
@@ -11,7 +11,7 @@
 			<value>2</value>
 		</property>
 		<property name="length">
-			<value>0.43786848072562357</value>
+			<value>4.7644671201814059</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{c008a0c2-00c6-4a0a-8f50-881915c927f8}</destination>

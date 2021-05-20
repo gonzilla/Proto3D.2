@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.01.00">
 	<object class="Event" id="{db07093d-3f7b-4956-aa4a-fac03ad182b5}">
+		<property name="color">
+			<value>Green</value>
+		</property>
 		<property name="name">
 			<value>Whoosh</value>
 		</property>
@@ -86,6 +89,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{184a4e85-766f-452b-a285-f2eeb3ff0640}">
+		<property name="volume">
+			<value>-3</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{da762fe3-2e98-4e2a-b659-ae9a2983cb7b}</destination>
 		</relationship>
@@ -109,28 +115,31 @@
 	</object>
 	<object class="SoundScatterer" id="{baa6e253-1b62-4ddc-b38e-fa6d9d516920}">
 		<property name="start">
-			<value>0.25</value>
+			<value>0.53000000000000003</value>
 		</property>
 		<property name="length">
-			<value>0.74999999999999989</value>
+			<value>0.46999999999999997</value>
+		</property>
+		<property name="pitch">
+			<value>1.20000005</value>
 		</property>
 		<property name="polyphony">
 			<value>20</value>
 		</property>
 		<property name="minimumTimeBetweenSounds">
-			<value>83.5</value>
+			<value>90</value>
 		</property>
 		<property name="maximumTimeBetweenSounds">
-			<value>450</value>
+			<value>300</value>
 		</property>
 		<property name="minimumScatterDistance">
 			<value>2</value>
 		</property>
 		<property name="maximumScatterDistance">
-			<value>6.4000001</value>
+			<value>9</value>
 		</property>
 		<property name="pitchRandomization">
-			<value>8</value>
+			<value>12.1999998</value>
 		</property>
 		<relationship name="automators">
 			<destination>{f9feeaad-39b8-403a-ba40-12e5cfc5c870}</destination>
@@ -141,7 +150,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{83e1f919-fde0-4ace-9a78-21a7e81cc3e6}">
 		<property name="volume">
-			<value>-8.5</value>
+			<value>-5.5</value>
 		</property>
 		<property name="name">
 			<value>Audio 1</value>
@@ -159,6 +168,7 @@
 	<object class="MixerBusEffectChain" id="{da762fe3-2e98-4e2a-b659-ae9a2983cb7b}">
 		<relationship name="effects">
 			<destination>{163da95e-dc81-4827-8fe5-0d71c2b3f429}</destination>
+			<destination>{1cd54132-013b-4486-8e9c-967245bce559}</destination>
 			<destination>{4ad33b7c-5d80-4f2c-b445-993d96aba95b}</destination>
 		</relationship>
 	</object>
@@ -173,6 +183,9 @@
 		</relationship>
 	</object>
 	<object class="MultiSound" id="{3af90b87-9b33-4d96-bfe6-7d75949c1112}">
+		<property name="playlistMode">
+			<value>1</value>
+		</property>
 		<relationship name="sounds">
 			<destination>{80ff05c6-cbe2-4161-b8c9-e91031a0b706}</destination>
 			<destination>{8b293eb0-5824-480f-ba63-874b652c8f23}</destination>
@@ -190,6 +203,14 @@
 	</object>
 	<object class="MixerBusPanner" id="{c89cddc3-6a64-4ad6-ad45-84c890628eee}" />
 	<object class="MixerBusFader" id="{163da95e-dc81-4827-8fe5-0d71c2b3f429}" />
+	<object class="FlangerEffect" id="{1cd54132-013b-4486-8e9c-967245bce559}">
+		<property name="bypass">
+			<value>true</value>
+		</property>
+		<property name="delay">
+			<value>0.659999967</value>
+		</property>
+	</object>
 	<object class="SpatialiserEffect" id="{4ad33b7c-5d80-4f2c-b445-993d96aba95b}" />
 	<object class="AutomationCurve" id="{ad691faa-9c2c-4cbd-a183-11b1fffe7a0c}">
 		<relationship name="parameter">
@@ -238,13 +259,13 @@
 	<object class="MixerBusFader" id="{6147c138-83ae-4138-8638-b3d1ace608a7}" />
 	<object class="AutomationPoint" id="{da1b1961-657a-4e13-8a5b-0b470d0e60d0}">
 		<property name="position">
-			<value>0.35000000000000003</value>
+			<value>0.68000000000000005</value>
 		</property>
 		<property name="value">
-			<value>100</value>
+			<value>80</value>
 		</property>
 		<property name="curveShape">
-			<value>0.306206346</value>
+			<value>0.504063368</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{ec52c159-e5c3-429f-a4a5-e29f0c6a12f9}">
@@ -252,7 +273,7 @@
 			<value>1</value>
 		</property>
 		<property name="value">
-			<value>500</value>
+			<value>450</value>
 		</property>
 	</object>
 </objects>

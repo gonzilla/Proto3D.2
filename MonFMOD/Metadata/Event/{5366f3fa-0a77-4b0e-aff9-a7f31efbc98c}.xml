@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.01.00">
 	<object class="Event" id="{5366f3fa-0a77-4b0e-aff9-a7f31efbc98c}">
+		<property name="color">
+			<value>Green</value>
+		</property>
 		<property name="name">
 			<value>Utilisationboost 2</value>
 		</property>
@@ -440,7 +443,14 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{d5ad113f-e503-4a52-a139-4db5cdf6ad33}" />
-	<object class="SpatialiserEffect" id="{a32f89da-30df-4576-aff4-4c5c30e75a75}" />
+	<object class="SpatialiserEffect" id="{a32f89da-30df-4576-aff4-4c5c30e75a75}">
+		<property name="distanceRolloffType">
+			<value>4</value>
+		</property>
+		<property name="maximumDistance">
+			<value>90</value>
+		</property>
+	</object>
 	<object class="AutomationPoint" id="{8a28dbb9-d6a9-43b2-841f-51efcdb4f3a0}">
 		<property name="position">
 			<value>0</value>

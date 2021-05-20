@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.01.00">
 	<object class="Event" id="{96dd3d6d-ced1-4e11-b0e8-906ac6068e8b}">
+		<property name="color">
+			<value>Green</value>
+		</property>
 		<property name="name">
 			<value>Straff</value>
 		</property>
@@ -53,7 +56,7 @@
 			<destination>{38ed879c-a7f0-4853-a6b8-ca5862a55856}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{cb357a44-93f7-4657-8d49-5ee8e4f8ca7a}</destination>
+			<destination>{f01a5aa4-b091-499f-b041-584c94f48099}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{1c2a1a33-31c9-4032-8303-399782c25d4b}" />
@@ -72,6 +75,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{3acf3b51-6a1b-46fc-9875-aa3551b32c5f}">
+		<property name="volume">
+			<value>-4</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{643ec78b-9412-4e5c-8f27-5016e423fc33}</destination>
 		</relationship>
@@ -106,6 +112,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{b6fe51b2-f156-45b1-94f0-9a81e4dda6b1}">
+		<property name="volume">
+			<value>2.5</value>
+		</property>
 		<property name="name">
 			<value>Audio 2</value>
 		</property>
@@ -152,7 +161,14 @@
 	</object>
 	<object class="MixerBusPanner" id="{1e5e3145-3074-4866-9b58-2247f4f04f95}" />
 	<object class="MixerBusFader" id="{8a65c2ac-8116-423d-a308-f6929a75a07a}" />
-	<object class="SpatialiserEffect" id="{3aaf8cfc-093e-43f7-9d1e-7faaa7b6d110}" />
+	<object class="SpatialiserEffect" id="{3aaf8cfc-093e-43f7-9d1e-7faaa7b6d110}">
+		<property name="distanceRolloffType">
+			<value>4</value>
+		</property>
+		<property name="maximumDistance">
+			<value>100</value>
+		</property>
+	</object>
 	<object class="AutomationPoint" id="{e8ae97c7-93ab-4a8a-b1ea-a0fad28dc4bd}">
 		<property name="position">
 			<value>0</value>

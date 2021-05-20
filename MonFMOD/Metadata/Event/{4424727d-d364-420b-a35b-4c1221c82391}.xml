@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.01.00">
 	<object class="Event" id="{4424727d-d364-420b-a35b-4c1221c82391}">
+		<property name="color">
+			<value>Green</value>
+		</property>
 		<property name="name">
 			<value>Collision</value>
 		</property>
@@ -8,7 +11,7 @@
 			<value>2</value>
 		</property>
 		<relationship name="folder">
-			<destination>{cd8654ce-681c-45e1-9574-814bdbae30d4}</destination>
+			<destination>{1517c9ef-419a-440c-a63d-f46bff99b880}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{925492a9-5407-45dc-8090-2c14f252c7da}</destination>
@@ -53,7 +56,7 @@
 			<destination>{fab49070-fc11-4a47-97e5-937adc68da89}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{cb357a44-93f7-4657-8d49-5ee8e4f8ca7a}</destination>
+			<destination>{ad04ace3-73b1-4f02-8a14-51009d3b5e08}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{7cc0d626-2126-49c4-8461-d1d036b84d35}" />
@@ -72,6 +75,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{106bdd94-5e6e-46fc-b38b-24c1f26a6fd8}">
+		<property name="volume">
+			<value>-4</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{63d451ac-aad7-4616-bc48-36d86bc91e66}</destination>
 		</relationship>
@@ -110,6 +116,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{3e8526cf-a1bb-4325-a89a-b1982cb2311e}">
+		<property name="volume">
+			<value>-4</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>

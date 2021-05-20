@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.01.00">
 	<object class="Event" id="{cc056a74-6df5-4d9b-86b1-131ea000383d}">
+		<property name="color">
+			<value>Green</value>
+		</property>
 		<property name="name">
 			<value>Recolte</value>
 		</property>
@@ -60,7 +63,7 @@
 			<destination>{71ada404-40f2-46aa-a409-149dd54f357a}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{cb357a44-93f7-4657-8d49-5ee8e4f8ca7a}</destination>
+			<destination>{ad04ace3-73b1-4f02-8a14-51009d3b5e08}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{2ffdb299-f035-416e-89c9-75d70cb5b689}" />

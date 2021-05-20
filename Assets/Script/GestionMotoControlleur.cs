@@ -95,6 +95,7 @@ public class GestionMotoControlleur : PersonnalMethod
     bool grounded; // pour savoir sur sol
     bool OnceForFloor; // pour détecter si en l'air
     bool staffing=false;
+    bool Deraping = false;
 
     Rigidbody Rb; // stock le rigidbody
     GestionGeneral GG;//stock les script
@@ -297,7 +298,7 @@ public class GestionMotoControlleur : PersonnalMethod
         
         if (Mathf.Abs(X) > ValeurJoysticPourRotation &&  (directionJoystick == DirectionRotation ) && Mathf.Abs(VitesseMoto)>VitesseMinimumPourTourner && grounded)
         {
-            
+            Deraping = true;
             ActuelVitesseRotation += VitesseDeProgressionDuDerapage * DirectionRotation * Time.deltaTime;//ajoute la rotation
             checkRotationMoto(VitesseDeDerapageMax);//check si la rotation est encore bonne
             GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Derape);
@@ -327,7 +328,11 @@ public class GestionMotoControlleur : PersonnalMethod
 
     public void derapage(bool state, float X ,bool MustloseSpeed) //fais le dérapage
     {
-        
+        if (!state && X==0)
+        {
+             Deraping = false;
+
+        }
         if (state && MustloseSpeed)// vérifie que je demande a déraper et que je dois perdre de la vitesse
         {
             
@@ -355,7 +360,7 @@ public class GestionMotoControlleur : PersonnalMethod
             {
 
                 VitesseMoto = Mathf.Lerp(VitesseMoto, 0, ForceRalentissement * Time.deltaTime * Ralentissement.Evaluate(pourcentage));// calcul la vitesse de la moto
-                if (!staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge)
+                if (!staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge && !Deraping)
                 {
                     GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Ralenti);
                 }
@@ -365,7 +370,7 @@ public class GestionMotoControlleur : PersonnalMethod
             {
 
                 VitesseMoto = Mathf.Lerp(VitesseMoto, directionFrein, PuissanceFrainage * Time.deltaTime * FreinageSelonVitesse.Evaluate(pourcentage));// calcul la vitesse de la moto
-                if (!staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge)
+                if (!staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge  )
                 {
                     GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Freine);
                 }

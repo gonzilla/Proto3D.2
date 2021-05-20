@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.01.00">
 	<object class="Event" id="{43eef5b2-3722-4069-992d-f0a48955e0bd}">
+		<property name="color">
+			<value>Green</value>
+		</property>
 		<property name="name">
 			<value>Frein 2</value>
 		</property>
@@ -67,11 +70,7 @@
 			<destination>{f01a5aa4-b091-499f-b041-584c94f48099}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{108a369c-fa97-45f0-b907-38e0bcc1e2f7}">
-		<property name="maxVoices">
-			<value>1</value>
-		</property>
-	</object>
+	<object class="EventAutomatableProperties" id="{108a369c-fa97-45f0-b907-38e0bcc1e2f7}" />
 	<object class="MarkerTrack" id="{11b20263-9399-4674-a7b7-9248825f59ee}" />
 	<object class="MarkerTrack" id="{1f7134f6-5dff-441f-9326-414414a9633f}" />
 	<object class="GroupTrack" id="{0bed4896-f22a-4484-a885-a132efb40275}">
@@ -121,6 +120,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{0689b586-982c-4d83-8e13-303a51d22858}">
+		<property name="volume">
+			<value>-4</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{9dfb7117-28c2-4aae-89c1-dda611872e4a}</destination>
 		</relationship>
@@ -201,6 +203,9 @@
 		</property>
 	</object>
 	<object class="EventMixerGroup" id="{c88a3a7c-8149-4ae9-a0d9-d5e0a281c1a8}">
+		<property name="volume">
+			<value>-6</value>
+		</property>
 		<property name="name">
 			<value>Debut</value>
 		</property>
@@ -274,6 +279,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{f0a06068-b36e-4cc5-a51e-aac923658909}">
+		<property name="volume">
+			<value>-6</value>
+		</property>
 		<property name="name">
 			<value>Milieu Fin</value>
 		</property>

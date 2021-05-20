@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.01.00">
 	<object class="Event" id="{51cb0cff-621c-402c-ae4c-564cf4402602}">
+		<property name="color">
+			<value>Green</value>
+		</property>
 		<property name="name">
 			<value>Drift</value>
 		</property>
@@ -61,7 +64,7 @@
 			<destination>{ac5e2db3-a408-43b0-b299-4635db095958}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{cb357a44-93f7-4657-8d49-5ee8e4f8ca7a}</destination>
+			<destination>{f01a5aa4-b091-499f-b041-584c94f48099}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{0bb06ae6-857d-407d-bd1f-8874406e333c}" />
@@ -99,6 +102,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{29c2b7e6-06ee-45c3-ae86-bee1021a4ddd}">
+		<property name="volume">
+			<value>-3</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{a1aa9bca-da23-40a2-ac73-508d4925d805}</destination>
 		</relationship>
@@ -182,7 +188,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{f76178b1-073b-4b98-b7a5-fd16d386f6ce}">
 		<property name="volume">
-			<value>10</value>
+			<value>-2</value>
 		</property>
 		<property name="name">
 			<value>Audio 2</value>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.01.00">
-	<object class="AudioFile" id="{ffe6437b-520a-4ec9-be17-d55e282c3706}">
+	<object class="AudioFile" id="{0418a729-9e39-4c15-8baa-57adba2f803e}">
 		<property name="assetPath">
-			<value>moto decel.wav</value>
+			<value>portail03.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>
@@ -11,7 +11,7 @@
 			<value>2</value>
 		</property>
 		<property name="length">
-			<value>4.2529931972789115</value>
+			<value>0.95566893424036281</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{c008a0c2-00c6-4a0a-8f50-881915c927f8}</destination>
