@@ -29,11 +29,22 @@ public class GestionUI : PersonnalMethod
     public int arrondisDecimal = 2;
     [Tooltip(" temps pdt lequel le text change de couleur ")]
     public float TimeFeedBackText = 1;
+    #region affichageStats
+    [Tooltip("l'objet montrant les stats")]
+    public GameObject Stats;
+    [Tooltip("Le temps du circuit")]
+    public Text TempsDeCircuit;
+    [Tooltip("Le meilleurs Temps que le joueur a fait")]
+    public Text MeilleurTemps;
+    [Tooltip("Le meilleur tour que le joueur a effectué")]
+    public Text MeilleurTour;
+    #endregion
     //Local variable
     float TimeBeforeStartOriginal;
     float LeTimeInGame;
     float TimeAtStart;
-
+    float meilleurTour = 0;
+    float previousTour;
     GestionGeneral GG;// récupére les autres script
     Color OldColor;
 
@@ -59,7 +70,7 @@ public class GestionUI : PersonnalMethod
         if (GG.CanPlay)//si le jeu est lancé
         {
             LeTimeInGame = Time.time - TimeAtStart;//Le chrono en some
-            LeTimeInGameArrondie = (float)System.Math.Round(LeTimeInGame, arrondisDecimal);// Calcul le temps à afficher
+            LeTimeInGameArrondie = (float)System.Math.Round(LeTimeInGame, arrondisDecimalChrono);// Calcul le temps à afficher
             Chrono.text = LeTimeInGameArrondie.ToString(); //affiche le text
         }
 
@@ -76,6 +87,35 @@ public class GestionUI : PersonnalMethod
     {
         Speed.color = Color.red;// change la couleur en rouge
         Invoke("resetTextCouleur", TimeFeedBackText);// demande pour reset la couleur du text
+    }
+
+    public void CheckTimePourMeilleurTour(int tour) 
+    {
+
+        if (tour>1 )
+        {
+            float calculDuTour = LeTimeInGame - previousTour;
+            float CalculDuTourArrondie = (float)System.Math.Round(calculDuTour, arrondisDecimalChrono);
+            if (calculDuTour < meilleurTour && meilleurTour !=0)
+            {
+                meilleurTour = CalculDuTourArrondie;
+            }
+            else if (meilleurTour == 0)
+            {
+                meilleurTour = CalculDuTourArrondie;
+            }
+            previousTour += calculDuTour;
+            
+        }
+
+    
+    }
+    public void AffichageStats() 
+    {
+        Stats.SetActive(true);
+        MeilleurTour.text = meilleurTour.ToString();
+        TempsDeCircuit.text = LeTimeInGameArrondie.ToString();
+        MeilleurTemps.text = LeTimeInGameArrondie.ToString();
     }
 
     void resetTextCouleur() 

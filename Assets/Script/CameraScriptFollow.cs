@@ -120,6 +120,8 @@ public class ScreenShakeInfo
     float AngleYFinal=0;
     float AngleZFinal=0;
 
+    public Transform CibleFin;
+
     #region PostProcess2
     AmbientOcclusion _AmbientOclu;
     AutoExposure _AutoExpo;
@@ -148,26 +150,30 @@ public class ScreenShakeInfo
     // Update is called once per frame
     public void CameraComportement()
     {
-        
-        
-        
-        //print(PourcentageDeVitesse());
-        CameraFOV();// régle le FOV
-        checkCible();
-        cameraRotation();
-        /*if (!TransitionCible)
+
+
+
+        if (GG.Start)
         {
+            CameraFOV();// régle le FOV
+            checkCible();
             cameraRotation();
+            if (DoitVibrer)
+            {
+                CameraShake();
+            }
         }
-        if(TransitionCible)
+        else 
         {
-            
-            transform.LookAt(LaMoto.position);//new Vector3(LaMoto.position.x, transform.position.y,LaMoto.position.z));
-        }*/
-        if (DoitVibrer)
-        {
-            CameraShake();
+            if (transform.position!=CibleFin.position)
+            {
+                transform.position = Vector3.Lerp(transform.position,CibleFin.position, VitesseDeplacement * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation,CibleFin.rotation, vitesseRotationCam* Time.deltaTime);
+            }
+        
         }
+        
+        
     }
     
 

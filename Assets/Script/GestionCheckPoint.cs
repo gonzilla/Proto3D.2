@@ -34,9 +34,11 @@ public class GestionCheckPoint : PersonnalMethod
         if (lecheckPoint==0 && passageActuel==NombrePointDePassage)
         {
             tourActuel++;
+            GG.GUI.CheckTimePourMeilleurTour(tourActuel);
             if (tourActuel> NombreDeTour)
             {
                 tourActuel = NombreDeTour;
+                GG.GUI.AffichageStats();
                 FinDeLaPartie();
             }
             passageActuel = 0;
@@ -48,5 +50,6 @@ public class GestionCheckPoint : PersonnalMethod
     void FinDeLaPartie() 
     {
         GG.CanPlay = false;
+        GG.Start = false;
     }
 }

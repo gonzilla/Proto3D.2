@@ -28,78 +28,90 @@ public class GestionDesInputs : PersonnalMethod
     {
         GetGestion(out GG, this.gameObject);// récupére les autres script
         setTableauLength();
+        GG.Start = true;
     }
 
     
     void FixedUpdate()
     {
-        //Ce qui est sur de ce faire à chaque frame
-      
-        GG.GMC.SetByNormal(); // check le sol 
-        GG.CSF.CameraComportement(); // fais les comportements de la camera
-        GG.GMC.RotateMotoInWorld();
-        if (!InUse[7])
-        {
-            GG.GMC.tourne(Input.GetAxis(Axes[3])); //Lance void pour Tourner
-            GG.CSF.InfoRotationDeLaCam(Input.GetAxis(Axes[3])); //envois des info pour la cam
-           
-            
-        }
-        if (!InUse[7] && Input.GetAxis(Axes[3])==0)
-        {           
-            GG.GMC.straff(Input.GetAxis(Axes[5]));//lance le straff
-            if (Input.GetAxis(Axes[5]) == 0)
-            {
-                GG.FeedBackVisu.GestionStraff(false, false);
-            }
-            GG.CSF.InfoRotationDeLaCam(0); //envois des info pour la cam
-        }
         
-        GG.GMC.avance(Input.GetAxis(Axes[1]));
-        //Lance void pour avancer
-        //GG.FeedBackVisu.GestionStraff(false);
-        //Input
-
-
-        if (Input.GetAxisRaw(Axes[0]) != 0 && !InUse[0])//si cette touche est utilisé
-        {
-            GG.GB.UseBoost();//Lance le boost
-            SetBoolArray(0, true);
-        }
-        if (Input.GetAxisRaw(Axes[0]) == 0 && InUse[0])
-        {
-            SetBoolArray(0, false);
-        }
-
-
-        if (Input.GetAxisRaw(Axes[7]) != 0 )
-        {
-            
-            bool state = true;
+            GG.GMC.SetByNormal(); // check le sol 
+            GG.CSF.CameraComportement(); // fais les comportements de la camera
+        
+        
+        
+            GG.GMC.RotateMotoInWorld();
             if (!InUse[7])
             {
-                SetBoolArray(7, state);
+                GG.GMC.tourne(Input.GetAxis(Axes[3])); //Lance void pour Tourner
+            if (GG.CanPlay)
+            {
+                GG.CSF.InfoRotationDeLaCam(Input.GetAxis(Axes[3])); //envois des info pour la cam
+            }    
+          
+
+
             }
-            bool LoseSpeed = false;
+            if (!InUse[7] && Input.GetAxis(Axes[3]) == 0 && GG.CanPlay)
+            {
+                GG.GMC.straff(Input.GetAxis(Axes[5]));//lance le straff
+                if (Input.GetAxis(Axes[5]) == 0)
+                {
+                    GG.FeedBackVisu.GestionStraff(false, false);
+                }
+                GG.CSF.InfoRotationDeLaCam(0); //envois des info pour la cam
+            }
+            if (GG.CanPlay)
+            {
+            GG.GMC.avance(Input.GetAxis(Axes[1]));
+            }
+            else 
+            {
+            GG.GMC.avance(0);
+            }
+            if (GG.CanPlay)
+            {
+            if (Input.GetAxisRaw(Axes[0]) != 0 && !InUse[0])//si cette touche est utilisé
+            {
+                GG.GB.UseBoost();//Lance le boost
+                SetBoolArray(0, true);
+            }
+            if (Input.GetAxisRaw(Axes[0]) == 0 && InUse[0])
+            {
+                SetBoolArray(0, false);
+            }
+            if (Input.GetAxisRaw(Axes[7]) != 0)
+            {
+
+                bool state = true;
+                if (!InUse[7])
+                {
+                    SetBoolArray(7, state);
+                }
+                bool LoseSpeed = false;
+
+                GG.GMC.TourneDerapage(Input.GetAxisRaw(Axes[7]), Input.GetAxis(Axes[3]), out LoseSpeed);
+                GG.GMC.derapage(state, Input.GetAxis(Axes[3]), LoseSpeed);
+                GG.CSF.InfoRotationDeLaCam(Input.GetAxis(Axes[3])); //envois des info pour la cam
+
+
+
+            }
+            if (Input.GetAxisRaw(Axes[7]) == 0 && InUse[7])
+            {
+                bool state = false;
+                GG.CSF.InfoRotationDeLaCam(Input.GetAxis(Axes[3])); //envois des info pour la cam
+                GG.GMC.derapage(state, 0, false);
+                SetBoolArray(7, state);
+                GG.FeedBackVisu.GestionStraff(state, false);
+                GG.FeedBackVisu.GestionSmoke(state);
+                GG.FeedBackVisu.GestionWheelTrail(state);
+                GG.FeedBackVisu.GestionParticleRoue(state);
+            }
+        }
             
-            GG.GMC.TourneDerapage(Input.GetAxisRaw(Axes[7]), Input.GetAxis(Axes[3]), out LoseSpeed);
-            GG.GMC.derapage(state, Input.GetAxis(Axes[3]),LoseSpeed);
-            GG.CSF.InfoRotationDeLaCam(Input.GetAxis(Axes[3])); //envois des info pour la cam
 
-
-
-        }
-        if (Input.GetAxisRaw(Axes[7]) == 0 && InUse[7])
-        {
-            bool state = false;
-            GG.CSF.InfoRotationDeLaCam(Input.GetAxis(Axes[3])); //envois des info pour la cam
-            GG.GMC.derapage(state, 0,false);
-            SetBoolArray(7, state);
-            GG.FeedBackVisu.GestionStraff(state,false);
-            GG.FeedBackVisu.GestionSmoke(state);
-            GG.FeedBackVisu.GestionWheelTrail(state);
-            GG.FeedBackVisu.GestionParticleRoue(state);
-        }
+        
 
     }
 
