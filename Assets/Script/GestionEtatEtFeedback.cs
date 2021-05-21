@@ -97,7 +97,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
         bool Check = false;
         if (previousState!=StateOfMoto)
         {
-            print("se passe un truc invisible"+StateOfMoto);
+            //print("se passe un truc invisible"+StateOfMoto);
             Check = true;
         }
         GereLeBonsonSaMere();
@@ -620,6 +620,15 @@ public class GestionEtatEtFeedback : PersonnalMethod
         }
 
         return ValueToReturn;
+    }
+
+    public void stopAllSound() 
+    {
+        foreach (SoundInfo GoStop in SonEntrainDeJouer)
+        {
+            GoStop.MonEvenementFMOD.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        }
+    
     }
 }
 // float lavitessedemamotoSuperchouette = 0;

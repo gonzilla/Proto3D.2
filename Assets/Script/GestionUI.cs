@@ -112,10 +112,33 @@ public class GestionUI : PersonnalMethod
     }
     public void AffichageStats() 
     {
+        GG.EtatEtFeedback.stopAllSound();
         Stats.SetActive(true);
         MeilleurTour.text = meilleurTour.ToString();
         TempsDeCircuit.text = LeTimeInGameArrondie.ToString();
-        MeilleurTemps.text = LeTimeInGameArrondie.ToString();
+
+        if (PlayerPrefs.HasKey("MeilleurTemps"))
+        {
+            float MeilleurtempsOfAllTime = PlayerPrefs.GetFloat("MeilleurTemps");
+            if (LeTimeInGameArrondie < MeilleurtempsOfAllTime)
+            {
+                MeilleurTemps.text = LeTimeInGameArrondie.ToString();
+                PlayerPrefs.SetFloat("MeilleurTemps", LeTimeInGameArrondie);
+            }
+            else 
+            {
+                MeilleurTemps.text = MeilleurtempsOfAllTime.ToString();
+            }
+        }
+        else 
+        {
+            MeilleurTemps.text = LeTimeInGameArrondie.ToString();
+            PlayerPrefs.SetFloat("MeilleurTemps", LeTimeInGameArrondie);
+        }
+        PlayerPrefs.Save();
+        
+       
+      
     }
 
     void resetTextCouleur() 

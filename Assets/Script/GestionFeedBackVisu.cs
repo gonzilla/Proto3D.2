@@ -33,7 +33,7 @@ public class GestionFeedBackVisu : PersonnalMethod
         setArrayBoost();
         
     }
-
+    #region Gestions
     public void gestionBoost(int LevelDeBoost, bool Etat)
     {
         if (Etat)
@@ -45,7 +45,8 @@ public class GestionFeedBackVisu : PersonnalMethod
                 {
                     BoostLVEtat[i] = true;
                 }
-                BoostLV[i].SetActive(BoostLVEtat[i]);
+                LancementFonction(BoostLVEtat[i], BoostLV[i]);
+                //BoostLV[i].SetActive(BoostLVEtat[i]);
             }
 
         }
@@ -55,11 +56,11 @@ public class GestionFeedBackVisu : PersonnalMethod
             for (int i = 0; i < BoostLVEtat.Length; i++)
             {
                 BoostLVEtat[i] = false;
-                BoostLV[i].SetActive(BoostLVEtat[i]);
+                //BoostLV[i].SetActive(BoostLVEtat[i]);
+                LancementFonction(BoostLVEtat[i], BoostLV[i]);
             }
         }
     }
-
     public void GestionWindTrail(bool Etat)
     {
         if (Etat && !WindTrail.activeSelf)
@@ -77,7 +78,7 @@ public class GestionFeedBackVisu : PersonnalMethod
         if (Etat && directionDeRotation()!=0)
         {
             int Index = 0;
-            if (directionDeRotation()>0 && !Smoke[0].activeSelf)
+            if (directionDeRotation()>0) //&& !Smoke[0].activeSelf
             {
 
                 Index = 0;
@@ -90,11 +91,14 @@ public class GestionFeedBackVisu : PersonnalMethod
             {
                 if (i==Index)
                 {
-                    Smoke[i].SetActive(true);
+                    //Smoke[i].SetActive(true);
+                    LancementFonction(true, Smoke[i]);
+
                 }
                 else 
                 {
-                    Smoke[i].SetActive(false);
+                    //Smoke[i].SetActive(false);
+                    LancementFonction(false, Smoke[i]);
                 }
             }
             
@@ -103,7 +107,8 @@ public class GestionFeedBackVisu : PersonnalMethod
         {
             for (int i = 0; i < SmokesEtat.Length; i++)
             {
-                Smoke[i].SetActive(false);
+                // Smoke[i].SetActive(false);
+                LancementFonction(false, Smoke[i]);
             }
            
             resetDeBool(SmokesEtat);
@@ -124,8 +129,8 @@ public class GestionFeedBackVisu : PersonnalMethod
     }
     public void GestionWheelTrail(bool Etat)
     {
-        
-            WheelTrail.SetActive(Etat);
+        LancementFonction(Etat, WheelTrail);
+            //WheelTrail.SetActive(Etat);
         
     }
     public void GestionStraff(bool Etat, bool straffing)
@@ -214,11 +219,13 @@ public class GestionFeedBackVisu : PersonnalMethod
             {
                 if (i==index)
                 {
-                    ParticleRoue[i].SetActive(true);
+                    //ParticleRoue[i].SetActive(true);
+                    LancementFonction(true, ParticleRoue[i]);
                 }
                 else
                 {
-                    ParticleRoue[i].SetActive(false);
+                    //ParticleRoue[i].SetActive(false);
+                    LancementFonction(false, ParticleRoue[i]);
                 }
             }
         }
@@ -227,10 +234,12 @@ public class GestionFeedBackVisu : PersonnalMethod
 
             for (int i = 0; i < ParticleRoue.Length; i++)
             {
-                ParticleRoue[i].SetActive(false);
+                //ParticleRoue[i].SetActive(false);
+                LancementFonction(false, ParticleRoue[i]);
             }
 
         }
+        
        
     }
     public void GestionParticleCam(bool etat) 
@@ -239,12 +248,79 @@ public class GestionFeedBackVisu : PersonnalMethod
     }
     public void GestionParticleFusion(bool Etat) 
     {
-        Fusion.SetActive(Etat);
+        //Fusion.SetActive(Etat);
+        LancementFonction(Etat, Fusion);
+       
+      
+        //
     }
     public void GestionParticleRecharge(bool Etat) 
     {
-        Recharge.SetActive(Etat);
+        LancementFonction(Etat, Recharge);
     }
+    #endregion
+
+    #region fonction
+    void LancementFonction(bool Etat, GameObject Objet)
+    {
+        List<Transform> mesEnfants = new List<Transform>();
+        foreach (Transform item in Objet.transform)
+        {
+
+            mesEnfants.Add(item);
+           
+        }
+        foreach (Transform item in mesEnfants)
+        {
+            if (item.GetComponent<ParticleSystem>() != null)
+            {
+                FonctionParticle(Etat, item);
+            }
+            if (item.GetComponent<TrailRenderer>() != null)
+            {
+                FonctionTrail(Etat, item);
+            }
+        }
+    }
+    void FonctionTrail(bool Etat, Transform Enfant)
+    {
+
+        if (Etat)
+        {
+            Enfant.GetComponent<TrailRenderer>().enabled = Etat;
+        }
+        else
+        {
+
+            GameObject NouveauTrail = Instantiate(Enfant.gameObject);
+            NouveauTrail.transform.parent = Enfant.parent;
+            NouveauTrail.transform.localPosition = Enfant.localPosition;
+            NouveauTrail.name = Enfant.name;
+            NouveauTrail.GetComponent<TrailRenderer>().enabled = false;
+            Enfant.parent = null;
+            Enfant.GetComponent<DestroyYourself>().DestroyToi();
+        }
+
+    }
+    void FonctionParticle(bool Etat, Transform Enfant)
+    {
+        if (Etat)
+        {
+
+            Enfant.GetComponent<ParticleSystem>().Play();
+
+
+        }
+        else
+        {
+
+            Enfant.GetComponent<ParticleSystem>().Stop();
+
+
+        }
+    }
+    #endregion
+
     float VitesseActuelDeLaMoto()
     {
         float ActualSpeedMoto = GG.GMC.VitesseMoto;
