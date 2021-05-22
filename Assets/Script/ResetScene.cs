@@ -18,5 +18,9 @@ public class ResetScene : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            PlayerPrefs.DeleteKey("MeilleurTemps");
+        }
     }
 }

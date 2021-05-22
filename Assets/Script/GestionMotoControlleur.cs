@@ -462,9 +462,30 @@ public class GestionMotoControlleur : PersonnalMethod
             }
         }
     
-    } 
+    }
 
+    void LorsqueCollision(Collider InfoDeCollision)
+    {
+        GG.GUI.setTextCouleur();//cahnge la couleur du text
+        if (GG.GB.Surchauffing)
+        {
 
+            GG.GB.LostBoost(GG.GB.PerteParCollisionInSurchauffe);//fait perdre du boost
+        }
+        else
+        {
+
+            if (VitesseMoto > vitesseMax)
+            {
+                VitesseMoto = vitesseMax;//set la moto à la vitesse max
+            }
+            else
+            {
+                VitesseMoto += -PerteParCollision * Mathf.Abs(VitesseMoto) / VitesseMoto;//fais perdre selon value
+            }
+        }
+
+    }
     void DeclenchementParticuleSelonVitesse() 
     {
         if (VitesseMoto>=1)
@@ -501,9 +522,21 @@ public class GestionMotoControlleur : PersonnalMethod
             ParticleCam.SetActive(false);
         }*/
     }
-    
 
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+       
+            if (other.transform.CompareTag("Obstacle"))
+            {
+
+                LorsqueCollision(other);
+
+
+            }
+        
+    }
+
 
     private void OnCollisionEnter(Collision collision)//si le joueur touche qqchose
     {
