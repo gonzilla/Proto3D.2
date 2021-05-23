@@ -21,6 +21,8 @@ public class GestionMotoControlleur : PersonnalMethod
     public AnimationCurve FreinageSelonVitesse;
     [Tooltip("Force de ralentissement naturelle")]
     public float ForceRalentissement;
+    [Tooltip("Force de ralentissement En l'air")]
+    public float ForceRalentissementEnLair;
     [Tooltip("Valeur du ralentissement selon vitesse en %")]
     public AnimationCurve Ralentissement;
     [Tooltip("vitesse de descente de la vitessemoto lorsque celle-ci est au dessus de la vitesse max")]
@@ -79,6 +81,7 @@ public class GestionMotoControlleur : PersonnalMethod
     public float TempsPourEtreEnLair;
     [Tooltip("l'angle pour se décaler ")]
     public float angleMax;
+    public float StraffPowa;
     [Tooltip("les wheels pour l'animation ")]
     public Animator[] wheelAnimation;
 
@@ -91,7 +94,8 @@ public class GestionMotoControlleur : PersonnalMethod
     
 
     Vector3 DirectionForMoto; //
-    
+    Vector3 LastPostionOnCircuit;
+
     bool grounded; // pour savoir sur sol
     bool OnceForFloor; // pour détecter si en l'air
     bool staffing=false;
@@ -117,18 +121,19 @@ public class GestionMotoControlleur : PersonnalMethod
        // Vector3 PourForceConstante = Vector3.up*Physics.gravity.magnitude;
         grounded = false; // lui dis qu'il n'est pas au sol
         RaycastHit hit;// stock les infos du raycast
-        
-       
+
+        Debug.DrawRay(detecteur.position, -detecteur.transform.up * GroundRayLength, Color.red);
         if (Physics.Raycast(detecteur.position, -transform.up, out hit, GroundRayLength, whatIsGround)) // si le raycast detect le sol
         {
             //print("touche terrain");
             grounded = true;//passe le bool en true
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; // set la rotation selon le sol
-            Debug.DrawRay(detecteur.position, -transform.up * GroundRayLength, Color.magenta);//  draw a ray
+            LastPostionOnCircuit = transform.position;
+            Debug.DrawRay(detecteur.position, -detecteur.transform.up * GroundRayLength, Color.magenta);//  draw a ray
             OnceForFloor = false; // set le once a false
             //PourForceConstante += -transform.up * Physics.gravity.magnitude;
             Physics.gravity = -hit.normal* Physics.gravity.magnitude; //-transform.up * Physics.gravity.magnitude;
-            FreezeRotation();// freeze la rotation selon resultat
+            //FreezeRotation();// freeze la rotation selon resultat
         }
         if (!grounded)// si n'est pas ground
         {
@@ -137,13 +142,13 @@ public class GestionMotoControlleur : PersonnalMethod
             {
                 TimeCible = Time.time+TempsPourEtreEnLair; //set le temps pour check
                 OnceForFloor = true;// le passe a true
-                
+                //FreezeRotation(); // freeze la rotation
             }
             if (OnceForFloor && TimeCible<= Time.time )//si le temps est dépassé
             {
 
                 Physics.gravity = new Vector3(0, -9.81f, 0);
-                FreezeRotation(); // freeze la rotation
+                
             }
             
         }
@@ -151,7 +156,10 @@ public class GestionMotoControlleur : PersonnalMethod
       // LantiGravite.force = PourForceConstante;
 
     }
-    
+    private void LateUpdate()
+    {
+        FreezeRotation();
+    }
 
     public void avance(float Direction) // fait avancer le véhicule
     {
@@ -274,7 +282,7 @@ public class GestionMotoControlleur : PersonnalMethod
         if (grounded && Mathf.Abs(VitesseMoto) > 0.01f) // si la moto est au sol est à une vitesse sup a 0.01f
         {
             float angle = X * angleMax;// decale selon angle max
-            DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;//calcul la rotation
+            DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward*StraffPowa;//calcul la rotation
             GG.FeedBackVisu.GestionStraff(true,true);
             if (X!=0)
             {
@@ -358,8 +366,15 @@ public class GestionMotoControlleur : PersonnalMethod
         {
             if (Input == 0 || !grounded) //si le joueur n'appuie pas ou n'est plus sur le sol 
             {
-
-                VitesseMoto = Mathf.Lerp(VitesseMoto, 0, ForceRalentissement * Time.deltaTime * Ralentissement.Evaluate(pourcentage));// calcul la vitesse de la moto
+                if (Input == 0 && grounded)
+                {
+                    VitesseMoto = Mathf.Lerp(VitesseMoto, 0, ForceRalentissement * Time.deltaTime * Ralentissement.Evaluate(pourcentage));// calcul la vitesse de la moto
+                }
+                else if (!grounded)
+                {
+                    VitesseMoto = Mathf.Lerp(VitesseMoto, 0, ForceRalentissementEnLair * Time.deltaTime * Ralentissement.Evaluate(pourcentage));// calcul la vitesse de la moto
+                }
+                
                 if (!staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge && !Deraping)
                 {
                     GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Ralenti);
@@ -383,6 +398,11 @@ public class GestionMotoControlleur : PersonnalMethod
         checkVitesseMoto();//check la vitesse
     }
 
+    public void ResetLastPosition() 
+    {
+        transform.position = LastPostionOnCircuit;
+    
+    }
     #region checker
     void checkVitesseMoto() // check la vitesse de la moto
     {
@@ -551,8 +571,8 @@ public class GestionMotoControlleur : PersonnalMethod
                 float angleX = transform.rotation.eulerAngles.x;
                 float angleY = transform.rotation.eulerAngles.y;
                 float angleZ = transform.rotation.eulerAngles.z;
-                transform.rotation = Quaternion.FromToRotation(transform.up, Info.normal);
-               // transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, angleY, transform.rotation.eulerAngles.z);//reset rot
+                transform.rotation = Quaternion.FromToRotation(transform.up, Info.normal)* Quaternion.Euler(0, angleY, 0);
+                //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, angleY, transform.rotation.eulerAngles.z);//reset rot
                 //transform.rotation = Quaternion.Euler(0, angleY, 0);
             }
             Rb.velocity = Vector3.zero;//met la velocity a 0
