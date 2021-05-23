@@ -138,7 +138,7 @@ public class ScreenShakeInfo
     void Start()
     {
         DistanceForCam = Vector3.Distance(MotoToFollowArreire.position, MotoToFollowAvant.position);
-         MotoToFollow = MotoToFollowAvant;
+        MotoToFollow = MotoToFollowAvant;
         FOVmaxOriginelle = FOV_Max;
         CamProperties = GetComponent<Camera>();
         CamProperties.fieldOfView = StartValueOfFOV;
@@ -239,7 +239,7 @@ public class ScreenShakeInfo
     void cameraRotation() // effectue la rotation
     {
         
-        transform.rotation = LaMoto.rotation;
+        transform.rotation = LaMoto.rotation ;
        
         float angleCibleY = 0;
         float angleCibleZ = 0;
@@ -254,15 +254,16 @@ public class ScreenShakeInfo
         if (directionDeRotation != 0) // Si la direction de rotation est différente de 0
         {
             angleCibleY *=  PourcentageRotationSpeed() ; // recalcul de la vitesse
-            angleCibleZ = (AngleMaxZ * -directionDeRotation);
+            angleCibleZ = (AngleMaxZ * -directionDeRotation) * PourcentageRotationSpeed();
         }
         if (VitesseActuelDeLaMoto() != 0 && !Avance())// si la moto recule
         {
             
             angleCibleY +=  180;// set l'angle y
         }
-        AngleYFinal = Mathf.Lerp(AngleYFinal, angleCibleY, vitesseRotationCam*Time.deltaTime);
+        AngleYFinal = Mathf.Lerp(AngleYFinal, angleCibleY, vitesseRotationCam *Time.deltaTime);
         AngleZFinal = Mathf.Lerp(AngleZFinal, angleCibleZ, vitesseRotationCam * Time.deltaTime);
+        float AngleXFinal = Mathf.Lerp(transform.rotation.eulerAngles.x,0, vitesseRotationCam * Time.deltaTime);
         //transform.rotation.ToAngleAxis(axisY, angle);
 
 

@@ -65,6 +65,7 @@ public class GestionMotoControlleur : PersonnalMethod
     [Header("Pour Raycast")]
     [Tooltip("l'objet d'ou part le raycast")]
     public Transform detecteur;
+    public Transform ResetPosition;
     [Tooltip("la longueur du raycast")]
     public float GroundRayLength;
     [Tooltip("permet de choisir le layer du ground")]
@@ -84,7 +85,7 @@ public class GestionMotoControlleur : PersonnalMethod
     public float StraffPowa;
     [Tooltip("les wheels pour l'animation ")]
     public Animator[] wheelAnimation;
-
+    [HideInInspector]public bool grounded; // pour savoir sur sol
     #endregion
 
     #region local
@@ -96,7 +97,8 @@ public class GestionMotoControlleur : PersonnalMethod
     Vector3 DirectionForMoto; //
     Vector3 LastPostionOnCircuit;
 
-    bool grounded; // pour savoir sur sol
+    Quaternion LastRotation;
+   
     bool OnceForFloor; // pour détecter si en l'air
     bool staffing=false;
     bool Deraping = false;
@@ -122,14 +124,15 @@ public class GestionMotoControlleur : PersonnalMethod
         grounded = false; // lui dis qu'il n'est pas au sol
         RaycastHit hit;// stock les infos du raycast
 
-        Debug.DrawRay(detecteur.position, -detecteur.transform.up * GroundRayLength, Color.red);
-        if (Physics.Raycast(detecteur.position, -transform.up, out hit, GroundRayLength, whatIsGround)) // si le raycast detect le sol
+        //Debug.DrawRay(detecteur.position, -detecteur.transform.up * GroundRayLength, Color.red);
+        //Debug.DrawRay(detecteur.position, -detecteur.transform.up * GroundRayLength, Color.magenta);//  draw a ray
+        if (Physics.Raycast(detecteur.position, -transform.up, out hit, GroundRayLength, whatIsGround) ) // si le raycast detect le sol
         {
-            //print("touche terrain");
+            
             grounded = true;//passe le bool en true
-            transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; // set la rotation selon le sol
-            LastPostionOnCircuit = transform.position;
-            Debug.DrawRay(detecteur.position, -detecteur.transform.up * GroundRayLength, Color.magenta);//  draw a ray
+            transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            LastPostionOnCircuit = ResetPosition.position;
+            LastRotation = ResetPosition.rotation;
             OnceForFloor = false; // set le once a false
             //PourForceConstante += -transform.up * Physics.gravity.magnitude;
             Physics.gravity = -hit.normal* Physics.gravity.magnitude; //-transform.up * Physics.gravity.magnitude;
@@ -152,9 +155,10 @@ public class GestionMotoControlleur : PersonnalMethod
             }
             
         }
-        
-      // LantiGravite.force = PourForceConstante;
-
+        //FreezeRotation();
+        // LantiGravite.force = PourForceConstante;
+        //transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; // set la rotation selon le sol
+        //LastPostionOnCircuit = DetecteurArriere.transform.position + new Vector3(0, Mathf.Abs(DetecteurArriere.transform.localPosition.y), 0);
     }
     private void LateUpdate()
     {
@@ -401,7 +405,8 @@ public class GestionMotoControlleur : PersonnalMethod
     public void ResetLastPosition() 
     {
         transform.position = LastPostionOnCircuit;
-    
+        transform.rotation = LastRotation;
+        VitesseMoto = 0;
     }
     #region checker
     void checkVitesseMoto() // check la vitesse de la moto
@@ -481,6 +486,7 @@ public class GestionMotoControlleur : PersonnalMethod
                 VitesseMoto += -PerteParCollision * Mathf.Abs(VitesseMoto)/VitesseMoto;//fais perdre selon value
             }
         }
+        GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.TraverseObstacle);
     
     }
 
@@ -565,7 +571,8 @@ public class GestionMotoControlleur : PersonnalMethod
            
             if (!grounded  ) //si n'est pas sur le sol
             {
-               Vector3 H = collision.GetContact(0).point;
+                print("bug");
+                Vector3 H = collision.GetContact(0).point;
                RaycastHit Info;
                Physics.Raycast(detecteur.position, -transform.up, out Info, GroundRayLength, whatIsGround);
                 float angleX = transform.rotation.eulerAngles.x;

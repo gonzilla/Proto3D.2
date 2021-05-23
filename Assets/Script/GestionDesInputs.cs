@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GestionDesInputs : PersonnalMethod
 {
@@ -109,9 +110,16 @@ public class GestionDesInputs : PersonnalMethod
                 GG.FeedBackVisu.GestionParticleRoue(state);
             }
         }
-            
 
-        
+        if (Input.GetAxis(Axes[9]) != 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        if (Input.GetAxis(Axes[8]) != 0)
+        {
+            GG.GMC.ResetLastPosition();
+        }
+
 
     }
 

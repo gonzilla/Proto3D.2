@@ -65,7 +65,10 @@ public class GestionEtatEtFeedback : PersonnalMethod
         BoostLV1,
         BoostLV2,
         BoostLV3,
-        RecolteDeBoost
+        RecolteDeBoost,
+        TraverseObstacle,
+        TraverseCheckPoint,
+        TraverseArrive
 
     };
     public MotoActualState StateOfMoto;
@@ -208,6 +211,25 @@ public class GestionEtatEtFeedback : PersonnalMethod
             RecolteDeBoost();
 
         }
+        else if (StateOfMoto == MotoActualState.TraverseCheckPoint)
+        {
+            EtatActuel = "TraverseCheckPoint";
+            AffichageEtatDebug.text = EtatActuel;
+            TraverseCheckPoint();
+        }
+        else if (StateOfMoto == MotoActualState.TraverseObstacle)
+        {
+            EtatActuel = "TraverseObstacle";
+            AffichageEtatDebug.text = EtatActuel;
+            TraverseObstacle();
+        }
+        else if (StateOfMoto == MotoActualState.TraverseArrive)
+        {
+            EtatActuel = "TraverseArrive";
+            AffichageEtatDebug.text = EtatActuel;
+            TraverseArrive();
+        }
+
     }
     #region voidPourEtat
     void Stationnaire()
@@ -300,6 +322,27 @@ public class GestionEtatEtFeedback : PersonnalMethod
 
         int[] IndexDusons = new int[0];
         setInfoSurSonByVoid("RecolteDeBoost", out IndexDusons);
+        LanceLeSon(IndexDusons);
+    }
+    void TraverseCheckPoint()
+    {
+
+        int[] IndexDusons = new int[0];
+        setInfoSurSonByVoid("TraverseCheckPoint", out IndexDusons);
+        LanceLeSon(IndexDusons);
+    }
+    void TraverseObstacle()
+    {
+
+        int[] IndexDusons = new int[0];
+        setInfoSurSonByVoid("TraverseObstacle", out IndexDusons);
+        LanceLeSon(IndexDusons);
+    }
+    void TraverseArrive()
+    {
+
+        int[] IndexDusons = new int[0];
+        setInfoSurSonByVoid("TraverseArrive", out IndexDusons);
         LanceLeSon(IndexDusons);
     }
     #endregion
@@ -588,7 +631,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
             {
                 actuel = Input.GetAxis(GG.GDI.Axes[1]);
             }
-            print(actuel + "actuel");
+            
             ValueToReturn = actuel / max;
 
 

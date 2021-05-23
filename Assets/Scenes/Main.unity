@@ -35929,7 +35929,7 @@ MonoBehaviour:
   VitesseFOV: 1
   AngleMaximalEnPlus: 17
   AngleMaximalEnPlusEnDerapage: 20
-  AngleMaxZ: 10
+  AngleMaxZ: 30
   vitesseRotationCam: 2
   InfoPourScreenShake:
   - ForcePourCameraShake: 1
@@ -53180,8 +53180,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1314564569}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 575.8275, y: 10.214996, z: 442.89993}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 340.43896, y: 256.5, z: 635.9282}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 944659718}
@@ -53190,7 +53190,7 @@ Transform:
   - {fileID: 1519978280}
   m_Father: {fileID: 0}
   m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1314564571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53319,6 +53319,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   detecteur: {fileID: 1907201676}
+  ResetPosition: {fileID: 1032094561}
   GroundRayLength: 0.65
   whatIsGround:
     serializedVersion: 2
@@ -53330,6 +53331,7 @@ MonoBehaviour:
   wheelAnimation:
   - {fileID: 1097470908}
   - {fileID: 1097470909}
+  grounded: 0
 --- !u!114 &1314564572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53479,6 +53481,9 @@ MonoBehaviour:
   - HorizontalManetteDroit
   - VerticalManetteDroit
   - Drift
+  - ResetLastPosition
+  - ResetScene
+  - NextScene
   TimeMaintenueAxes: []
   TimePressionAxes: []
   InUse: 
@@ -53630,6 +53635,32 @@ MonoBehaviour:
     StopQuandChangementDetat: 1
     TempsDuSons: 0
     ListeDesParametre: 04000000
+    ParameterToModify: []
+    IndexDuSon: 0
+    tempsPourArret: 0
+    NombreDePlay: 0
+  - LeSonAJouer: event:/Obstacles/Collision
+    LeVoid: TraverseObstacle
+    BoucleDansFmod: 0
+    BoucleParCode: 0
+    event3D: 1
+    OneShot: 1
+    StopQuandChangementDetat: 0
+    TempsDuSons: 0
+    ListeDesParametre: 
+    ParameterToModify: []
+    IndexDuSon: 0
+    tempsPourArret: 0
+    NombreDePlay: 0
+  - LeSonAJouer: event:/Obstacles/Portail
+    LeVoid: TraverseCheckPoint
+    BoucleDansFmod: 0
+    BoucleParCode: 0
+    event3D: 1
+    OneShot: 1
+    StopQuandChangementDetat: 0
+    TempsDuSons: 0
+    ListeDesParametre: 
     ParameterToModify: []
     IndexDuSon: 0
     tempsPourArret: 0
@@ -71853,7 +71884,7 @@ GameObject:
   m_Layer: 0
   m_Name: RaycastOrigin
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -71865,7 +71896,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1907201675}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.75, z: 2.66}
+  m_LocalPosition: {x: 0, y: -0.75, z: 2.6600037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1314564570}
