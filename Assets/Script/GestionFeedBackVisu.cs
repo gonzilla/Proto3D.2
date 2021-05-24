@@ -22,6 +22,7 @@ public class GestionFeedBackVisu : PersonnalMethod
     bool[] SmokesEtat;
     bool[] StraffEtat;
     bool[] ParticleRoueEtat;
+    bool windTrailPrevious;
 
     GestionGeneral GG;
     //ParticleSystem[] Smoker;
@@ -63,15 +64,21 @@ public class GestionFeedBackVisu : PersonnalMethod
     }
     public void GestionWindTrail(bool Etat)
     {
-        if (Etat && !WindTrail.activeSelf)
-        {
-            WindTrail.SetActive(Etat);
-        }
-        else if (!Etat && WindTrail.activeSelf)
-        {
-            WindTrail.SetActive(Etat);
-        }
         
+        if (Etat && windTrailPrevious!=Etat )
+        {
+            // WindTrail.SetActive(Etat);
+           // windTrailPrevious = Etat;
+           // LancementFonction(Etat, WindTrail);
+        }
+        else if (!Etat && windTrailPrevious != Etat)
+        {
+           // windTrailPrevious = Etat;
+           // LancementFonction(Etat, WindTrail);
+            //WindTrail.SetActive(Etat);
+        }
+        LancementFonction(Etat, WindTrail);
+
     }
     public void GestionSmoke(bool Etat)
     {
@@ -219,13 +226,13 @@ public class GestionFeedBackVisu : PersonnalMethod
             {
                 if (i==index)
                 {
-                    //ParticleRoue[i].SetActive(true);
-                    LancementFonction(true, ParticleRoue[i]);
+                    ParticleRoue[i].SetActive(true);
+                    //LancementFonction(true, ParticleRoue[i]);
                 }
                 else
                 {
-                    //ParticleRoue[i].SetActive(false);
-                    LancementFonction(false, ParticleRoue[i]);
+                    ParticleRoue[i].SetActive(false);
+                    //LancementFonction(false, ParticleRoue[i]);
                 }
             }
         }
@@ -234,8 +241,8 @@ public class GestionFeedBackVisu : PersonnalMethod
 
             for (int i = 0; i < ParticleRoue.Length; i++)
             {
-                //ParticleRoue[i].SetActive(false);
-                LancementFonction(false, ParticleRoue[i]);
+                ParticleRoue[i].SetActive(false);
+                //LancementFonction(false, ParticleRoue[i]);
             }
 
         }

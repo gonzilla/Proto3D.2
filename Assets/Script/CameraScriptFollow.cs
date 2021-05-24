@@ -71,6 +71,8 @@ public class ScreenShakeInfo
     public float AngleMaxZ;
     [Tooltip("vitesse De la Rotation de la cam ")]
     public float vitesseRotationCam;
+    [Tooltip("vitesse De la Rotation de la cam sur x ")]
+    public float vitesseRotationCamSurX;
     //public float VitesseRotationSurZ;
     //[Tooltip("vitesse De retour sur Y")]
     //public float VitesseRetourSurZ;
@@ -79,7 +81,7 @@ public class ScreenShakeInfo
     [Header("CameraShake")]
     public List<ScreenShakeInfo> InfoPourScreenShake = new List<ScreenShakeInfo>();
     [Tooltip("bool pour savoir si la camera vibre ou doit vibrer")]
-    public bool DoitVibrer;
+    [HideInInspector]public bool DoitVibrer;
     #endregion
     #region PostProcess
     [Header("PostProcess")]
@@ -168,7 +170,7 @@ public class ScreenShakeInfo
             if (transform.position!=CibleFin.position)
             {
                 transform.position = Vector3.Lerp(transform.position,CibleFin.position, VitesseDeplacement * Time.deltaTime);
-                transform.rotation = Quaternion.Lerp(transform.rotation,CibleFin.rotation, vitesseRotationCam* Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation,CibleFin.rotation, vitesseRotationCam * Time.deltaTime);
             }
         
         }
@@ -238,11 +240,15 @@ public class ScreenShakeInfo
 
     void cameraRotation() // effectue la rotation
     {
-        
-        transform.rotation = LaMoto.rotation ;
+      
+        //transform.rotation = LaMoto.rotation ;
        
         float angleCibleY = 0;
         float angleCibleZ = 0;
+        float angleCibleX = LaMoto.rotation.eulerAngles.x;
+        float AngleXFinal = Mathf.LerpAngle(transform.rotation.eulerAngles.x, angleCibleX, vitesseRotationCamSurX* Time.deltaTime);
+        transform.rotation = Quaternion.Euler(AngleXFinal, LaMoto.rotation.eulerAngles.y, LaMoto.rotation.eulerAngles.z);
+        //transform.rotation = LaMoto.rotation;
         if (deraping())// si dérape
         {
             angleCibleY =  AngleMaximalEnPlusEnDerapage * directionDeRotation; //calcul angle cible 
@@ -263,7 +269,9 @@ public class ScreenShakeInfo
         }
         AngleYFinal = Mathf.Lerp(AngleYFinal, angleCibleY, vitesseRotationCam *Time.deltaTime);
         AngleZFinal = Mathf.Lerp(AngleZFinal, angleCibleZ, vitesseRotationCam * Time.deltaTime);
-        float AngleXFinal = Mathf.Lerp(transform.rotation.eulerAngles.x,0, vitesseRotationCam * Time.deltaTime);
+       
+        //float AngleX ;
+        //float AngleXFinal = Mathf.Lerp(0, AngleX, vitesseRotationCam * Time.deltaTime);
         //transform.rotation.ToAngleAxis(axisY, angle);
 
 

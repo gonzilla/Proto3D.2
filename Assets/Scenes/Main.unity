@@ -5486,7 +5486,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -11726,7 +11726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &305563740
 Transform:
   m_ObjectHideFlags: 0
@@ -20452,7 +20452,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -25176,6 +25176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 875227487}
   - component: {fileID: 875227488}
+  - component: {fileID: 875227489}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -25205,7 +25206,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 875227486}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -25303,6 +25304,20 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &875227489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875227486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e66fbad2cf2476046bc8610daa24c021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tempsAvantDestruction: 1
+  Immortel: 0
 --- !u!1 &878864900
 GameObject:
   m_ObjectHideFlags: 0
@@ -25521,7 +25536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &891363480
 Transform:
   m_ObjectHideFlags: 0
@@ -25554,7 +25569,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &892931887
 Transform:
   m_ObjectHideFlags: 0
@@ -35931,6 +35946,7 @@ MonoBehaviour:
   AngleMaximalEnPlusEnDerapage: 20
   AngleMaxZ: 30
   vitesseRotationCam: 2
+  vitesseRotationCamSurX: 6
   InfoPourScreenShake:
   - ForcePourCameraShake: 1
     TempsPourVibration: 0.2
@@ -36633,7 +36649,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -42489,7 +42505,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -47623,7 +47639,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -58956,7 +58972,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -68362,6 +68378,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1436022261}
   - component: {fileID: 1436022262}
+  - component: {fileID: 1436022263}
   m_Layer: 0
   m_Name: Particle System (1)
   m_TagString: Untagged
@@ -68391,7 +68408,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1436022260}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -68489,6 +68506,20 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &1436022263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436022260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e66fbad2cf2476046bc8610daa24c021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tempsAvantDestruction: 1
+  Immortel: 0
 --- !u!1 &1445295437 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1641993237588679783, guid: 43696154c32a99541b4a3db1753f1213,
