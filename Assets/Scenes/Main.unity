@@ -35867,8 +35867,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1032094560}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 581, y: 21.28, z: 541.5}
+  m_LocalRotation: {x: -0.11199907, y: 0.71008253, z: -0.11606589, w: -0.685396}
+  m_LocalPosition: {x: 763.7514, y: 266.3803, z: 519.0576}
   m_LocalScale: {x: 1, y: 0.50141513, z: 2.9985847}
   m_Children:
   - {fileID: 910487097}
@@ -35961,8 +35961,6 @@ MonoBehaviour:
     TempsPourVibration: 0.016666668
     ListeDesActions: 3
   DoitVibrer: 0
-  monPostProcess: {fileID: 2054440034}
-  MesPostProcessEffect: 
   CibleFin: {fileID: 2100237742}
 --- !u!114 &1032094565
 MonoBehaviour:
@@ -53476,6 +53474,24 @@ MonoBehaviour:
   ParticleCam: {fileID: 910487096}
   Fusion: {fileID: 1941805131}
   Recharge: {fileID: 1340038411}
+  monPostProcess: {fileID: 2054440034}
+  MesEffets:
+  - MesPostProcessEffect: 2
+    LesValuesMax: []
+  - MesPostProcessEffect: 0
+    LesValuesMax: []
+  - MesPostProcessEffect: 3
+    LesValuesMax: []
+  - MesPostProcessEffect: 10
+    LesValuesMax: []
+  - MesPostProcessEffect: 5
+    LesValuesMax: []
+  - MesPostProcessEffect: 6
+    LesValuesMax: []
+  - MesPostProcessEffect: 7
+    LesValuesMax: []
+  - MesPostProcessEffect: 9
+    LesValuesMax: []
 --- !u!114 &1314564577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78192,7 +78208,7 @@ MonoBehaviour:
   sharedProfile: {fileID: 11400000, guid: f6a976d54b31c2b4ebbd558f9f313707, type: 2}
   isGlobal: 1
   blendDistance: 0
-  weight: 0.089
+  weight: 1
   priority: 0
 --- !u!4 &2054440035
 Transform:

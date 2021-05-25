@@ -1,9 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
+
+
+[System.Serializable]
+public class PostFXEffet
+{
+
+    public enum PostProcessEffect
+    {
+        AmbientOcclusions,
+        AutoExposure,
+        Bloom,
+        ChromaticAbberration,
+        ColorGrading,
+        DepthOfField,
+        Grain,
+        LensDistortion,
+        MotionBlur,
+        ScreenSpaceRefecltion,
+        Vignette
+
+    };
+    [Tooltip("les effets que je vais utiliser")]
+    public PostProcessEffect MesPostProcessEffect;
+    public float[] LesValuesMax;
+
+}
 public class GestionFeedBackVisu : PersonnalMethod
 {
+    #region GameObject
     // public 
     public GameObject[] BoostLV;
     public GameObject WindTrail;
@@ -16,6 +44,14 @@ public class GestionFeedBackVisu : PersonnalMethod
     public GameObject ParticleCam;
     public GameObject Fusion;
     public GameObject Recharge;
+    #endregion 
+    #region PostProcess
+    [Header("PostProcess")]
+    [Tooltip("l'objetContenant le post process Volume")]
+    public PostProcessVolume monPostProcess;
+    public List<PostFXEffet> MesEffets = new List<PostFXEffet>();
+
+    #endregion
 
     //private
     bool[] BoostLVEtat;
@@ -25,14 +61,29 @@ public class GestionFeedBackVisu : PersonnalMethod
     bool windTrailPrevious;
 
     GestionGeneral GG;
+
+    #region PostProcess2
+    AmbientOcclusion _AmbientOclu;
+    AutoExposure _AutoExpo;
+    Bloom _bloom;
+    ChromaticAberration _Chromatic;
+    ColorGrading _ColorGrad;
+    DepthOfField _DepthOf;
+    Grain _Grain;
+    LensDistortion _Lens;
+    MotionBlur _MotionBlur;
+    ScreenSpaceReflections _ScreenSpace;
+    Vignette _Vignette;
+    #endregion
     //ParticleSystem[] Smoker;
-    
+
     // Start is called before the first frame update
     void Start()
     {
         GetGestion(out GG, this.gameObject);
         setArrayBoost();
-        
+        setPostProcess();
+
     }
     #region Gestions
     public void gestionBoost(int LevelDeBoost, bool Etat)
@@ -53,7 +104,7 @@ public class GestionFeedBackVisu : PersonnalMethod
         }
         else
         {
-            
+
             for (int i = 0; i < BoostLVEtat.Length; i++)
             {
                 BoostLVEtat[i] = false;
@@ -64,17 +115,24 @@ public class GestionFeedBackVisu : PersonnalMethod
     }
     public void GestionWindTrail(bool Etat)
     {
-        
-        if (Etat && windTrailPrevious!=Etat )
+        /*if (Etat)
+        {
+            _bloom.intensity.value = 30f;
+        }
+        else
+        {
+            _bloom.intensity.value = 0f;
+        }*/
+        if (Etat && windTrailPrevious != Etat)
         {
             // WindTrail.SetActive(Etat);
-           // windTrailPrevious = Etat;
-           // LancementFonction(Etat, WindTrail);
+            // windTrailPrevious = Etat;
+            // LancementFonction(Etat, WindTrail);
         }
         else if (!Etat && windTrailPrevious != Etat)
         {
-           // windTrailPrevious = Etat;
-           // LancementFonction(Etat, WindTrail);
+            // windTrailPrevious = Etat;
+            // LancementFonction(Etat, WindTrail);
             //WindTrail.SetActive(Etat);
         }
         LancementFonction(Etat, WindTrail);
@@ -82,42 +140,42 @@ public class GestionFeedBackVisu : PersonnalMethod
     }
     public void GestionSmoke(bool Etat)
     {
-        if (Etat && directionDeRotation()!=0)
+        if (Etat && directionDeRotation() != 0)
         {
             int Index = 0;
-            if (directionDeRotation()>0) //&& !Smoke[0].activeSelf
+            if (directionDeRotation() > 0) //&& !Smoke[0].activeSelf
             {
 
                 Index = 0;
             }
-            else if (directionDeRotation() < 0 )
+            else if (directionDeRotation() < 0)
             {
                 Index = 1;
             }
             for (int i = 0; i < SmokesEtat.Length; i++)
             {
-                if (i==Index)
+                if (i == Index)
                 {
                     //Smoke[i].SetActive(true);
                     LancementFonction(true, Smoke[i]);
 
                 }
-                else 
+                else
                 {
                     //Smoke[i].SetActive(false);
                     LancementFonction(false, Smoke[i]);
                 }
             }
-            
+
         }
-        else 
+        else
         {
             for (int i = 0; i < SmokesEtat.Length; i++)
             {
                 // Smoke[i].SetActive(false);
                 LancementFonction(false, Smoke[i]);
             }
-           
+
             resetDeBool(SmokesEtat);
 
         }
@@ -132,13 +190,14 @@ public class GestionFeedBackVisu : PersonnalMethod
         {
             RedLightTrail.SetActive(Etat);
         }
-        
+
     }
     public void GestionWheelTrail(bool Etat)
     {
         LancementFonction(Etat, WheelTrail);
-            //WheelTrail.SetActive(Etat);
-        
+        //WheelTrail.SetActive(Etat);
+
+
     }
     public void GestionStraff(bool Etat, bool straffing)
     {
@@ -161,7 +220,7 @@ public class GestionFeedBackVisu : PersonnalMethod
                 }
                 for (int i = 0; i < Straff.Length; i++)
                 {
-                    if (i == Index || i== Index2)
+                    if (i == Index || i == Index2)
                     {
                         Straff[i].SetActive(true);
                     }
@@ -172,10 +231,10 @@ public class GestionFeedBackVisu : PersonnalMethod
                 }
 
             }
-            if (!straffing && directionDeRotation()!=0)
+            if (!straffing && directionDeRotation() != 0)
             {
                 int index = 0;
-                if (directionDeRotation()>0)
+                if (directionDeRotation() > 0)
                 {
                     index = 3;
                 }
@@ -196,7 +255,7 @@ public class GestionFeedBackVisu : PersonnalMethod
                 }
             }
         }
-        
+
         else
         {
             for (int i = 0; i < Straff.Length; i++)
@@ -204,13 +263,13 @@ public class GestionFeedBackVisu : PersonnalMethod
                 Straff[i].SetActive(false);
             }
 
-           
+
 
         }
     }
-    public void GestionParticleRoue(bool Etat) 
+    public void GestionParticleRoue(bool Etat)
     {
-        if (Etat && directionDeRotation()!=0)
+        if (Etat && directionDeRotation() != 0)
         {
             int index = 0;
             if (directionDeRotation() == -1)
@@ -224,7 +283,7 @@ public class GestionFeedBackVisu : PersonnalMethod
 
             for (int i = 0; i < ParticleRoue.Length; i++)
             {
-                if (i==index)
+                if (i == index)
                 {
                     ParticleRoue[i].SetActive(true);
                     //LancementFonction(true, ParticleRoue[i]);
@@ -236,7 +295,7 @@ public class GestionFeedBackVisu : PersonnalMethod
                 }
             }
         }
-        else 
+        else
         {
 
             for (int i = 0; i < ParticleRoue.Length; i++)
@@ -246,22 +305,22 @@ public class GestionFeedBackVisu : PersonnalMethod
             }
 
         }
-        
-       
+
+
     }
-    public void GestionParticleCam(bool etat) 
+    public void GestionParticleCam(bool etat)
     {
         ParticleCam.SetActive(etat);
     }
-    public void GestionParticleFusion(bool Etat) 
+    public void GestionParticleFusion(bool Etat)
     {
         //Fusion.SetActive(Etat);
         LancementFonction(Etat, Fusion);
-       
-      
+
+
         //
     }
-    public void GestionParticleRecharge(bool Etat) 
+    public void GestionParticleRecharge(bool Etat)
     {
         LancementFonction(Etat, Recharge);
     }
@@ -275,7 +334,7 @@ public class GestionFeedBackVisu : PersonnalMethod
         {
 
             mesEnfants.Add(item);
-           
+
         }
         foreach (Transform item in mesEnfants)
         {
@@ -327,6 +386,11 @@ public class GestionFeedBackVisu : PersonnalMethod
         }
     }
     #endregion
+
+    public void UpdateLesFX()
+    {
+
+    }
 
     float VitesseActuelDeLaMoto()
     {
@@ -393,7 +457,61 @@ public class GestionFeedBackVisu : PersonnalMethod
         }
         return toReset;
     }
+
+    void setPostProcess()
+    {
+        foreach (PostFXEffet Effect in MesEffets)
+        {
+            if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.AmbientOcclusions)
+            {
+                 monPostProcess.profile.TryGetSettings(out _AmbientOclu);
+            }
+            else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.AutoExposure)
+            {
+                monPostProcess.profile.TryGetSettings(out _AutoExpo);
+            }
+            else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.Bloom)
+            {
+                 monPostProcess.profile.TryGetSettings(out _bloom);
+            }
+            else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.ChromaticAbberration)
+            {
+                monPostProcess.profile.TryGetSettings(out _Chromatic) ;
+            }
+            else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.ColorGrading)
+            {
+                monPostProcess.profile.TryGetSettings(out _ColorGrad);
+            }
+            else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.DepthOfField)
+            {
+                monPostProcess.profile.TryGetSettings(out _DepthOf);
+            }
+            else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.Grain)
+            {
+                monPostProcess.profile.TryGetSettings(out _Grain);
+            }
+            else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.LensDistortion)
+            {
+                monPostProcess.profile.TryGetSettings(out _Lens) ;
+            }
+            else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.MotionBlur)
+            {
+                monPostProcess.profile.TryGetSettings(out _MotionBlur) ;
+            }
+            else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.ScreenSpaceRefecltion)
+            {
+                monPostProcess.profile.TryGetSettings(out _ScreenSpace) ;
+            }
+            else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.Vignette)
+            {
+                monPostProcess.profile.TryGetSettings(out _Vignette) ;
+            }
+        }
+
+    }
 }
+
+
 /*for (int i = 0; i < SmokesEtat.Length; i++)
             {
                 var smoker = Smoke[i].GetComponent<ParticleSystem>().main;

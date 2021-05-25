@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
+
 
 
 [System.Serializable]
@@ -63,19 +63,12 @@ public class ScreenShakeInfo
     public float AngleMaximalEnPlus;
     [Tooltip("l'angle vers lequel tends la caméra en dérapage")]
     public float AngleMaximalEnPlusEnDerapage;
-    //[Tooltip("vitesse De la Rotation sur Y")]
-    //public float VitesseRotationSurY;
-    //[Tooltip("vitesse De retour sur Y")]
-    //public float VitesseRetourSurY;
     [Tooltip("Angle Max Sur Z")]
     public float AngleMaxZ;
     [Tooltip("vitesse De la Rotation de la cam ")]
     public float vitesseRotationCam;
     [Tooltip("vitesse De la Rotation de la cam sur x ")]
     public float vitesseRotationCamSurX;
-    //public float VitesseRotationSurZ;
-    //[Tooltip("vitesse De retour sur Y")]
-    //public float VitesseRetourSurZ;
     #endregion
     #region shake
     [Header("CameraShake")]
@@ -83,29 +76,7 @@ public class ScreenShakeInfo
     [Tooltip("bool pour savoir si la camera vibre ou doit vibrer")]
     [HideInInspector]public bool DoitVibrer;
     #endregion
-    #region PostProcess
-    [Header("PostProcess")]
-    [Tooltip("l'objetContenant le post process Volume")]
-    public PostProcessVolume monPostProcess;
-    public enum PostProcessEffect 
-    {
-        AmbientOcclusions,
-        AutoExposure,
-        Bloom,
-        ChromaticAbberration,
-        ColorGrading,
-        DepthOfField,
-        Grain,
-        LensDistortion,
-        MotionBlur,
-        ScreenSpaceRefecltion,
-        Vignette
     
-    };
-    [Tooltip("les effets que je vais utiliser")]
-    public PostProcessEffect[] MesPostProcessEffect;
-    #endregion
-
     Camera CamProperties;
     GestionGeneral GG;
     bool TransitionCible = false;
@@ -124,19 +95,7 @@ public class ScreenShakeInfo
 
     public Transform CibleFin;
 
-    #region PostProcess2
-    AmbientOcclusion _AmbientOclu;
-    AutoExposure _AutoExpo;
-    Bloom _bloom;
-    ChromaticAberration _Chromatic;
-    ColorGrading _ColorGrad;
-    DepthOfField _DepthOf;
-    Grain _Grain;
-    LensDistortion _Lens;
-    MotionBlur _MotionBlur;
-    ScreenSpaceReflections _ScreenSpace;
-    Vignette _Vignette;
-    #endregion
+   
     void Start()
     {
         DistanceForCam = Vector3.Distance(MotoToFollowArreire.position, MotoToFollowAvant.position);
@@ -145,7 +104,6 @@ public class ScreenShakeInfo
         CamProperties = GetComponent<Camera>();
         CamProperties.fieldOfView = StartValueOfFOV;
         GetGestion(out GG, LaMoto.gameObject);
-        setPostProcess();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -398,57 +356,7 @@ public class ScreenShakeInfo
         vitesseRotationMaxMoto = newspeed;
     }
 
-    void setPostProcess() 
-    {
-        foreach (PostProcessEffect Effect in MesPostProcessEffect)
-        {
-            if (Effect==PostProcessEffect.AmbientOcclusions)
-            {
-               _AmbientOclu = monPostProcess.GetComponent<AmbientOcclusion>();
-            }
-            else if (Effect == PostProcessEffect.AutoExposure)
-            {
-               _AutoExpo = monPostProcess.GetComponent<AutoExposure>();
-            }
-            else if (Effect == PostProcessEffect.Bloom)
-            {
-              _bloom = monPostProcess.GetComponent<Bloom>();
-            }
-            else if (Effect == PostProcessEffect.ChromaticAbberration)
-            {
-              _Chromatic = monPostProcess.GetComponent<ChromaticAberration>();
-            }
-            else if (Effect == PostProcessEffect.ColorGrading)
-            {
-              _ColorGrad = monPostProcess.GetComponent<ColorGrading>();
-            }
-            else if (Effect == PostProcessEffect.DepthOfField)
-            {
-              _DepthOf = monPostProcess.GetComponent<DepthOfField>();
-            }
-            else if (Effect == PostProcessEffect.Grain)
-            {
-              _Grain = monPostProcess.GetComponent<Grain>();
-            }
-            else if (Effect == PostProcessEffect.LensDistortion)
-            {
-              _Lens = monPostProcess.GetComponent<LensDistortion>();
-            }
-            else if (Effect == PostProcessEffect.MotionBlur)
-            {
-              _MotionBlur = monPostProcess.GetComponent<MotionBlur>();
-            }
-            else if (Effect == PostProcessEffect.ScreenSpaceRefecltion)
-            {
-              _ScreenSpace = monPostProcess.GetComponent<ScreenSpaceReflections>();
-            }
-            else if (Effect == PostProcessEffect.Vignette)
-            {
-              _Vignette = monPostProcess.GetComponent<Vignette>();
-            }
-        }
-    
-    }
+   
 
 
     bool deraping() 
@@ -557,3 +465,10 @@ transform.rotation = Quaternion.AngleAxis(anglePourY, transform.up);*/
         {
             angleX = Mathf.LerpAngle(transform.rotation.eulerAngles.z, 0, vitesseAngleX);
         }*/
+//public float VitesseRotationSurZ;
+//[Tooltip("vitesse De retour sur Y")]
+//public float VitesseRetourSurZ;
+//[Tooltip("vitesse De la Rotation sur Y")]
+//public float VitesseRotationSurY;
+//[Tooltip("vitesse De retour sur Y")]
+//public float VitesseRetourSurY;

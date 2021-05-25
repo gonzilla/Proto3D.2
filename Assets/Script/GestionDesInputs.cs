@@ -120,7 +120,7 @@ public class GestionDesInputs : PersonnalMethod
             GG.GMC.ResetLastPosition();
         }
 
-
+        GG.FeedBackVisu.UpdateLesFX();
     }
 
     void setTableauLength() 
