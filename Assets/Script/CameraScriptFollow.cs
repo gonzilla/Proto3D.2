@@ -106,7 +106,6 @@ public class ScreenShakeInfo
         GetGestion(out GG, LaMoto.gameObject);
         Cursor.lockState = CursorLockMode.Locked;
     }
-
     // Update is called once per frame
     public void CameraComportement()
     {
@@ -135,8 +134,6 @@ public class ScreenShakeInfo
         
         
     }
-    
-
     void CameraFOV() 
     {
         if (Mathf.Abs(vitesseDeRotationDeLaMoto())>1)// si la rotation de la moto
@@ -156,7 +153,6 @@ public class ScreenShakeInfo
         }
        
     }
-
     void checkCible() // verifie la cible de la moto
     {
         Transform previousCible = null;// la précédente cible
@@ -195,7 +191,6 @@ public class ScreenShakeInfo
         }
        
     }
-
     void cameraRotation() // effectue la rotation
     {
       
@@ -215,6 +210,7 @@ public class ScreenShakeInfo
         {
             angleCibleY =  AngleMaximalEnPlus * directionDeRotation;//calcul angle cible LaMoto.rotation.eulerAngles.y +
         }
+        
         if (directionDeRotation != 0) // Si la direction de rotation est différente de 0
         {
             angleCibleY *=  PourcentageRotationSpeed() ; // recalcul de la vitesse
@@ -249,32 +245,6 @@ public class ScreenShakeInfo
         directionDeRotation = directionDuJoystick;
 
     }
-    /*public void InfoRotationDeLaCam(float XJoystick, float InputDerapage) 
-    {
-        
-        float directionDuJoystick = 0;
-        if (XJoystick != 0)
-        {
-            directionDuJoystick = XJoystick / Mathf.Abs(XJoystick);
-        }
-        
-        
-        if (deraping())
-        {
-            directionDeRotation = directionDuJoystick;
-            
-
-        }
-        else
-        {
-            directionDeRotation = directionDuJoystick;
-        }
-
-
-
-
-    }*/
-
     #region cameraShake
     public void GestionCameraShake(ScreenShakeInfo.Action ActionProduite) 
     {
@@ -355,13 +325,10 @@ public class ScreenShakeInfo
     {
         vitesseRotationMaxMoto = newspeed;
     }
-
-   
-
-
     bool deraping() 
     {
         bool derape;
+        
         if (vitesseRotationMaxMoto==GG.GMC.VitesseDeDerapageMax)
         {
             derape = true;
@@ -370,11 +337,9 @@ public class ScreenShakeInfo
         {
             derape = false;
         }
+        //print(vitesseRotationMaxMoto);
         return derape;
     }
-
-
-
     float  VitesseActuelDeLaMoto() 
     {
         float ActualSpeedMoto = GG.GMC.VitesseMoto;
@@ -391,13 +356,11 @@ public class ScreenShakeInfo
        
         return actuelpourcentage;
     }
-    
     float vitesseDeRotationDeLaMoto() 
     {
         float actuelvitesseRotat = GG.GMC.ActuelVitesseRotation;
         return actuelvitesseRotat;
     }
-
     float PourcentageRotationSpeed() 
     {
         float pourcentage = 0;
@@ -408,11 +371,6 @@ public class ScreenShakeInfo
         
         return pourcentage;
     }
-
-    
-    
-  
-    
     bool Avance() 
     {
         if (VitesseActuelDeLaMoto()>0)
@@ -451,7 +409,6 @@ transform.rotation = Quaternion.AngleAxis(anglePourY, transform.up);*/
         float direction = Mathf.Abs(GG.GMC.VitesseMoto) / GG.GMC.VitesseMoto;
         return direction;
     }*/
-
 /*if (XJoystick != 0 && directionDuJoystick == InputDerapage && InputDerapage != 0)
             {
                 directionDeRotation = directionDuJoystick;
@@ -460,7 +417,6 @@ transform.rotation = Quaternion.AngleAxis(anglePourY, transform.up);*/
             {
                 InfoRotationDeLaCam(XJoystick);
             }*/
-
 /*if (transform.rotation.eulerAngles.x !=0) // a changer
         {
             angleX = Mathf.LerpAngle(transform.rotation.eulerAngles.z, 0, vitesseAngleX);
@@ -472,3 +428,28 @@ transform.rotation = Quaternion.AngleAxis(anglePourY, transform.up);*/
 //public float VitesseRotationSurY;
 //[Tooltip("vitesse De retour sur Y")]
 //public float VitesseRetourSurY;
+/*public void InfoRotationDeLaCam(float XJoystick, float InputDerapage) 
+    {
+        
+        float directionDuJoystick = 0;
+        if (XJoystick != 0)
+        {
+            directionDuJoystick = XJoystick / Mathf.Abs(XJoystick);
+        }
+        
+        
+        if (deraping())
+        {
+            directionDeRotation = directionDuJoystick;
+            
+
+        }
+        else
+        {
+            directionDeRotation = directionDuJoystick;
+        }
+
+
+
+
+    }*/

@@ -27,6 +27,7 @@ public class PostFXEffet
     [Tooltip("les effets que je vais utiliser")]
     public PostProcessEffect MesPostProcessEffect;
     public float[] LesValuesMax;
+    public float VitesseDeleffet;
 
 }
 public class GestionFeedBackVisu : PersonnalMethod
@@ -50,7 +51,7 @@ public class GestionFeedBackVisu : PersonnalMethod
     [Tooltip("l'objetContenant le post process Volume")]
     public PostProcessVolume monPostProcess;
     public List<PostFXEffet> MesEffets = new List<PostFXEffet>();
-
+    public float vitesseretourMultiplicateur;
     #endregion
 
     //private
@@ -60,6 +61,9 @@ public class GestionFeedBackVisu : PersonnalMethod
     bool[] ParticleRoueEtat;
     bool windTrailPrevious;
 
+    float bloomValueDepart;
+    float ChromaticValueDepart;
+    float LensDistortionValueDepart;
     GestionGeneral GG;
 
     #region PostProcess2
@@ -389,13 +393,68 @@ public class GestionFeedBackVisu : PersonnalMethod
 
     public void UpdateLesFX()
     {
-
+        if (GG.GB.boosting)
+        {
+            print("BOOST");
+            if (_bloom.intensity.value != MesEffets[0].LesValuesMax[1])
+            {
+                _bloom.intensity.value = MesEffets[0].LesValuesMax[1]; //CheckParamettreFX(_bloom.intensity.value, MesEffets[0].LesValuesMax[1], MesEffets[0].VitesseDeleffet);
+                print("bloomBoost");
+            }
+            if (_Chromatic.intensity.value != MesEffets[2].LesValuesMax[1])
+            {
+                _Chromatic.intensity.value = MesEffets[2].LesValuesMax[1];//CheckParamettreFX(_Chromatic.intensity.value, MesEffets[2].LesValuesMax[1], MesEffets[2].VitesseDeleffet);
+                print("chromaticBoost");
+            }
+            if (_Vignette.intensity.value!= MesEffets[3].LesValuesMax[1])
+            {
+                _Vignette.intensity.value = MesEffets[3].LesValuesMax[1]; // CheckParamettreFX(_Chromatic.intensity.value, MesEffets[3].LesValuesMax[1], MesEffets[3].VitesseDeleffet);
+                print("vignette");
+            }
+            if (_Lens.intensity.value!= MesEffets[6].LesValuesMax[1])
+            {
+                _Lens.intensity.value = MesEffets[6].LesValuesMax[1]; //CheckParamettreFX(_Lens.intensity.value, MesEffets[6].LesValuesMax[1], MesEffets[6].VitesseDeleffet);
+                print("lens");
+            }
+            //Debug.Break();
+        }
+        else if (!GG.GB.boosting && !GG.GB.Surchauffing)
+        {
+            
+            _bloom.intensity.value = CheckParamettreFX(_bloom.intensity.value, MesEffets[0].LesValuesMax[0]*pourcentageVitesse(), MesEffets[0].VitesseDeleffet);
+            _Chromatic.intensity.value = CheckParamettreFX(_Chromatic.intensity.value, MesEffets[2].LesValuesMax[0] * pourcentageVitesse(), MesEffets[2].VitesseDeleffet);
+            _Vignette.intensity.value = CheckParamettreFX(_Chromatic.intensity.value, MesEffets[6].LesValuesMax[0] * pourcentageVitesse(), MesEffets[6].VitesseDeleffet);
+           _Lens.intensity.value = CheckParamettreFX(_Lens.intensity.value, MesEffets[6].LesValuesMax[0] * pourcentageVitesse(), MesEffets[6].VitesseDeleffet);
+        }
+        else if (GG.GB.Surchauffing)
+        {
+            _bloom.intensity.value = MesEffets[0].LesValuesMax[2];
+            _Chromatic.intensity.value = MesEffets[2].LesValuesMax[2];
+            _Vignette.intensity.value = MesEffets[3].LesValuesMax[2];
+            _Lens.intensity.value = MesEffets[6].LesValuesMax[2];
+           
+        }
+        //print(_Vignette.intensity.value);
+        //print(_Lens.intensity.value);
+        //print(_bloom.intensity.value);
+        //print(_Chromatic.intensity.value);
     }
 
     float VitesseActuelDeLaMoto()
     {
         float ActualSpeedMoto = GG.GMC.VitesseMoto;
         return ActualSpeedMoto;
+    }
+
+    float pourcentageVitesse() 
+    {
+        float Pourcentage = 0;
+        if (GG.GMC.VitesseMoto != 0)
+        {
+            Pourcentage = Mathf.Abs(GG.GMC.VitesseMoto) / GG.GMC.vitesseMax;
+        }
+        //print(Pourcentage);
+        return Pourcentage;
     }
 
     bool Avance()
@@ -408,6 +467,20 @@ public class GestionFeedBackVisu : PersonnalMethod
         {
             return false;
         }
+    }
+
+    float CheckParamettreFX(float actuel,float max,float speed) 
+    {
+        if (actuel>max)
+        {
+            actuel =Mathf.Lerp(actuel, max, speed * Time.deltaTime * vitesseretourMultiplicateur) ;
+        }
+        else 
+        {
+            actuel = Mathf.Lerp(actuel, max, speed * Time.deltaTime );
+        }
+        //print(actuel);
+        return actuel;
     }
 
     float directionDuStarff() 
@@ -473,10 +546,12 @@ public class GestionFeedBackVisu : PersonnalMethod
             else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.Bloom)
             {
                  monPostProcess.profile.TryGetSettings(out _bloom);
+                 bloomValueDepart =_bloom.intensity.value;
             }
             else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.ChromaticAbberration)
             {
                 monPostProcess.profile.TryGetSettings(out _Chromatic) ;
+                ChromaticValueDepart = _Chromatic.intensity.value;
             }
             else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.ColorGrading)
             {
@@ -493,6 +568,7 @@ public class GestionFeedBackVisu : PersonnalMethod
             else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.LensDistortion)
             {
                 monPostProcess.profile.TryGetSettings(out _Lens) ;
+                LensDistortionValueDepart = _Lens.intensity.value;
             }
             else if (Effect.MesPostProcessEffect == PostFXEffet.PostProcessEffect.MotionBlur)
             {

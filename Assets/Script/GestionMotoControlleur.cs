@@ -80,6 +80,7 @@ public class GestionMotoControlleur : PersonnalMethod
     [Header("Autre")]
     [Tooltip("Le tempspour que le systéme estime le joueur dans les airs")]
     public float TempsPourEtreEnLair;
+    public float TempsAvantRespawn;
     [Tooltip("l'angle pour se décaler ")]
     public float angleMax;
     public float StraffPowa;
@@ -102,6 +103,7 @@ public class GestionMotoControlleur : PersonnalMethod
     bool OnceForFloor; // pour détecter si en l'air
     bool staffing=false;
     bool Deraping = false;
+    bool GNEU=false;
 
     Rigidbody Rb; // stock le rigidbody
     GestionGeneral GG;//stock les script
@@ -130,7 +132,9 @@ public class GestionMotoControlleur : PersonnalMethod
         {
             
             grounded = true;//passe le bool en true
+            GNEU = false;
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            Rb.angularVelocity = Vector3.zero;
             LastPostionOnCircuit = ResetPosition.position;
             LastRotation = ResetPosition.rotation;
             OnceForFloor = false; // set le once a false
@@ -140,7 +144,8 @@ public class GestionMotoControlleur : PersonnalMethod
         }
         if (!grounded)// si n'est pas ground
         {
-           // PourForceConstante = Vector3.zero;
+           
+            // PourForceConstante = Vector3.zero;
             if (!OnceForFloor)// et que le Once est false
             {
                 TimeCible = Time.time+TempsPourEtreEnLair; //set le temps pour check
@@ -149,7 +154,12 @@ public class GestionMotoControlleur : PersonnalMethod
             }
             if (OnceForFloor && TimeCible<= Time.time )//si le temps est dépassé
             {
-
+                if (!GNEU)
+                {
+                    Invoke("ResetLastPosition", TempsAvantRespawn);
+                    GNEU = true;
+                }
+               
                 Physics.gravity = new Vector3(0, -9.81f, 0);
                 
             }
@@ -401,12 +411,14 @@ public class GestionMotoControlleur : PersonnalMethod
         //changer cette partie
         checkVitesseMoto();//check la vitesse
     }
-
     public void ResetLastPosition() 
     {
+        CancelInvoke();
         transform.position = LastPostionOnCircuit;
         transform.rotation = LastRotation;
+        transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
         VitesseMoto = 0;
+        
     }
     #region checker
     void checkVitesseMoto() // check la vitesse de la moto
@@ -487,7 +499,7 @@ public class GestionMotoControlleur : PersonnalMethod
             }
         }
         GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.TraverseObstacle);
-    
+        
     }
 
     void LorsqueCollision(Collider InfoDeCollision)
@@ -510,7 +522,7 @@ public class GestionMotoControlleur : PersonnalMethod
                 VitesseMoto += -PerteParCollision * Mathf.Abs(VitesseMoto) / VitesseMoto;//fais perdre selon value
             }
         }
-
+        
     }
     void DeclenchementParticuleSelonVitesse() 
     {
@@ -571,7 +583,8 @@ public class GestionMotoControlleur : PersonnalMethod
            
             if (!grounded  ) //si n'est pas sur le sol
             {
-                print("bug");
+                
+                
                 Vector3 H = collision.GetContact(0).point;
                RaycastHit Info;
                Physics.Raycast(detecteur.position, -transform.up, out Info, GroundRayLength, whatIsGround);

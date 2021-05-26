@@ -198,6 +198,12 @@ public class GestionBoost : PersonnalMethod
         }
     }
 
+    public void ActiveSurchauffe() 
+    {
+        actualBoostReserve = ReserveDenergieBoostMax;
+
+
+    }
 
 
     void canRechargeAgain() //dis au systéme que je peut lancer la recharge // voir surchauffe

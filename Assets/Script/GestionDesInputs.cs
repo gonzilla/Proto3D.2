@@ -109,6 +109,7 @@ public class GestionDesInputs : PersonnalMethod
                 GG.FeedBackVisu.GestionWheelTrail(state);
                 GG.FeedBackVisu.GestionParticleRoue(state);
             }
+            GG.FeedBackVisu.UpdateLesFX();
         }
 
         if (Input.GetAxis(Axes[9]) != 0)
@@ -120,7 +121,7 @@ public class GestionDesInputs : PersonnalMethod
             GG.GMC.ResetLastPosition();
         }
 
-        GG.FeedBackVisu.UpdateLesFX();
+        
     }
 
     void setTableauLength() 
