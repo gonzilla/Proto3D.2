@@ -45,7 +45,7 @@ public class GestionCheckPoint : PersonnalMethod
             passageActuel = 0;
             string affichage = tourActuel.ToString() + "/" + NombreDeTour.ToString();
             AffichageTour.text = affichage;
-            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.TraverseArrive);
+            //GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.);
         }
     }
 

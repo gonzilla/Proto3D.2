@@ -70,7 +70,8 @@ public class GestionEtatEtFeedback : PersonnalMethod
         TraverseObstacle,
         TraverseCheckPoint,
         TraverseArrive,
-        Start
+        Start,
+        Collision
 
     };
     public MotoActualState StateOfMoto;
@@ -232,6 +233,12 @@ public class GestionEtatEtFeedback : PersonnalMethod
             AffichageEtatDebug.text = EtatActuel;
             TraverseArrive();
         }
+        else if (StateOfMoto == MotoActualState.Collision)
+        {
+            EtatActuel = "Collision";
+            AffichageEtatDebug.text = EtatActuel;
+            Collision();
+        }
 
     }
     #region voidPourEtat
@@ -346,6 +353,12 @@ public class GestionEtatEtFeedback : PersonnalMethod
 
         int[] IndexDusons = new int[0];
         setInfoSurSonByVoid("TraverseArrive", out IndexDusons);
+        LanceLeSon(IndexDusons);
+    }
+    private void Collision()
+    {
+        int[] IndexDusons = new int[0];
+        setInfoSurSonByVoid("Collision", out IndexDusons);
         LanceLeSon(IndexDusons);
     }
 

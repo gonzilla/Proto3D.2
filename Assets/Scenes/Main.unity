@@ -57170,7 +57170,7 @@ MonoBehaviour:
     tempsPourArret: 0
     NombreDePlay: 0
   - LeSonAJouer: event:/Musique
-    LeVoid: TraverseArrive
+    LeVoid: Start
     BoucleDansFmod: 1
     BoucleParCode: 0
     event3D: 0
@@ -57190,7 +57190,20 @@ MonoBehaviour:
     OneShot: 1
     StopQuandChangementDetat: 0
     TempsDuSons: 0
-    ListeDesParametre: 07000000
+    ListeDesParametre: 
+    ParameterToModify: []
+    IndexDuSon: 0
+    tempsPourArret: 0
+    NombreDePlay: 0
+  - LeSonAJouer: event:/Obstacles/Hit
+    LeVoid: Collision
+    BoucleDansFmod: 0
+    BoucleParCode: 0
+    event3D: 1
+    OneShot: 1
+    StopQuandChangementDetat: 0
+    TempsDuSons: 0
+    ListeDesParametre: 
     ParameterToModify: []
     IndexDuSon: 0
     tempsPourArret: 0
