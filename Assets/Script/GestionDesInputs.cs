@@ -114,7 +114,10 @@ public class GestionDesInputs : PersonnalMethod
 
         if (Input.GetAxis(Axes[9]) != 0)
         {
+            GG.EtatEtFeedback.stopAllSound();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            
+
         }
         if (Input.GetAxis(Axes[8]) != 0)
         {

@@ -505,6 +505,8 @@ public class GestionEtatEtFeedback : PersonnalMethod
             }
         }
     }
+
+   
     void setParameter(SoundInfo InfoDuSon) 
     {
         int indexer = 0;
@@ -679,7 +681,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
         else if (LeparametreAchercher == "Laps")
         {
             ValueToReturn = (float)GG.GestionPointDeControle.tourActuel-1;
-            print(ValueToReturn);
+           // print(ValueToReturn);
         }
 
         return ValueToReturn;

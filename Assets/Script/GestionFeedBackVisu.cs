@@ -326,6 +326,7 @@ public class GestionFeedBackVisu : PersonnalMethod
     }
     public void GestionParticleRecharge(bool Etat)
     {
+        //print("recharge");
         LancementFonction(Etat, Recharge);
     }
     #endregion
@@ -414,7 +415,7 @@ public class GestionFeedBackVisu : PersonnalMethod
             if (_Lens.intensity.value!= MesEffets[6].LesValuesMax[1])
             {
                 _Lens.intensity.value = MesEffets[6].LesValuesMax[1]; //CheckParamettreFX(_Lens.intensity.value, MesEffets[6].LesValuesMax[1], MesEffets[6].VitesseDeleffet);
-                print("lens");
+                //print("lens");
             }
             //Debug.Break();
         }
