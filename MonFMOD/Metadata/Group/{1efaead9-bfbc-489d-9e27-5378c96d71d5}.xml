@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="MixerGroup" id="{1efaead9-bfbc-489d-9e27-5378c96d71d5}">
+		<property name="name">
+			<value>Musik et Jingle</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{bf3dd0d3-a275-4719-a102-402458318617}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{ee1112df-91eb-44a6-b7a3-cb490b1272a8}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{cb357a44-93f7-4657-8d49-5ee8e4f8ca7a}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{bf3dd0d3-a275-4719-a102-402458318617}">
+		<relationship name="effects">
+			<destination>{95c27c79-1061-4b4f-9d46-468c3d599302}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{ee1112df-91eb-44a6-b7a3-cb490b1272a8}" />
+	<object class="MixerBusFader" id="{95c27c79-1061-4b4f-9d46-468c3d599302}" />
+</objects>

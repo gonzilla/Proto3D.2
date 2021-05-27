@@ -30,7 +30,8 @@ public class SoundInfo
         FreinInput,
         BoostActivation,
         OnPlaque, 
-        Distance
+        Distance,
+        Tours
 
     };
     public ParametreUtiliser[] ListeDesParametre;
@@ -68,7 +69,8 @@ public class GestionEtatEtFeedback : PersonnalMethod
         RecolteDeBoost,
         TraverseObstacle,
         TraverseCheckPoint,
-        TraverseArrive
+        TraverseArrive,
+        Start
 
     };
     public MotoActualState StateOfMoto;
@@ -77,12 +79,13 @@ public class GestionEtatEtFeedback : PersonnalMethod
     public List<SoundInfo> LesInfosDuSon;
 
     public GameObject Moto;
+
     //Local variable
 
      List<SoundInfo> SonAvecParameter = new List<SoundInfo>();
      List<SoundInfo> SonEntrainDeJouer = new List<SoundInfo>();
     
-    public string EtatActuel;
+    [HideInInspector]public string EtatActuel;
     
     GestionGeneral GG;//stock les script
     
@@ -90,7 +93,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
     {
         GetGestion(out GG, Moto);// Récupére les script necessaire
         SetAllSound();// set les infos du son
-        
+        Invoke("austart", GG.GUI.TimeAvantDebutChrono-0.2f);
     }
 
     public void changementDetat(MotoActualState etat)
@@ -345,6 +348,13 @@ public class GestionEtatEtFeedback : PersonnalMethod
         setInfoSurSonByVoid("TraverseArrive", out IndexDusons);
         LanceLeSon(IndexDusons);
     }
+
+    void austart() 
+    {
+        int[] IndexDusons = new int[0];
+        setInfoSurSonByVoid("Start", out IndexDusons);
+        LanceLeSon(IndexDusons);
+    }
     #endregion
     void LanceLeSon(int[] Lesindex)
     {
@@ -446,6 +456,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
                         Info.MonEvenementFMOD.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(Moto.gameObject));// si l'event est 3D set son attribute
                     }
                     Info.MonEvenementFMOD.setParameterByName(Parameter, LeBonParametre(Parameter));// vas chercher le bon param et le mettre à la bonne value 
+                    
                 }
             }
         }
@@ -532,6 +543,10 @@ public class GestionEtatEtFeedback : PersonnalMethod
             else if (Param == SoundInfo.ParametreUtiliser.Distance)
             {
                 InfoDuSon.ParameterToModify[indexer] = "Distance";
+            }
+            else if (Param == SoundInfo.ParametreUtiliser.Tours)
+            {
+                InfoDuSon.ParameterToModify[indexer] = "Laps";
             }
             indexer++;
         }
@@ -660,6 +675,11 @@ public class GestionEtatEtFeedback : PersonnalMethod
                 ValueToReturn = 0;
             }
             
+        }
+        else if (LeparametreAchercher == "Laps")
+        {
+            ValueToReturn = (float)GG.GestionPointDeControle.tourActuel-1;
+            print(ValueToReturn);
         }
 
         return ValueToReturn;

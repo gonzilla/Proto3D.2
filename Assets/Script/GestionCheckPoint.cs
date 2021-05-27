@@ -11,7 +11,7 @@ public class GestionCheckPoint : PersonnalMethod
     public int NombreDeTour;
     //Local variable
     int passageActuel;
-    int tourActuel;
+    [HideInInspector] public int tourActuel;
 
     GestionGeneral GG;
 
@@ -39,11 +39,13 @@ public class GestionCheckPoint : PersonnalMethod
             {
                 tourActuel = NombreDeTour;
                 GG.GUI.AffichageStats();
+                
                 FinDeLaPartie();
             }
             passageActuel = 0;
             string affichage = tourActuel.ToString() + "/" + NombreDeTour.ToString();
             AffichageTour.text = affichage;
+            GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.TraverseArrive);
         }
     }
 

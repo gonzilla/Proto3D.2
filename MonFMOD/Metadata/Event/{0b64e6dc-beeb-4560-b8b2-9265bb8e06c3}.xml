@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.01.00">
 	<object class="Event" id="{0b64e6dc-beeb-4560-b8b2-9265bb8e06c3}">
 		<property name="color">
-			<value>Green</value>
+			<value>Blue</value>
 		</property>
 		<property name="name">
 			<value>Top D</value>
@@ -52,6 +52,9 @@
 		</relationship>
 	</object>
 	<object class="MixerInput" id="{d55cab80-3e71-4626-9075-0ebff234750a}">
+		<property name="color">
+			<value>Blue</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{4521887c-ddcd-4a64-bad4-27f312007fa2}</destination>
 		</relationship>
@@ -59,7 +62,7 @@
 			<destination>{b3d9bb60-c495-4f2a-b0a1-0a30ee098495}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{cb357a44-93f7-4657-8d49-5ee8e4f8ca7a}</destination>
+			<destination>{1efaead9-bfbc-489d-9e27-5378c96d71d5}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{c52cdcf1-4950-4b6f-8667-dc9829b97468}" />

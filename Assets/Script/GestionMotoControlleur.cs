@@ -139,7 +139,7 @@ public class GestionMotoControlleur : PersonnalMethod
             LastRotation = ResetPosition.rotation;
             OnceForFloor = false; // set le once a false
             //PourForceConstante += -transform.up * Physics.gravity.magnitude;
-            Physics.gravity = -hit.normal* Physics.gravity.magnitude; //-transform.up * Physics.gravity.magnitude;
+            Physics.gravity = -transform.up * 9.81f;  //-hit.normal * 9.81f;   //-transform.up * 9.81f;  //-hit.normal* Physics.gravity.magnitude; //-transform.up * Physics.gravity.magnitude;
             //FreezeRotation();// freeze la rotation selon resultat
         }
         if (!grounded)// si n'est pas ground
@@ -160,7 +160,7 @@ public class GestionMotoControlleur : PersonnalMethod
                     GNEU = true;
                 }
                
-                Physics.gravity = new Vector3(0, -9.81f, 0);
+                //Physics.gravity = new Vector3(0, -9.81f, 0);
                 
             }
             
@@ -417,6 +417,7 @@ public class GestionMotoControlleur : PersonnalMethod
         transform.position = LastPostionOnCircuit;
         transform.rotation = LastRotation;
         transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        Physics.gravity = -transform.up * 9.81f * 3; //transform.TransformPoint(-transform.up * 9.81f * 3) //;
         VitesseMoto = 0;
         
     }
@@ -522,11 +523,12 @@ public class GestionMotoControlleur : PersonnalMethod
                 VitesseMoto += -PerteParCollision * Mathf.Abs(VitesseMoto) / VitesseMoto;//fais perdre selon value
             }
         }
-        
+        GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.TraverseObstacle);
+
     }
     void DeclenchementParticuleSelonVitesse() 
     {
-        if (VitesseMoto>=1)
+        if (VitesseMoto>=2)
         {
             GG.FeedBackVisu.GestionWindTrail(true);
         }
