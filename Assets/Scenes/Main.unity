@@ -56600,7 +56600,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   ForceRalentissement: 1.5
-  ForceRalentissementEnLair: 0.5
+  ForceRalentissementEnLair: 1
   Ralentissement:
     serializedVersion: 2
     m_Curve:
@@ -56670,7 +56670,7 @@ MonoBehaviour:
     m_Bits: 256
   PerteParCollision: 0.2
   TempsPourEtreEnLair: 5
-  TempsAvantRespawn: 3
+  TempsAvantRespawn: 1
   angleMax: 45
   StraffPowa: 3
   wheelAnimation:
