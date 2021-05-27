@@ -395,21 +395,21 @@ public class GestionFeedBackVisu : PersonnalMethod
     {
         if (GG.GB.boosting)
         {
-            print("BOOST");
+            
             if (_bloom.intensity.value != MesEffets[0].LesValuesMax[1])
             {
                 _bloom.intensity.value = MesEffets[0].LesValuesMax[1]; //CheckParamettreFX(_bloom.intensity.value, MesEffets[0].LesValuesMax[1], MesEffets[0].VitesseDeleffet);
-                print("bloomBoost");
+                
             }
             if (_Chromatic.intensity.value != MesEffets[2].LesValuesMax[1])
             {
                 _Chromatic.intensity.value = MesEffets[2].LesValuesMax[1];//CheckParamettreFX(_Chromatic.intensity.value, MesEffets[2].LesValuesMax[1], MesEffets[2].VitesseDeleffet);
-                print("chromaticBoost");
+                
             }
             if (_Vignette.intensity.value!= MesEffets[3].LesValuesMax[1])
             {
                 _Vignette.intensity.value = MesEffets[3].LesValuesMax[1]; // CheckParamettreFX(_Chromatic.intensity.value, MesEffets[3].LesValuesMax[1], MesEffets[3].VitesseDeleffet);
-                print("vignette");
+               
             }
             if (_Lens.intensity.value!= MesEffets[6].LesValuesMax[1])
             {
