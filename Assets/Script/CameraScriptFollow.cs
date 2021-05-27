@@ -201,7 +201,7 @@ public class ScreenShakeInfo
         float angleCibleX = LaMoto.rotation.eulerAngles.x;
         float AngleXFinal = Mathf.LerpAngle(transform.rotation.eulerAngles.x, angleCibleX, vitesseRotationCamSurX* Time.deltaTime);
         transform.rotation = Quaternion.Euler(AngleXFinal, LaMoto.rotation.eulerAngles.y, LaMoto.rotation.eulerAngles.z);
-        //transform.rotation = LaMoto.rotation;
+        transform.rotation = LaMoto.rotation;
         if (deraping())// si dérape
         {
             angleCibleY =  AngleMaximalEnPlusEnDerapage * directionDeRotation; //calcul angle cible 
