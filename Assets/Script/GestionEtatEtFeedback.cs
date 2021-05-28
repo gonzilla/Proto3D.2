@@ -602,10 +602,6 @@ public class GestionEtatEtFeedback : PersonnalMethod
         
     }
 
-    void getParamaterByName()
-    {
-
-    }
 
     float LeBonParametre(string LeparametreAchercher) // faire des trucs
     {
