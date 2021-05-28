@@ -21,6 +21,8 @@ public class GestionUI : PersonnalMethod
     [Tooltip(" Le temps avant de cacher le compte à rebours ")]
     public float TimeForHideCompteur;
     [Tooltip(" Le text du timer ")]
+    public float TempsParPenalite;
+    [Tooltip(" Le text du timer ")]
     public TextMeshProUGUI[] Timer;
     [HideInInspector]public float LeTimeInGameArrondie;
     #endregion
@@ -49,6 +51,7 @@ public class GestionUI : PersonnalMethod
     float TimeAtStart;
     float meilleurTour = 0;
     float previousTour;
+    float penalityFinal;
     
     float[] widthBar=new float[4];
     GestionGeneral GG;// récupére les autres script
@@ -254,5 +257,10 @@ public class GestionUI : PersonnalMethod
             }
         }
 
+    }
+
+    public void addPenality() 
+    {
+        LeTimeInGame += TempsParPenalite;
     }
 }

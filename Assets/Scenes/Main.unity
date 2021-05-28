@@ -16619,6 +16619,7 @@ MonoBehaviour:
   NewGravity: {x: 0, y: -1, z: 0}
   forceGravity: 9.81
   RotationAngle: 180
+  vitesserotation: 10
 --- !u!65 &463383557
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53673,6 +53674,7 @@ MonoBehaviour:
   TimeBeforeStart: 3
   TimeAvantDebutChrono: 1
   TimeForHideCompteur: 0.2
+  TempsParPenalite: 0
   Timer:
   - {fileID: 896007687}
   - {fileID: 2090318865}
