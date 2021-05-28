@@ -15036,7 +15036,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -43.44074, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -21059,7 +21059,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.2956543, y: 17.904907, z: 37.84729}
-  m_Center: {x: -20.449036, y: -8.594116, z: -18.423645}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &463383558
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21115,7 +21115,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 463383555}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -546.3, y: 656.4, z: 837.4}
+  m_LocalPosition: {x: -563.43, y: 645.19, z: 818.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -25567,6 +25567,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: -4654633021603524453, guid: 43696154c32a99541b4a3db1753f1213,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4566169875137798768, guid: 43696154c32a99541b4a3db1753f1213,
         type: 3}
       propertyPath: m_Layer
@@ -25656,6 +25661,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -4091954129083765233, guid: 43696154c32a99541b4a3db1753f1213,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3919796887962296046, guid: 43696154c32a99541b4a3db1753f1213,
         type: 3}
@@ -25811,6 +25821,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -2677551580364554918, guid: 43696154c32a99541b4a3db1753f1213,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2666718014777816685, guid: 43696154c32a99541b4a3db1753f1213,
         type: 3}
@@ -26956,6 +26971,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077664181628861714, guid: 43696154c32a99541b4a3db1753f1213,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6140994139569067330, guid: 43696154c32a99541b4a3db1753f1213,
         type: 3}
@@ -65674,10 +65694,10 @@ MonoBehaviour:
   PourcentageVitesseParBoost:
   - 0.25
   - 0.5
-  - 1
+  - 0.75
   TimeForInput: 0.5
   "TempsApr\xE8sSurchauffe": 3
-  VitesseMaxSurchauffe: 3
+  VitesseMaxSurchauffe: 4
   AccelerationSurchauffe: 0.5
   vitesseDiminutionSurchauffe: 0.5
   Recharge: 0
@@ -66836,7 +66856,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.80166054, b: 0, a: 1}
+      maxColor: {r: 1, g: 0.8, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -84003,7 +84023,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1616941890
 Transform:
   m_ObjectHideFlags: 0

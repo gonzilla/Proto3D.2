@@ -166,7 +166,7 @@ public class GestionBoost : PersonnalMethod
                 Invoke("finDeBoost", TempsDeBoosting);//lance la fin de boost 
             }
             GG.GUI.setSliderBoost(actualBoostReserve);//met a jour la reserve
-            SetNewvitesseMax();//recalcul la vitesse max
+            //SetNewvitesseMax();//recalcul la vitesse max
         }
         
     }
@@ -216,7 +216,7 @@ public class GestionBoost : PersonnalMethod
     
     void SetNewvitesseMax() //
     {
-        GG.GMC.vitesseMax = OldvitesseMax + Pourcentage;//calcul de la nouvelle vitesse max
+        GG.GMC.vitesseMax = OldvitesseMax + OldvitesseMax * Pourcentage /2 ;//calcul de la nouvelle vitesse max
     }
    
    

@@ -76,7 +76,7 @@ public class GestionUI : PersonnalMethod
     {
         float valueVelocity = GG.GMC.VitesseMoto * 100;//multiplie la valeur de la moto 
         float arrondis = (float)System.Math.Round(valueVelocity, arrondisDecimal);//arrondis la valeur a afficher
-        Speed.text = arrondis.ToString();//affiche la valeur
+        Speed.text = arrondis.ToString()+" Km/H";//affiche la valeur
         if (GG.CanPlay)//si le jeu est lancé
         {
             LeTimeInGame = Time.time - TimeAtStart;//Le chrono en some

@@ -115,6 +115,7 @@ public class GestionDesInputs : PersonnalMethod
         if (Input.GetAxis(Axes[9]) != 0)
         {
             GG.EtatEtFeedback.stopAllSound();
+            Physics.gravity= new Vector3(0, -9.81f, 0);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             
 

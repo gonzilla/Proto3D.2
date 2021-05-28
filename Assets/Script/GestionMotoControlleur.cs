@@ -255,7 +255,7 @@ public class GestionMotoControlleur : PersonnalMethod
 
             checkRotationMoto(VitesseDeRotationMax);
         }
-        if (Mathf.Abs(X) < ValeurJoysticPourRotation)// si le joueur ne touche pas assez au joystick
+        if (Mathf.Abs(X) < ValeurJoysticPourRotation || Mathf.Abs(VitesseMoto) < VitesseMinimumPourTourner)// si le joueur ne touche pas assez au joystick
         {
             ActuelVitesseRotation = 0;//reset la valeur de rotation
         }
@@ -298,10 +298,14 @@ public class GestionMotoControlleur : PersonnalMethod
             float angle = X * angleMax;// decale selon angle max
             DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward*StraffPowa;//calcul la rotation
             GG.FeedBackVisu.GestionStraff(true,true);
-            if (X!=0)
+            if (X>0.3f|| X < -0.3f)
             {
                 staffing = true;
                 GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Straff);
+            }
+            else 
+            {
+                staffing = false;
             }
            
             //actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);// l'applique la rotation
