@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GestionCheckPoint : PersonnalMethod
 {
     //Public variable
-    public Text AffichageTour;
+    public TextMeshProUGUI AffichageTour;
     public int NombrePointDePassage;
     public int NombreDeTour;
     //Local variable

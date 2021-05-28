@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GestionUI : PersonnalMethod
 {
     //Public variable
     [Tooltip(" Le text qui affiche la vitesse ")]
-    public Text Speed;
-    [Tooltip(" Le slider pour la jauge de boost ")]
-    public Slider BoostVisual;
+    public TextMeshProUGUI Speed;
+    [Tooltip(" Les Images pour la bar de boost ")]
+    public Image[] BoostVisual;
+    [Tooltip(" LesValeurs de width ")]
+    public float[] widthBarMax;
     #region ValeurCompteRebour
     [Tooltip(" Le temps pour compte a rebours ")]
     public float TimeBeforeStart;
@@ -18,11 +21,11 @@ public class GestionUI : PersonnalMethod
     [Tooltip(" Le temps avant de cacher le compte à rebours ")]
     public float TimeForHideCompteur;
     [Tooltip(" Le text du timer ")]
-    public Text Timer;
+    public TextMeshProUGUI[] Timer;
     [HideInInspector]public float LeTimeInGameArrondie;
     #endregion
     [Tooltip(" Le textDu chrono ")]
-    public Text Chrono;
+    public TextMeshProUGUI Chrono;
     [Tooltip(" arrondis la valeur afficher du chrono ")]
     public int arrondisDecimalChrono = 3;
     [Tooltip(" arrondis la valeur afficher de la vitesse")]
@@ -33,18 +36,21 @@ public class GestionUI : PersonnalMethod
     [Tooltip("l'objet montrant les stats")]
     public GameObject Stats;
     [Tooltip("Le temps du circuit")]
-    public Text TempsDeCircuit;
+    public TextMeshProUGUI TempsDeCircuit;
     [Tooltip("Le meilleurs Temps que le joueur a fait")]
-    public Text MeilleurTemps;
+    public TextMeshProUGUI MeilleurTemps;
     [Tooltip("Le meilleur tour que le joueur a effectué")]
-    public Text MeilleurTour;
+    public TextMeshProUGUI MeilleurTour;
     #endregion
+    public LightDebut LD;
     //Local variable
     float TimeBeforeStartOriginal;
     float LeTimeInGame;
     float TimeAtStart;
     float meilleurTour = 0;
     float previousTour;
+    
+    float[] widthBar=new float[4];
     GestionGeneral GG;// récupére les autres script
     Color OldColor;
 
@@ -54,7 +60,11 @@ public class GestionUI : PersonnalMethod
         GetGestion(out GG, this.gameObject);// récupére les autres script
         TimeBeforeStartOriginal = TimeBeforeStart;// set le temps Original
         Chrono.gameObject.SetActive(false);
-        Timer.gameObject.SetActive(false);
+        foreach (TextMeshProUGUI item in Timer)
+        {
+            item.gameObject.SetActive(false);
+        }
+        
         GG.CanPlay = false;//indique au jeu que le joueur ne peut pas jouer
         OldColor = Speed.color;// set la old color pour garder en mémoire lors de la collisions
         Invoke("SecondDeMoins", TimeAvantDebutChrono);//Lance le chrono
@@ -78,8 +88,51 @@ public class GestionUI : PersonnalMethod
     
     public void setSliderBoost(float valueToShow) 
     {
-        
-        BoostVisual.value = valueToShow; // set la value du slider
+
+        // BoostVisual.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, valueToShow); // set la value du slider
+        int indexBar = 0;
+        float max = 0;
+        float min = 0;
+        if (valueToShow<=0.25)
+        {
+            indexBar = 0;
+            min = 0;
+            max = 0.25f;
+        }
+        else if (valueToShow <= 0.5 && valueToShow > 0.25)
+        {
+            indexBar = 1;
+            min = 0.25f;
+            max = 0.5f;
+        }
+        else if ( valueToShow > 0.5 && valueToShow <= 0.75)
+        {
+            indexBar = 2;
+            min = 0.5f;
+            max = 0.75f;
+        }
+        else if (valueToShow > 0.75 )
+        {
+            indexBar = 3;
+            min = 0.75f;
+            max = 1f;
+        }
+        widthBar[indexBar] = widthBarMax[indexBar] *(valueToShow-min) / (max-min);
+        for (int i = 0; i < widthBar.Length; i++)
+        {
+            if (indexBar == i)
+            {
+                BoostVisual[indexBar].rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, widthBar[indexBar]);
+            }
+             if (i<indexBar)
+            {
+                 BoostVisual[i].rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, widthBarMax[i]);
+            }
+            if (i>indexBar)
+            {
+                BoostVisual[i].rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0);
+            }
+        }
         
     }
 
@@ -148,10 +201,31 @@ public class GestionUI : PersonnalMethod
     }
     void SecondDeMoins()
     {
-        Timer.text = TimeBeforeStart.ToString();//set le text
-        if (!Timer.gameObject.activeSelf)
+        if (TimeBeforeStart==3 || TimeBeforeStart == 2)
         {
-            Timer.gameObject.SetActive(true);//active le chrono
+            LD.DesactiveTime(0.5f);
+            LD.Active3();
+           
+        }
+        else if (TimeBeforeStart == 1)
+        {
+            LD.Desactive();
+            LD.Active2();
+        }
+        else if (TimeBeforeStart == 0)
+        {
+            LD.Desactive(); 
+            LD.Active1();
+            LD.DesactiveTime(3);
+
+        }
+        foreach (TextMeshProUGUI item in Timer)
+        {
+            item.text = TimeBeforeStart.ToString();//set le text
+            if (!item.gameObject.activeSelf)
+            {
+                item.gameObject.SetActive(true);//active le chrono
+            }
         }
         if (TimeBeforeStart > 0) // tant qu'il reste du temps
         {
@@ -170,6 +244,15 @@ public class GestionUI : PersonnalMethod
     }
     void HideCompteARebours() 
     {
-        Timer.gameObject.SetActive(false);
+        print("cache");
+        foreach (TextMeshProUGUI item in Timer)
+        {
+          
+            if (item.gameObject.activeSelf)
+            {
+                item.gameObject.SetActive(false);//active le chrono
+            }
+        }
+
     }
 }
