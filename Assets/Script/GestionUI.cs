@@ -24,7 +24,7 @@ public class GestionUI : PersonnalMethod
     public float TempsParPenalite;
     [Tooltip(" Le text du timer ")]
     public TextMeshProUGUI[] Timer;
-    [HideInInspector] public float LeTimeInGameArrondie;
+    [HideInInspector]public float LeTimeInGameArrondie;
     #endregion
     [Tooltip(" Le textDu chrono ")]
     public TextMeshProUGUI Chrono;
@@ -54,12 +54,12 @@ public class GestionUI : PersonnalMethod
     float meilleurTour = 0;
     float previousTour;
     float penalityFinal;
-
-    float[] widthBar = new float[4];
+    
+    float[] widthBar=new float[4];
     GestionGeneral GG;// récupére les autres script
     Color OldColor;
 
-
+    
     void Start()
     {
         GetGestion(out GG, this.gameObject);// récupére les autres script
@@ -69,36 +69,36 @@ public class GestionUI : PersonnalMethod
         {
             item.gameObject.SetActive(false);
         }
-
+        
         GG.CanPlay = false;//indique au jeu que le joueur ne peut pas jouer
         OldColor = Speed.color;// set la old color pour garder en mémoire lors de la collisions
         Invoke("SecondDeMoins", TimeAvantDebutChrono);//Lance le chrono
-
+        
     }
 
-
+    
     void Update()
     {
         float valueVelocity = GG.GMC.VitesseMoto * 100;//multiplie la valeur de la moto 
         float arrondis = (float)System.Math.Round(valueVelocity, arrondisDecimal);//arrondis la valeur a afficher
-        Speed.text = arrondis.ToString() + " Km/H";//affiche la valeur
+        Speed.text = arrondis.ToString()+" Km/H";//affiche la valeur
         if (GG.CanPlay)//si le jeu est lancé
         {
-            LeTimeInGame = Time.time - TimeAtStart + penalityFinal;//Le chrono en some
+            LeTimeInGame = Time.time - TimeAtStart+penalityFinal;//Le chrono en some
             LeTimeInGameArrondie = (float)System.Math.Round(LeTimeInGame, arrondisDecimalChrono);// Calcul le temps à afficher
             Chrono.text = LeTimeInGameArrondie.ToString(); //affiche le text
         }
 
     }
-
-    public void setSliderBoost(float valueToShow)
+    
+    public void setSliderBoost(float valueToShow) 
     {
 
         // BoostVisual.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, valueToShow); // set la value du slider
         int indexBar = 0;
         float max = 0;
         float min = 0;
-        if (valueToShow <= 0.25)
+        if (valueToShow<=0.25)
         {
             indexBar = 0;
             min = 0;
@@ -110,51 +110,51 @@ public class GestionUI : PersonnalMethod
             min = 0.25f;
             max = 0.5f;
         }
-        else if (valueToShow > 0.5 && valueToShow <= 0.75)
+        else if ( valueToShow > 0.5 && valueToShow <= 0.75)
         {
             indexBar = 2;
             min = 0.5f;
             max = 0.75f;
         }
-        else if (valueToShow > 0.75)
+        else if (valueToShow > 0.75 )
         {
             indexBar = 3;
             min = 0.75f;
             max = 1f;
         }
-        widthBar[indexBar] = widthBarMax[indexBar] * (valueToShow - min) / (max - min);
+        widthBar[indexBar] = widthBarMax[indexBar] *(valueToShow-min) / (max-min);
         for (int i = 0; i < widthBar.Length; i++)
         {
             if (indexBar == i)
             {
                 BoostVisual[indexBar].rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, widthBar[indexBar]);
             }
-            if (i < indexBar)
+             if (i<indexBar)
             {
-                BoostVisual[i].rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, widthBarMax[i]);
+                 BoostVisual[i].rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, widthBarMax[i]);
             }
-            if (i > indexBar)
+            if (i>indexBar)
             {
                 BoostVisual[i].rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0);
             }
         }
-
+        
     }
 
-    public void setTextCouleur()
+    public void setTextCouleur() 
     {
         Speed.color = Color.red;// change la couleur en rouge
         Invoke("resetTextCouleur", TimeFeedBackText);// demande pour reset la couleur du text
     }
 
-    public void CheckTimePourMeilleurTour(int tour)
+    public void CheckTimePourMeilleurTour(int tour) 
     {
 
-        if (tour > 1)
+        if (tour>1 )
         {
             float calculDuTour = LeTimeInGame - previousTour;
             float CalculDuTourArrondie = (float)System.Math.Round(calculDuTour, arrondisDecimalChrono);
-            if (calculDuTour < meilleurTour && meilleurTour != 0)
+            if (calculDuTour < meilleurTour && meilleurTour !=0)
             {
                 meilleurTour = CalculDuTourArrondie;
             }
@@ -163,12 +163,12 @@ public class GestionUI : PersonnalMethod
                 meilleurTour = CalculDuTourArrondie;
             }
             previousTour += calculDuTour;
-
+            
         }
 
-
+    
     }
-    public void AffichageStats()
+    public void AffichageStats() 
     {
         GG.EtatEtFeedback.stopAllSound();
         Stats.SetActive(true);
@@ -184,34 +184,34 @@ public class GestionUI : PersonnalMethod
                 MeilleurTemps.text = LeTimeInGameArrondie.ToString();
                 PlayerPrefs.SetFloat("MeilleurTemps", LeTimeInGameArrondie);
             }
-            else
+            else 
             {
                 MeilleurTemps.text = MeilleurtempsOfAllTime.ToString();
             }
         }
-        else
+        else 
         {
             MeilleurTemps.text = LeTimeInGameArrondie.ToString();
             PlayerPrefs.SetFloat("MeilleurTemps", LeTimeInGameArrondie);
         }
         PlayerPrefs.Save();
-
-
-
+        
+       
+      
     }
 
-    void resetTextCouleur()
+    void resetTextCouleur() 
     {
         Speed.color = OldColor; // remet la couleur
 
     }
     void SecondDeMoins()
     {
-        if (TimeBeforeStart == 3 || TimeBeforeStart == 2)
+        if (TimeBeforeStart==3 || TimeBeforeStart == 2)
         {
             LD.DesactiveTime(0.5f);
             LD.Active3();
-
+           
         }
         else if (TimeBeforeStart == 1)
         {
@@ -220,7 +220,7 @@ public class GestionUI : PersonnalMethod
         }
         else if (TimeBeforeStart == 0)
         {
-            LD.Desactive();
+            LD.Desactive(); 
             LD.Active1();
             LD.DesactiveTime(3);
 
@@ -248,12 +248,12 @@ public class GestionUI : PersonnalMethod
 
 
     }
-    void HideCompteARebours()
+    void HideCompteARebours() 
     {
-        print("cache");
+        
         foreach (TextMeshProUGUI item in Timer)
         {
-
+          
             if (item.gameObject.activeSelf)
             {
                 item.gameObject.SetActive(false);//active le chrono
@@ -262,9 +262,15 @@ public class GestionUI : PersonnalMethod
 
     }
 
-    public void addPenality()
+    public void addPenality() 
     {
-
+       
         penalityFinal += TempsParPenalite;
+        Chrono.color = Color.red;
+        Invoke("reset2", TimeFeedBackText);
+    }
+    void reset2() 
+    {
+        Chrono.color = Color.black;
     }
 }

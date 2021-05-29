@@ -14,6 +14,7 @@ public class GestionDesInputs : PersonnalMethod
     public float timeMinMaintien;// temps à partir duquel on décide qu'une touche est maintenue volontairement 
     [Tooltip("temps a partir duquel un maintient n'est plus nécessaire")]
     public float TempsMaxMaintien;
+    public string SceneToLoad;
     [HideInInspector] public float[] TimeMaintenueAxes;//le temps que le joueur maintien cette input
     [HideInInspector] public float[] TimePressionAxes;// le temps pressé
     [HideInInspector] public bool[] InUse;// Pour Savoir si le bouton est utilisé ou nan
@@ -115,8 +116,13 @@ public class GestionDesInputs : PersonnalMethod
         {
             GG.GMC.ResetLastPosition();//lance le reset de la position
         }
+        if (Input.GetAxis(Axes[10]) != 0)//si le joueur reset la scene
+        {
+            GG.EtatEtFeedback.stopAllSound(); //stop les sons
+            Physics.gravity = new Vector3(0, -9.81f, 0); //Change la gravity
+            SceneManager.LoadScene(SceneToLoad); //reload la scene
+        }
 
-        
     }
 
     void setTableauLength() 

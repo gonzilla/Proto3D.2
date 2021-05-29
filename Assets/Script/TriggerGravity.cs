@@ -9,8 +9,9 @@ public class TriggerGravity : MonoBehaviour
     public Vector3 NewGravity;
     public float forceGravity;
     public float RotationAngle;
-    public float vitesseRotation;
-
+    public float vitesserotation;
+    
+    
     Quaternion Cible;
     Transform LaMoto;
     void changement() 
@@ -21,20 +22,22 @@ public class TriggerGravity : MonoBehaviour
         }
         if (RotationAngle!=0)
         {
-            Cible = LaMoto.transform.rotation * Quaternion.Euler(0,0, RotationAngle);
-            rotationCam();
+            Cible = LaMoto.transform.rotation * Quaternion.Euler(0, 0, RotationAngle);
+            rotateCam();
         }
     
     }
 
-
-    void rotationCam() 
+    void rotateCam() 
     {
-    
+        
+        if (LaMoto.transform.rotation!= Cible)
+        {
+            LaMoto.transform.rotation = Quaternion.RotateTowards(LaMoto.transform.rotation, Cible, vitesserotation);
+            Invoke("rotateCam", Time.deltaTime);
+        }
 
-    
     }
-
 
     private void OnTriggerEnter(Collider other)
     {

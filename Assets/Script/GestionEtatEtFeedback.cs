@@ -689,7 +689,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
         }
         else if (LeparametreAchercher == "Laps")
         {
-            ValueToReturn = (float)GG.GestionPointDeControle.tourActuel-1;
+            ValueToReturn = (float)GG.GestionPointDeControle.tourActuel;
            // print(ValueToReturn);
         }
 
