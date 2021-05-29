@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 using TMPro;
 
 public class GestionCheckPoint : PersonnalMethod
@@ -14,6 +14,9 @@ public class GestionCheckPoint : PersonnalMethod
     int passageActuel;
     [HideInInspector] public int tourActuel;
 
+    [FMODUnity.EventRef]
+    public string LeSonAJouer;
+    FMOD.Studio.EventInstance MonEvenementFMOD;
     GestionGeneral GG;
 
     void Start()
@@ -22,6 +25,7 @@ public class GestionCheckPoint : PersonnalMethod
         string affichage = tourActuel.ToString() + "/" + NombreDeTour.ToString();
         AffichageTour.text = affichage;
         passageActuel = NombrePointDePassage;
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Musique");
     }
 
     
@@ -34,6 +38,7 @@ public class GestionCheckPoint : PersonnalMethod
         }
         if (lecheckPoint==0 && passageActuel==NombrePointDePassage)
         {
+            print("set");
             tourActuel++;
             GG.GUI.CheckTimePourMeilleurTour(tourActuel);
             if (tourActuel> NombreDeTour)
@@ -46,6 +51,7 @@ public class GestionCheckPoint : PersonnalMethod
             passageActuel = 0;
             string affichage = tourActuel.ToString() + "/" + NombreDeTour.ToString();
             AffichageTour.text = affichage;
+            MonEvenementFMOD.setParameterByName("Laps", NombreDeTour);
             //GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.);
         }
     }
