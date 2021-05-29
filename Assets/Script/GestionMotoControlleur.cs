@@ -44,20 +44,20 @@ public class GestionMotoControlleur : PersonnalMethod
     [Tooltip("Vitesse à partir de laquelle la moto peut tourner")]
     public float VitesseMinimumPourTourner;
     [Tooltip("Vitesse à la quelle augmente sa rotation")]
-    public float VitesseDeProgressionDeLaRotation ;
+    public float VitesseDeProgressionDeLaRotation;
     [Tooltip("Vitesse de rotation pour tourner au maximum")]
     public float VitesseDeRotationMax;
 
 
     [Header("Dérapage")]
-    
+
     [Tooltip("Vitesse  à partir de laquelle la moto peut deraper")]
     public float VitesseMinimumPourDeraper;
     [Tooltip("Vitesse à la quelle augmente son derapage")]
     public float VitesseDeProgressionDuDerapage;
     [Tooltip("Vitesse de rotation pour deraper au maximum")]
     public float VitesseDeDerapageMax;
-    [Range(0,1),Tooltip("Force de ralentissement lorsderapage")]
+    [Range(0, 1), Tooltip("Force de ralentissement lorsderapage")]
     public float ForceRalentissementDerapage;
     [Tooltip("Valeur du ralentissement lors du derapage selon vitesse en %")]
     public AnimationCurve RalentissementDerapage;
@@ -70,8 +70,8 @@ public class GestionMotoControlleur : PersonnalMethod
     public float GroundRayLength;
     [Tooltip("permet de choisir le layer du ground")]
     public LayerMask whatIsGround;
-   
-    
+
+
 
     [Header("Collision")]
     [Tooltip("La perte de boost lorsqu'entre en collision pdt surchauffe")]
@@ -86,24 +86,24 @@ public class GestionMotoControlleur : PersonnalMethod
     public float StraffPowa;
     [Tooltip("les wheels pour l'animation ")]
     public Animator[] wheelAnimation;
-    [HideInInspector]public bool grounded; // pour savoir sur sol
+    [HideInInspector] public bool grounded; // pour savoir sur sol
     #endregion
 
     #region local
     //Local variable
     float TimeCible; // le temps viser pour savoir si le joueur est en l'air
     float originalVitesseMax;
-    
+
 
     Vector3 DirectionForMoto; //
     Vector3 LastPostionOnCircuit;
 
     Quaternion LastRotation;
-   
+
     bool OnceForFloor; // pour détecter si en l'air
-    bool staffing=false;
+    bool staffing = false;
     bool Deraping = false;
-    bool GNEU=false;
+    bool GNEU = false;
 
     Rigidbody Rb; // stock le rigidbody
     GestionGeneral GG;//stock les script
@@ -120,17 +120,17 @@ public class GestionMotoControlleur : PersonnalMethod
         //FirstVitesseRotation = ;//set old votesse rotation
         LantiGravite = GetComponent<ConstantForce>();
     }
-    public void SetByNormal() 
+    public void SetByNormal()
     {
-       // Vector3 PourForceConstante = Vector3.up*Physics.gravity.magnitude;
+        // Vector3 PourForceConstante = Vector3.up*Physics.gravity.magnitude;
         grounded = false; // lui dis qu'il n'est pas au sol
         RaycastHit hit;// stock les infos du raycast
 
         //Debug.DrawRay(detecteur.position, -detecteur.transform.up * GroundRayLength, Color.red);
         //Debug.DrawRay(detecteur.position, -detecteur.transform.up * GroundRayLength, Color.magenta);//  draw a ray
-        if (Physics.Raycast(detecteur.position, -transform.up, out hit, GroundRayLength, whatIsGround) ) // si le raycast detect le sol
+        if (Physics.Raycast(detecteur.position, -transform.up, out hit, GroundRayLength, whatIsGround)) // si le raycast detect le sol
         {
-            
+
             grounded = true;//passe le bool en true
             GNEU = false;
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
@@ -144,26 +144,26 @@ public class GestionMotoControlleur : PersonnalMethod
         }
         if (!grounded)// si n'est pas ground
         {
-           
+
             // PourForceConstante = Vector3.zero;
             if (!OnceForFloor)// et que le Once est false
             {
-                TimeCible = Time.time+TempsPourEtreEnLair; //set le temps pour check
+                TimeCible = Time.time + TempsPourEtreEnLair; //set le temps pour check
                 OnceForFloor = true;// le passe a true
                 //FreezeRotation(); // freeze la rotation
             }
-            if (OnceForFloor && TimeCible<= Time.time )//si le temps est dépassé
+            if (OnceForFloor && TimeCible <= Time.time)//si le temps est dépassé
             {
                 if (!GNEU)
                 {
                     Invoke("ResetLastPosition", TempsAvantRespawn);
                     GNEU = true;
                 }
-               
+
                 //Physics.gravity = new Vector3(0, -9.81f, 0);
-                
+
             }
-            
+
         }
         //FreezeRotation();
         // LantiGravite.force = PourForceConstante;
@@ -177,58 +177,59 @@ public class GestionMotoControlleur : PersonnalMethod
 
     public void avance(float Direction) // fait avancer le véhicule
     {
-        
-            
-                
-                
-            float DirectionMoteur = 0; // enregistre la direction du moteur
-            float DirectionVoulue = 0; // enregistre la direction voulue
-            float pourcentage = Mathf.Abs( VitesseMoto) / vitesseMax;// détermine le pourcentage de vitesse de la moto
-            if (VitesseMoto != 0)// si la vitesse n'est pas nul
-            {
-                DirectionMoteur = VitesseMoto / Mathf.Abs(VitesseMoto);// Direction du moteur
-            }
-            if (Direction != 0) // si le joueur appuie
-            {
-                DirectionVoulue = Direction / Mathf.Abs(Direction);//détermine la direction voulue
-            }
-            if (DirectionVoulue>0 && DirectionMoteur == DirectionVoulue && ActuelVitesseRotation == 0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge)
-            {
+
+
+
+
+        float DirectionMoteur = 0; // enregistre la direction du moteur
+        float DirectionVoulue = 0; // enregistre la direction voulue
+        float pourcentage = Mathf.Abs(VitesseMoto) / vitesseMax;// détermine le pourcentage de vitesse de la moto
+        if (VitesseMoto != 0)// si la vitesse n'est pas nul
+        {
+            DirectionMoteur = VitesseMoto / Mathf.Abs(VitesseMoto);// Direction du moteur
+        }
+        if (Direction != 0) // si le joueur appuie
+        {
+            DirectionVoulue = Direction / Mathf.Abs(Direction);//détermine la direction voulue
+        }
+        if (DirectionVoulue > 0 && DirectionMoteur == DirectionVoulue && ActuelVitesseRotation == 0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge)
+        {
             GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Avance);
-            }
-            if (DirectionVoulue < 0 && DirectionMoteur==DirectionVoulue && ActuelVitesseRotation == 0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing &&!GG.GB.Recharge)
-            {
+        }
+        if (DirectionVoulue < 0 && DirectionMoteur == DirectionVoulue && ActuelVitesseRotation == 0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge)
+        {
             GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Recule);
-            }
-            if (VitesseMoto==0)
+        }
+        if (VitesseMoto == 0)
+        {
+
+            if (DirectionVoulue != 0)
             {
-            
-                if (DirectionVoulue!=0)
-                {
                 GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Stationnaire);
-                }
-           
             }
 
+        }
+
         if (DirectionMoteur != DirectionVoulue && DirectionMoteur != 0)// si la direction moteur n(est pas la direction voulue et la direction moteur n'est pas 0
-            {
-                Freine(DirectionVoulue, Direction, pourcentage);//Lance le frein
-            }
-            else if (DirectionMoteur == DirectionVoulue || DirectionMoteur == 0) //sinon
-            {
-                if (grounded){//si sur le sol
-                    if (VitesseMoto<vitesseMax)
-                    {
-                         VitesseMoto += AccélérationMoto * Direction * Time.deltaTime * AccelerationSelonVitesseMax.Evaluate(pourcentage);// calcule la vitesse
-                    }
-                
-                checkVitesseMoto();// check la vitesse de la moto
+        {
+            Freine(DirectionVoulue, Direction, pourcentage);//Lance le frein
+        }
+        else if (DirectionMoteur == DirectionVoulue || DirectionMoteur == 0) //sinon
+        {
+            if (grounded)
+            {//si sur le sol
+                if (VitesseMoto < vitesseMax)
+                {
+                    VitesseMoto += AccélérationMoto * Direction * Time.deltaTime * AccelerationSelonVitesseMax.Evaluate(pourcentage);// calcule la vitesse
                 }
-                else if (!grounded) 
-                 {
-                    Freine(DirectionVoulue, Direction, pourcentage);
-                 }
+
+                checkVitesseMoto();// check la vitesse de la moto
             }
+            else if (!grounded)
+            {
+                Freine(DirectionVoulue, Direction, pourcentage);
+            }
+        }
         DirectionForMoto += transform.forward;//set la direction
         DeclenchementParticuleSelonVitesse();
         foreach (Animator item in wheelAnimation)
@@ -237,20 +238,20 @@ public class GestionMotoControlleur : PersonnalMethod
         }
         transform.Translate(DirectionForMoto.normalized * VitesseMoto, Space.World);//fais le déplacement
         DirectionForMoto = Vector3.zero;// remet la direction 
-        
+
 
 
 
     }
     public void tourne(float X) //fait tourner la moto
     {
-        
+
         if (grounded && Mathf.Abs(VitesseMoto) > VitesseMinimumPourTourner)//si je suis sur le sol et que la vitesse est suffisante
         {
-            
+
             if (Mathf.Abs(X) > ValeurJoysticPourRotation)// si la pressions est suffisante
             {
-                ActuelVitesseRotation += X * VitesseDeProgressionDeLaRotation  * Time.deltaTime; // augmente la vitesse de rotation 
+                ActuelVitesseRotation += X * VitesseDeProgressionDeLaRotation * Time.deltaTime; // augmente la vitesse de rotation 
             }
 
             checkRotationMoto(VitesseDeRotationMax);
@@ -263,31 +264,31 @@ public class GestionMotoControlleur : PersonnalMethod
 
         transform.rotation *= Quaternion.Euler(0, ActuelVitesseRotation, 0);// tourne la moto
 
-        if (ActuelVitesseRotation !=0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge)
+        if (ActuelVitesseRotation != 0 && !staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge)
         {
             GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Tourne);
         }
         PreviousRotation = transform.rotation;
     }
 
-    public void RotateMotoInWorld() 
+    public void RotateMotoInWorld()
     {
         float pourcentage = 0;
         float direction = 0;
         float angleZ = 0;
-        if (ActuelVitesseRotation !=0)
+        if (ActuelVitesseRotation != 0)
         {
             pourcentage = Mathf.Abs(ActuelVitesseRotation) / VitesseDeRotationMax;
             direction = Mathf.Abs(ActuelVitesseRotation) / ActuelVitesseRotation;
             angleZ = AngleMotoLorsDeRotation * -direction * pourcentage;
         }
-        else 
+        else
         {
-            angleZ = Mathf.LerpAngle(ModeleMoto.localRotation.eulerAngles.z,0, VitesseDeProgressionDeLaRotation*Time.deltaTime);
+            angleZ = Mathf.LerpAngle(ModeleMoto.localRotation.eulerAngles.z, 0, VitesseDeProgressionDeLaRotation * Time.deltaTime);
         }
-       
+
         ModeleMoto.localRotation = Quaternion.Euler(0, 0, angleZ);
-    
+
     }
 
     public void straff(float X) // fait straffer
@@ -296,40 +297,40 @@ public class GestionMotoControlleur : PersonnalMethod
         if (grounded && Mathf.Abs(VitesseMoto) > 0.01f) // si la moto est au sol est à une vitesse sup a 0.01f
         {
             float angle = X * angleMax;// decale selon angle max
-            DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward*StraffPowa;//calcul la rotation
-            GG.FeedBackVisu.GestionStraff(true,true);
-            if (X>0.3f|| X < -0.3f)
+            DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward * StraffPowa;//calcul la rotation
+            GG.FeedBackVisu.GestionStraff(true, true);
+            if (X > 0.3f || X < -0.3f)
             {
                 staffing = true;
                 GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Straff);
             }
-            else 
+            else
             {
                 staffing = false;
             }
-           
+
             //actualRotatevalue += ValuePourcentageForRotate * Time.deltaTime * Mathf.Abs(X);// l'applique la rotation
         }
     }
 
     #region Derapage
-    public void TourneDerapage(float DirectionRotation, float X, out bool ISitLosingSpeed) 
+    public void TourneDerapage(float DirectionRotation, float X, out bool ISitLosingSpeed)
     {
         float directionJoystick = 0;
-        if (X!=0)// si le joueur touche au joystick
+        if (X != 0)// si le joueur touche au joystick
         {
-            directionJoystick = Mathf.Abs(X)/X;//divise par son opposé pour avoir le bon signe
+            directionJoystick = Mathf.Abs(X) / X;//divise par son opposé pour avoir le bon signe
         }//détermine la direction du joystick
-        
-        
-        if (Mathf.Abs(X) > ValeurJoysticPourRotation &&  (directionJoystick == DirectionRotation ) && Mathf.Abs(VitesseMoto)>VitesseMinimumPourTourner && grounded)
+
+
+        if (Mathf.Abs(X) > ValeurJoysticPourRotation && (directionJoystick == DirectionRotation) && Mathf.Abs(VitesseMoto) > VitesseMinimumPourTourner && grounded)
         {
             Deraping = true;
             ActuelVitesseRotation += VitesseDeProgressionDuDerapage * DirectionRotation * Time.deltaTime;//ajoute la rotation
             checkRotationMoto(VitesseDeDerapageMax);//check si la rotation est encore bonne
             GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Derape);
             ISitLosingSpeed = true;// indique que la moto perd de la vitesse
-           
+
         }
         else if (Mathf.Abs(X) > ValeurJoysticPourRotation && (directionJoystick != DirectionRotation) && Mathf.Abs(VitesseMoto) > VitesseMinimumPourTourner && grounded)
         {
@@ -337,7 +338,7 @@ public class GestionMotoControlleur : PersonnalMethod
             checkRotationMoto(VitesseDeRotationMax);//check si la rotation est encore bonne
             tourne(X);
         }
-        else 
+        else
         {
             ISitLosingSpeed = false;//indique que la moto ne perd pas de vitesse
             checkRotationMoto(VitesseDeRotationMax);//check si la rotation est encore bonne
@@ -346,41 +347,41 @@ public class GestionMotoControlleur : PersonnalMethod
         GG.FeedBackVisu.GestionSmoke(ISitLosingSpeed);
         GG.FeedBackVisu.GestionWheelTrail(ISitLosingSpeed);
         GG.FeedBackVisu.GestionParticleRoue(ISitLosingSpeed);
-        if (ActuelVitesseRotation!=0)
+        if (ActuelVitesseRotation != 0)
         {
             transform.rotation *= Quaternion.Euler(0, ActuelVitesseRotation, 0);// tourne la moto
         }
     }//tourne la moto pour le dérapage
 
-    public void derapage(bool state, float X ,bool MustloseSpeed) //fais le dérapage
+    public void derapage(bool state, float X, bool MustloseSpeed) //fais le dérapage
     {
-        if (!state && X==0)
+        if (!state && X == 0)
         {
-             Deraping = false;
+            Deraping = false;
 
         }
         if (state && MustloseSpeed)// vérifie que je demande a déraper et que je dois perdre de la vitesse
         {
-            
+
             float direction = Mathf.Abs(VitesseMoto) / VitesseMoto;// trouve la direction de la moto
             float pourcentage = Mathf.Abs(VitesseMoto) / vitesseMax;// détermine le pourcentage de vitesse de la moto
             if (Mathf.Abs(VitesseMoto) > VitesseMinimumPourDeraper && Mathf.Abs(X) > ValeurJoysticPourRotation)//  
             {
-                VitesseMoto += -direction * ForceRalentissementDerapage  * RalentissementDerapage.Evaluate(pourcentage) * Time.deltaTime;//le calcul qui enléve
+                VitesseMoto += -direction * ForceRalentissementDerapage * RalentissementDerapage.Evaluate(pourcentage) * Time.deltaTime;//le calcul qui enléve
             }
-            
+
         }
-        
-          
+
+
 
 
 
     }
     #endregion
-    public void Freine(float directionFrein, float Input , float pourcentage) // fait freiner le véhicule
+    public void Freine(float directionFrein, float Input, float pourcentage) // fait freiner le véhicule
     {
 
-        if (!GG.GB.Surchauffing && VitesseMoto!=0) //si le joueur ne surchauffe pas
+        if (!GG.GB.Surchauffing && VitesseMoto != 0) //si le joueur ne surchauffe pas
         {
             if (Input == 0 || !grounded) //si le joueur n'appuie pas ou n'est plus sur le sol 
             {
@@ -392,30 +393,30 @@ public class GestionMotoControlleur : PersonnalMethod
                 {
                     VitesseMoto = Mathf.Lerp(VitesseMoto, 0, ForceRalentissementEnLair * Time.deltaTime * Ralentissement.Evaluate(pourcentage));// calcul la vitesse de la moto
                 }
-                
+
                 if (!staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge && !Deraping)
                 {
                     GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Ralenti);
                 }
-               
+
             }
             else if (grounded)// sinon si le joueur est sur le sol
             {
 
                 VitesseMoto = Mathf.Lerp(VitesseMoto, directionFrein, PuissanceFrainage * Time.deltaTime * FreinageSelonVitesse.Evaluate(pourcentage));// calcul la vitesse de la moto
-                if (!staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge  )
+                if (!staffing && !GG.GB.boosting && !GG.GB.Surchauffing && !GG.GB.Recharge)
                 {
                     GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.Freine);
                 }
-               
+
             }
         }
-       
-        
+
+
         //changer cette partie
         checkVitesseMoto();//check la vitesse
     }
-    public void ResetLastPosition() 
+    public void ResetLastPosition()
     {
         CancelInvoke();
         transform.position = LastPostionOnCircuit;
@@ -423,14 +424,14 @@ public class GestionMotoControlleur : PersonnalMethod
         transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
         Physics.gravity = -transform.up * 9.81f * 3; //transform.TransformPoint(-transform.up * 9.81f * 3) //;
         VitesseMoto = 0;
-        
+
     }
     #region checker
     void checkVitesseMoto() // check la vitesse de la moto
     {
-        if (Mathf.Abs(VitesseMoto)-vitesseMax>=0.1)//si la moto vas plus vite que la vitesse max
-        {           
-            VitesseMoto -= DecellerationVitesseElleve*Time.deltaTime;//baisse la vitesse moto
+        if (Mathf.Abs(VitesseMoto) - vitesseMax >= 0.1)//si la moto vas plus vite que la vitesse max
+        {
+            VitesseMoto -= DecellerationVitesseElleve * Time.deltaTime;//baisse la vitesse moto
         }
         else if (Mathf.Abs(VitesseMoto) - vitesseMax < 0.1)//pour le clamp la value
         {
@@ -442,17 +443,17 @@ public class GestionMotoControlleur : PersonnalMethod
             {
                 VitesseMoto = -vitesseMax; // clamp vitesse
             }
-            
+
             if (VitesseMoto > -SnapVitesse && VitesseMoto < SnapVitesse)//clamp pour arret
             {
                 VitesseMoto = 0;//met la vitesse a 0
             }
         }
-        
-    
+
+
     }
 
-    void checkRotationMoto(float max) 
+    void checkRotationMoto(float max)
     {
 
         GG.CSF.setRotationSpeedMax(max);
@@ -468,13 +469,13 @@ public class GestionMotoControlleur : PersonnalMethod
     #endregion
     void FreezeRotation()// freeze la rotation selon grounded ou non
     {
-        
-        
+
+
         if (grounded)//si sur le soll
         {
-            Rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ ; // freeze Y et Z 
-            //Rb.angularVelocity = new Vector3(Rb.angularVelocity.x, 0, Rb.angularVelocity.z);
-            
+            Rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; // freeze Y et Z 
+                                                                                                          //Rb.angularVelocity = new Vector3(Rb.angularVelocity.x, 0, Rb.angularVelocity.z);
+
         }
         else
         {
@@ -483,33 +484,10 @@ public class GestionMotoControlleur : PersonnalMethod
 
     }//tentative
 
-    void LorsqueCollision(Collision InfoDeCollision) 
+    void LorsqueCollision(Collision InfoDeCollision)
     {
         GG.GUI.setTextCouleur();//cahnge la couleur du text
-        if (GG.GB.Surchauffing)
-        {
-            
-            GG.GB.LostBoost(GG.GB.PerteParCollisionInSurchauffe);//fait perdre du boost
-        }
-        else 
-        {
-           
-            if (VitesseMoto>vitesseMax)
-            {
-                VitesseMoto = vitesseMax;//set la moto à la vitesse max
-            }
-            else 
-            {
-                VitesseMoto += -PerteParCollision * Mathf.Abs(VitesseMoto)/VitesseMoto;//fais perdre selon value
-            }
-        }
-        GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.TraverseObstacle);
-        
-    }
-
-    void LorsqueCollision(Collider InfoDeCollision)
-    {
-        GG.GUI.setTextCouleur();//cahnge la couleur du text
+        GG.GUI.addPenality();
         if (GG.GB.Surchauffing)
         {
 
@@ -530,29 +508,54 @@ public class GestionMotoControlleur : PersonnalMethod
         GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.TraverseObstacle);
 
     }
-    void DeclenchementParticuleSelonVitesse() 
+
+    void LorsqueCollision(Collider InfoDeCollision)
     {
-        if (VitesseMoto>=2)
+        GG.GUI.setTextCouleur();//cahnge la couleur du text
+        GG.GUI.addPenality();
+        if (GG.GB.Surchauffing)
+        {
+
+            GG.GB.LostBoost(GG.GB.PerteParCollisionInSurchauffe);//fait perdre du boost
+        }
+        else
+        {
+
+            if (VitesseMoto > vitesseMax)
+            {
+                VitesseMoto = vitesseMax;//set la moto à la vitesse max
+            }
+            else
+            {
+                VitesseMoto += -PerteParCollision * Mathf.Abs(VitesseMoto) / VitesseMoto;//fais perdre selon value
+            }
+        }
+        GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.TraverseObstacle);
+
+    }
+    void DeclenchementParticuleSelonVitesse()
+    {
+        if (VitesseMoto >= 2)
         {
             GG.FeedBackVisu.GestionWindTrail(true);
         }
-        else 
+        else
         {
             GG.FeedBackVisu.GestionWindTrail(false);
         }
-        if (VitesseMoto >0)
+        if (VitesseMoto > 0)
         {
             GG.FeedBackVisu.GestionRedLight(true);
         }
-        else 
+        else
         {
             GG.FeedBackVisu.GestionRedLight(false);
         }
-        if (VitesseMoto>0.5f)
+        if (VitesseMoto > 0.5f)
         {
             GG.FeedBackVisu.GestionParticleCam(true);
         }
-        else 
+        else
         {
             GG.FeedBackVisu.GestionParticleCam(false);
         }
@@ -570,131 +573,48 @@ public class GestionMotoControlleur : PersonnalMethod
 
     private void OnTriggerEnter(Collider other)
     {
-       
-            if (other.transform.CompareTag("Obstacle"))
-            {
 
-                LorsqueCollision(other);
+        if (other.transform.CompareTag("Obstacle"))
+        {
+
+            LorsqueCollision(other);
 
 
-            }
-        
+        }
+
     }
 
 
     private void OnCollisionEnter(Collision collision)//si le joueur touche qqchose
     {
-        if ( collision.transform.gameObject.layer == 8) // si le layer est sol //utile? sers à mettre le vhéhicule correctement
+        if (collision.transform.gameObject.layer == 8) // si le layer est sol //utile? sers à mettre le vhéhicule correctement
         {
-           
-            if (!grounded  ) //si n'est pas sur le sol
+
+            if (!grounded) //si n'est pas sur le sol
             {
-                
-                
+
+
                 Vector3 H = collision.GetContact(0).point;
-               RaycastHit Info;
-               Physics.Raycast(detecteur.position, -transform.up, out Info, GroundRayLength, whatIsGround);
+                RaycastHit Info;
+                Physics.Raycast(detecteur.position, -transform.up, out Info, GroundRayLength, whatIsGround);
                 float angleX = transform.rotation.eulerAngles.x;
                 float angleY = transform.rotation.eulerAngles.y;
                 float angleZ = transform.rotation.eulerAngles.z;
-                transform.rotation = Quaternion.FromToRotation(transform.up, Info.normal)* Quaternion.Euler(0, angleY, 0);
+                transform.rotation = Quaternion.FromToRotation(transform.up, Info.normal) * Quaternion.Euler(0, angleY, 0);
                 //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, angleY, transform.rotation.eulerAngles.z);//reset rot
                 //transform.rotation = Quaternion.Euler(0, angleY, 0);
             }
             Rb.velocity = Vector3.zero;//met la velocity a 0
 
         }
-         if (collision.transform.CompareTag("Obstacle"))
+        if (collision.transform.CompareTag("Obstacle"))
         {
-            
+
             LorsqueCollision(collision);
 
 
         }
     }
-    
-   /* private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        float X = Input.GetAxis("HorizontalManette");
-        float angleToGo = X * angleMax;
-        Vector3 coordonnéespehere = transform.position + new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo)).normalized * 10;
-        Gizmos.DrawWireSphere(coordonnéespehere,0.2f);
-    }*/
-}
-/*ancien code
- 
 
-//tourne
-/*else {
-           // Rotation = DirectionRotation * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
-        }*/
-
-
-// Gros Freinage
-//VitesseMoto =
-//VitesseMoto += directionFrein * PuissanceFrainage * Time.deltaTime * FreinageSelonVitesse.Evaluate();
-
-
-// un faible ralentissement
-//VitesseMoto += directionFrein*Mathf.Abs(Input)*ForceRalentissement*Input*Time.deltaTime;
-
-//float Z = Input.GetAxis("VerticalManette");
-//float angleToGo = X * angleMax;
-
-//transform.rotation
-//Vector3 DirectionRay = new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo));
-//Debug.DrawRay(transform.position, DirectionRay * 10, Color.red);
-
-
-//float Rotation = X * VitesseRotation * Time.deltaTime;
-//transform.rotation *= Quaternion.Euler(0, Rotation, 0);
-//float angleToGo = X * angleMax;
-//DirectionForMoto = transform.position + new Vector3(Mathf.Sin(Mathf.Deg2Rad * angleToGo), 0, Mathf.Cos(Mathf.Deg2Rad * angleToGo)).normalized ;
-//float angle = X * angleMax;
-//DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;
-
-//float angle = X * angleMax;
-//DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;
-//transform.Translate(DirectionForMoto * VitesseMoto, Space.World);
-
-
-//transform.Translate((transform.forward + (transform.right * Input.GetAxis("HorizontalManette"))) * VitesseMoto, Space.World);
-
-
-/*if (grounded)
-{
-    transform.Translate(transform.forward * VitesseMoto, Space.World);
-}    
-else if (!grounded) 
-{
-    transform.Translate(Vector3.zero * VitesseMoto, Space.World);
 
 }
-
-//DirectionForMoto += transform.right * Input.GetAxis("HorizontalManette");
-//DirectionForMoto += transform.right * Input.GetAxis("HorizontalManette");
-//&& Mathf.Abs(VitesseMoto)>0.01f 
-
-//AngleX = UnityEditor.TransformUtils.GetInspectorRotation(this.gameObject.transform).x;
-
-//print(UnityEditor.TransformUtils.GetInspectorRotation(this.gameObject.transform).x);
-*/
-
-//float Rotation = X * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
-
-/*if (Mathf.Abs(X)<0.7f) // si le joystick est tourné a 70% // vieuxcode
-          {
-
-              float angle = X * angleMax;// decale selon angle max
-              DirectionForMoto = Quaternion.AngleAxis(angle, transform.up) * transform.forward;//calcul la rotation
-          } // A changer par une autre fonction pour un truc plus sympa
-          else 
-          {
-
-
-              float Rotation = X * VitesseRotation * Time.deltaTime; // trouve la valeur selon vitesse rotation
-              transform.rotation *= Quaternion.Euler(0, Rotation, 0);// tourne la moto
-          }
-          Debug.DrawRay(transform.position, DirectionForMoto * 3, Color.red);//montrte la direction
-          */
