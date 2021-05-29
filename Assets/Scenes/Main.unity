@@ -45657,6 +45657,11 @@ PrefabInstance:
       propertyPath: AffichageTour
       value: 
       objectReference: {fileID: 1017133640}
+    - target: {fileID: 7988349165669018907, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: LeSonAJouer
+      value: event:/Musique
+      objectReference: {fileID: 0}
     - target: {fileID: 7988349165669018910, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
       propertyPath: ParticleCam
