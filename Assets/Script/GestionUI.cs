@@ -43,6 +43,8 @@ public class GestionUI : PersonnalMethod
     public TextMeshProUGUI MeilleurTemps;
     [Tooltip("Le meilleur tour que le joueur a effectué")]
     public TextMeshProUGUI MeilleurTour;
+    [Tooltip("Le temps de penalite que le joueur a effectué")]
+    public TextMeshProUGUI Penalite;
     #endregion
     public LightDebut LD;
     //Local variable
@@ -82,7 +84,7 @@ public class GestionUI : PersonnalMethod
         Speed.text = arrondis.ToString()+" Km/H";//affiche la valeur
         if (GG.CanPlay)//si le jeu est lancé
         {
-            LeTimeInGame = Time.time - TimeAtStart;//Le chrono en some
+            LeTimeInGame = Time.time - TimeAtStart+penalityFinal;//Le chrono en some
             LeTimeInGameArrondie = (float)System.Math.Round(LeTimeInGame, arrondisDecimalChrono);// Calcul le temps à afficher
             Chrono.text = LeTimeInGameArrondie.ToString(); //affiche le text
         }
@@ -172,6 +174,7 @@ public class GestionUI : PersonnalMethod
         Stats.SetActive(true);
         MeilleurTour.text = meilleurTour.ToString();
         TempsDeCircuit.text = LeTimeInGameArrondie.ToString();
+        Penalite.text = penalityFinal.ToString();
 
         if (PlayerPrefs.HasKey("MeilleurTemps"))
         {
@@ -261,6 +264,7 @@ public class GestionUI : PersonnalMethod
 
     public void addPenality() 
     {
-        LeTimeInGame += TempsParPenalite;
+       
+        penalityFinal += TempsParPenalite;
     }
 }

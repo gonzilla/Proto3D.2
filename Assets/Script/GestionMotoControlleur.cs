@@ -486,6 +486,7 @@ public class GestionMotoControlleur : PersonnalMethod
     void LorsqueCollision(Collision InfoDeCollision) 
     {
         GG.GUI.setTextCouleur();//cahnge la couleur du text
+        GG.GUI.addPenality();
         if (GG.GB.Surchauffing)
         {
             
@@ -510,6 +511,7 @@ public class GestionMotoControlleur : PersonnalMethod
     void LorsqueCollision(Collider InfoDeCollision)
     {
         GG.GUI.setTextCouleur();//cahnge la couleur du text
+        GG.GUI.addPenality();
         if (GG.GB.Surchauffing)
         {
 
@@ -528,7 +530,7 @@ public class GestionMotoControlleur : PersonnalMethod
             }
         }
         GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.TraverseObstacle);
-
+        
     }
     void DeclenchementParticuleSelonVitesse() 
     {
