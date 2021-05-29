@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TriggerGravity : MonoBehaviour
 {
-
+    //Script pour les lumiére du début
+    //[Tooltip("les effets que je vais utiliser")]
     public Vector3 NewGravity;
     public float forceGravity;
     public float RotationAngle;

@@ -11251,7 +11251,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &351594458
 RectTransform:
   m_ObjectHideFlags: 0
@@ -53594,7 +53594,6 @@ GameObject:
   - component: {fileID: 1314564576}
   - component: {fileID: 1314564581}
   - component: {fileID: 1314564579}
-  - component: {fileID: 1314564583}
   m_Layer: 0
   m_Name: Moto
   m_TagString: Player
@@ -53967,11 +53966,11 @@ MonoBehaviour:
   - ResetLastPosition
   - ResetScene
   - NextScene
+  timeMinMaintien: 0
+  TempsMaxMaintien: 0
   TimeMaintenueAxes: []
   TimePressionAxes: []
   InUse: 
-  timeMinMaintien: 0
-  TempsMaxMaintien: 0
   CanPlay: 0
 --- !u!136 &1314564578
 CapsuleCollider:
@@ -54190,19 +54189,6 @@ MonoBehaviour:
     NombreDePlay: 0
   Moto: {fileID: 1314564569}
   EtatActuel: 
---- !u!135 &1314564583
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1314564569}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 2.5
-  m_Center: {x: 0, y: 1.56, z: 0}
 --- !u!1001 &1319104406
 PrefabInstance:
   m_ObjectHideFlags: 0

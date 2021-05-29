@@ -5,13 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class ResetScene : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // script pour reset la scene ou le meilleur score lors d'un changement LD
 
-    // Update is called once per frame
+   
     void Update()
     {
         if (Input.GetKey(KeyCode.R))

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CheckPoint : MonoBehaviour
 {
-    //Public variable
-    
+    //script du check point
+    [Tooltip("l'odre dans la course ")]
     public int ordreDePassage;
-    //Local variable
+    
 
     
 
