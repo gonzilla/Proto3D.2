@@ -15,7 +15,7 @@ public class GestionCheckPoint : PersonnalMethod
     //Local variable
     int passageActuel;
     [HideInInspector] public int tourActuel;
-
+   
     [FMODUnity.EventRef]
     public string LeSonAJouer;
     FMOD.Studio.EventInstance MonEvenementFMOD;
@@ -29,8 +29,9 @@ public class GestionCheckPoint : PersonnalMethod
         passageActuel = NombrePointDePassage;
         if (!testMusique)
         {
-            MonEvenementFMOD = FMOD.Studio.CreateInstance("event:/Musique");
-            FMODUnity.RuntimeManager.PlayOneShot("event:/Musique");
+            MonEvenementFMOD = FMODUnity.RuntimeManager.CreateInstance("event:/Musique");
+            MonEvenementFMOD.start();
+           
         }
        
 
@@ -38,12 +39,15 @@ public class GestionCheckPoint : PersonnalMethod
     }
 
     
+
+
     public void CheckLeCheckPoint(int lecheckPoint) 
     {
         if (lecheckPoint==passageActuel+1)
         {
             
             passageActuel++;
+            
         }
         if (lecheckPoint==0 && passageActuel==NombrePointDePassage)
         {
@@ -62,6 +66,10 @@ public class GestionCheckPoint : PersonnalMethod
             AffichageTour.text = affichage;
             float act = 0;
             if (NombreDeTour==1)
+            {
+                act = 0f;
+            }
+            else if (NombreDeTour == 2)
             {
                 act = 1.1f;
             }
