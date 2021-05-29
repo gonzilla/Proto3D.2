@@ -56839,19 +56839,6 @@ MonoBehaviour:
     NombreDePlay: 0
   Moto: {fileID: 1314564569}
   EtatActuel: 
---- !u!135 &1314564583
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1314564569}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 2.5
-  m_Center: {x: 0, y: 1.56, z: 0}
 --- !u!1 &1321859341
 GameObject:
   m_ObjectHideFlags: 0
