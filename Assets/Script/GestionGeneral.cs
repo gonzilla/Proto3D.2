@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class GestionGeneral : PersonnalMethod
 {
-    [HideInInspector] public bool CanPlay;
-    [HideInInspector] public bool Start = true;
+    //Script qui contient tous les autres pour faciliter l'échange de donner
+    
+    [HideInInspector] public bool CanPlay; // permet de dire aux autres script lorsque le joueur peut jouer
+    [HideInInspector] public bool Start = true; // permet de dire aux autres script s'ils sont au début du jeu
     //Public variable
     [Tooltip(" Script pour input ")]
     public GestionDesInputs GDI;
@@ -23,7 +25,7 @@ public class GestionGeneral : PersonnalMethod
     public GestionFeedBackVisu FeedBackVisu;
     [Tooltip(" Pour Les feedBack pour le moment ")]
     public GestionCheckPoint GestionPointDeControle;
-    //Local variable
+   
 
 
 }

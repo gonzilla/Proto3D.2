@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class LancementFusion : MonoBehaviour
 {
-    //Public variable
-    
-    //Local variable
-
+    //scipt pour lancer la fusion depuis un trigger
     void lancementFusion(Transform objet) 
     {
         GestionBoost GB = objet.GetComponentInParent<GestionBoost>();
@@ -17,20 +14,20 @@ public class LancementFusion : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //lorsqu'un objet quitte le trigger
     {
-        if (other.transform.tag == "Player")
+        if (other.transform.tag == "Player")//si l'objet est player
         {
-            //print("rentre dans la plaque");
-            lancementFusion(other.transform);
+            
+            lancementFusion(other.transform);//lance le void
         }
     }
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other) //lorsqu'un objet rentre
     {
-        if (other.transform.tag == "Player")
+        if (other.transform.tag == "Player")//si l'objet est player
         {
-            //print("sors dans la plaque");
-            lancementFusion(other.transform);
+            
+            lancementFusion(other.transform); // lance le void
         }
     }
 }

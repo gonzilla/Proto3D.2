@@ -6,10 +6,10 @@ using UnityEngine.Rendering.PostProcessing;
 
 
 [System.Serializable]
-public class PostFXEffet
+public class PostFXEffet //Scipt pour les infos des effets de post process
 {
 
-    public enum PostProcessEffect
+    public enum PostProcessEffect //les différents post process possible
     {
         AmbientOcclusions,
         AutoExposure,
@@ -26,14 +26,19 @@ public class PostFXEffet
     };
     [Tooltip("les effets que je vais utiliser")]
     public PostProcessEffect MesPostProcessEffect;
+    [Tooltip("les values max que je vais utiliser lors des effets")]
     public float[] LesValuesMax;
+    [Tooltip("vitesse de transition de l'effet")]
     public float VitesseDeleffet;
 
 }
 public class GestionFeedBackVisu : PersonnalMethod
 {
+    //Scipt qui gére les feedbacks visuels
+    //public
+    // les gameobjets contenant les effets
     #region GameObject
-    // public 
+    [Header("GameOjects")]
     public GameObject[] BoostLV;
     public GameObject WindTrail;
     public GameObject[] Smoke;
@@ -46,11 +51,14 @@ public class GestionFeedBackVisu : PersonnalMethod
     public GameObject Fusion;
     public GameObject Recharge;
     #endregion 
+    
     #region PostProcess
     [Header("PostProcess")]
     [Tooltip("l'objetContenant le post process Volume")]
     public PostProcessVolume monPostProcess;
+    [Tooltip("liste des effets du post process Volume")]
     public List<PostFXEffet> MesEffets = new List<PostFXEffet>();
+    [Tooltip("la vitesse de retour à leur valeur normal")]
     public float vitesseretourMultiplicateur;
     #endregion
 
@@ -65,7 +73,7 @@ public class GestionFeedBackVisu : PersonnalMethod
     float ChromaticValueDepart;
     float LensDistortionValueDepart;
     GestionGeneral GG;
-
+    //les différents postProcess
     #region PostProcess2
     AmbientOcclusion _AmbientOclu;
     AutoExposure _AutoExpo;
@@ -79,141 +87,112 @@ public class GestionFeedBackVisu : PersonnalMethod
     ScreenSpaceReflections _ScreenSpace;
     Vignette _Vignette;
     #endregion
-    //ParticleSystem[] Smoker;
+    
 
-    // Start is called before the first frame update
+   
     void Start()
     {
-        GetGestion(out GG, this.gameObject);
-        setArrayBoost();
-        setPostProcess();
+        GetGestion(out GG, this.gameObject);// récupére la gestion general
+        setArrayBoost();// set les bonnes données
+        setPostProcess();//  set les données de post process
 
-    }
+    }//au start
     #region Gestions
-    public void gestionBoost(int LevelDeBoost, bool Etat)
+    public void gestionBoost(int LevelDeBoost, bool Etat)//Gére les effets de boost
     {
-        if (Etat)
+        if (Etat)// si etat = true
         {
             for (int i = 0; i < BoostLVEtat.Length; i++)
             {
-                BoostLVEtat[i] = false;
-                if (i == LevelDeBoost)
+                BoostLVEtat[i] = false;//lui dis que les autre etat sont faux
+                if (i == LevelDeBoost)//si c'est ce level de boost
                 {
-                    BoostLVEtat[i] = true;
+                    BoostLVEtat[i] = true;//le passe a true
                 }
-                LancementFonction(BoostLVEtat[i], BoostLV[i]);
-                //BoostLV[i].SetActive(BoostLVEtat[i]);
+                LancementFonction(BoostLVEtat[i], BoostLV[i]); //lance un autre void           
             }
 
         }
-        else
+        else //si etat =false
         {
 
-            for (int i = 0; i < BoostLVEtat.Length; i++)
+            for (int i = 0; i < BoostLVEtat.Length; i++)// desactive tous les effets de boosts
             {
-                BoostLVEtat[i] = false;
-                //BoostLV[i].SetActive(BoostLVEtat[i]);
-                LancementFonction(BoostLVEtat[i], BoostLV[i]);
+                BoostLVEtat[i] = false;//set les etats dans son tableau          
+                LancementFonction(BoostLVEtat[i], BoostLV[i]);//lance le void
             }
         }
     }
     public void GestionWindTrail(bool Etat)
     {
-        /*if (Etat)
-        {
-            _bloom.intensity.value = 30f;
-        }
-        else
-        {
-            _bloom.intensity.value = 0f;
-        }*/
-        if (Etat && windTrailPrevious != Etat)
-        {
-            // WindTrail.SetActive(Etat);
-            // windTrailPrevious = Etat;
-            // LancementFonction(Etat, WindTrail);
-        }
-        else if (!Etat && windTrailPrevious != Etat)
-        {
-            // windTrailPrevious = Etat;
-            // LancementFonction(Etat, WindTrail);
-            //WindTrail.SetActive(Etat);
-        }
-        LancementFonction(Etat, WindTrail);
-
-    }
-    public void GestionSmoke(bool Etat)
+        LancementFonction(Etat, WindTrail);//lance le void
+    }//gére les effets de vents
+    public void GestionSmoke(bool Etat)//Gère les smokes
     {
-        if (Etat && directionDeRotation() != 0)
+        if (Etat && directionDeRotation() != 0) // si etat = true et je tourne
         {
             int Index = 0;
-            if (directionDeRotation() > 0) //&& !Smoke[0].activeSelf
+            //détermine quel smoke a utiliser
+            if (directionDeRotation() > 0) 
             {
-
-                Index = 0;
+                Index = 0; 
             }
             else if (directionDeRotation() < 0)
             {
                 Index = 1;
             }
+            // pour chaque smoke dans le tableau
             for (int i = 0; i < SmokesEtat.Length; i++)
             {
                 if (i == Index)
                 {
-                    //Smoke[i].SetActive(true);
-                    LancementFonction(true, Smoke[i]);
+                   
+                    LancementFonction(true, Smoke[i]);//lance le void
 
                 }
                 else
                 {
-                    //Smoke[i].SetActive(false);
-                    LancementFonction(false, Smoke[i]);
+                   
+                    LancementFonction(false, Smoke[i]);//lance le void
                 }
             }
 
         }
-        else
+        else //sinon
         {
-            for (int i = 0; i < SmokesEtat.Length; i++)
+            for (int i = 0; i < SmokesEtat.Length; i++)//pour chaque smoke
             {
-                // Smoke[i].SetActive(false);
-                LancementFonction(false, Smoke[i]);
+                LancementFonction(false, Smoke[i]);//lance le void
             }
-
-            resetDeBool(SmokesEtat);
-
+            resetDeBool(SmokesEtat);//lance le void
         }
     }
     public void GestionRedLight(bool Etat)
     {
         if (!RedLightTrail.activeSelf && Etat)
         {
-            RedLightTrail.SetActive(Etat);
+            RedLightTrail.SetActive(Etat);//active le gameobject de la relight
         }
         else if (!Etat && RedLightTrail.activeSelf)
         {
-            RedLightTrail.SetActive(Etat);
+            RedLightTrail.SetActive(Etat);//désactive le gameobject de la relight
         }
-
-    }
+    }//gére la redlight
     public void GestionWheelTrail(bool Etat)
     {
-        LancementFonction(Etat, WheelTrail);
-        //WheelTrail.SetActive(Etat);
-
-
+        LancementFonction(Etat, WheelTrail); //lance le void
     }
     public void GestionStraff(bool Etat, bool straffing)
     {
-        if (Etat)
+        if (Etat)//si etat = true
         {
-            if (directionDuStarff() != 0 && straffing)
+            if (directionDuStarff() != 0 && straffing)//s'il straff 
             {
+                //Détermine les feedbacks a activer
                 int Index = 0;
                 int Index2 = 0;
                 if (directionDuStarff() > 0)
                 {
-
                     Index = 0;
                     Index2 = 1;
                 }
@@ -222,15 +201,16 @@ public class GestionFeedBackVisu : PersonnalMethod
                     Index = 2;
                     Index2 = 3;
                 }
-                for (int i = 0; i < Straff.Length; i++)
+
+                for (int i = 0; i < Straff.Length; i++)// par chaque objet dans straff
                 {
                     if (i == Index || i == Index2)
                     {
-                        Straff[i].SetActive(true);
+                        Straff[i].SetActive(true);//acive l'objet
                     }
                     else
                     {
-                        Straff[i].SetActive(false);
+                        Straff[i].SetActive(false);//désactive l'objet
                     }
                 }
 
@@ -257,20 +237,19 @@ public class GestionFeedBackVisu : PersonnalMethod
                         Straff[i].SetActive(false);
                     }
                 }
-            }
+            }//si le joueur ne straf plus et il tourne
         }
-
-        else
+        else //sinon
         {
             for (int i = 0; i < Straff.Length; i++)
             {
-                Straff[i].SetActive(false);
+                Straff[i].SetActive(false); // desactive l'objet
             }
 
 
 
         }
-    }
+    }//gére les feedbacks de straff
     public void GestionParticleRoue(bool Etat)
     {
         if (Etat && directionDeRotation() != 0)
@@ -279,23 +258,23 @@ public class GestionFeedBackVisu : PersonnalMethod
             if (directionDeRotation() == -1)
             {
                 index = 0;
-            }//pour l'activation des particules
+            }
             if (directionDeRotation() == 1)
             {
                 index = 1;
-            }//pour l'activation des particules*/
+            }
 
             for (int i = 0; i < ParticleRoue.Length; i++)
             {
                 if (i == index)
                 {
                     ParticleRoue[i].SetActive(true);
-                    //LancementFonction(true, ParticleRoue[i]);
+                   
                 }
                 else
                 {
                     ParticleRoue[i].SetActive(false);
-                    //LancementFonction(false, ParticleRoue[i]);
+                    
                 }
             }
         }
@@ -311,23 +290,19 @@ public class GestionFeedBackVisu : PersonnalMethod
         }
 
 
-    }
+    }//Gestion des particules de la roue
     public void GestionParticleCam(bool etat)
     {
-        ParticleCam.SetActive(etat);
-    }
-    public void GestionParticleFusion(bool Etat)
+        ParticleCam.SetActive(etat);//lance le void
+    }//Gestion des particules de la cam
+    public void GestionParticleFusion(bool Etat) //gestion des particules de fusion
     {
-        //Fusion.SetActive(Etat);
-        LancementFonction(Etat, Fusion);
-
-
-        //
+        LancementFonction(Etat, Fusion);//lance le void
     }
     public void GestionParticleRecharge(bool Etat)
     {
-        //print("recharge");
-        LancementFonction(Etat, Recharge);
+        
+        LancementFonction(Etat, Recharge);//lance le void
     }
     #endregion
 
@@ -352,7 +327,7 @@ public class GestionFeedBackVisu : PersonnalMethod
                 FonctionTrail(Etat, item);
             }
         }
-    }
+    }//détermine quel fonction lancé
     void FonctionTrail(bool Etat, Transform Enfant)
     {
 
@@ -372,7 +347,7 @@ public class GestionFeedBackVisu : PersonnalMethod
             Enfant.GetComponent<DestroyYourself>().DestroyToi();
         }
 
-    }
+    }//si l'effet est un trail
     void FonctionParticle(bool Etat, Transform Enfant)
     {
         if (Etat)
@@ -389,64 +364,54 @@ public class GestionFeedBackVisu : PersonnalMethod
 
 
         }
-    }
+    }//si l'effet est une particule
     #endregion
 
-    public void UpdateLesFX()
+    public void UpdateLesFX() //update les FX
     {
-        if (GG.GB.boosting)
+        if (GG.GB.boosting)//gére les effets si le joueur boost
         {
             
             if (_bloom.intensity.value != MesEffets[0].LesValuesMax[1])
             {
-                _bloom.intensity.value = MesEffets[0].LesValuesMax[1]; //CheckParamettreFX(_bloom.intensity.value, MesEffets[0].LesValuesMax[1], MesEffets[0].VitesseDeleffet);
+                _bloom.intensity.value = MesEffets[0].LesValuesMax[1]; 
                 
-            }
+            }//bloom
             if (_Chromatic.intensity.value != MesEffets[2].LesValuesMax[1])
             {
-                _Chromatic.intensity.value = MesEffets[2].LesValuesMax[1];//CheckParamettreFX(_Chromatic.intensity.value, MesEffets[2].LesValuesMax[1], MesEffets[2].VitesseDeleffet);
+                _Chromatic.intensity.value = MesEffets[2].LesValuesMax[1];
                 
-            }
+            }//chromatic aberation
             if (_Vignette.intensity.value!= MesEffets[3].LesValuesMax[1])
             {
-                _Vignette.intensity.value = MesEffets[3].LesValuesMax[1]; // CheckParamettreFX(_Chromatic.intensity.value, MesEffets[3].LesValuesMax[1], MesEffets[3].VitesseDeleffet);
+                _Vignette.intensity.value = MesEffets[3].LesValuesMax[1]; 
                
-            }
+            }//vignette
             if (_Lens.intensity.value!= MesEffets[6].LesValuesMax[1])
             {
-                _Lens.intensity.value = MesEffets[6].LesValuesMax[1]; //CheckParamettreFX(_Lens.intensity.value, MesEffets[6].LesValuesMax[1], MesEffets[6].VitesseDeleffet);
-                //print("lens");
-            }
-            //Debug.Break();
+                _Lens.intensity.value = MesEffets[6].LesValuesMax[1]; 
+                
+            }//lens
+            
         }
-        else if (!GG.GB.boosting && !GG.GB.Surchauffing)
+        else if (!GG.GB.boosting && !GG.GB.Surchauffing)//calcul des effets au quotidien
         {
             
-            _bloom.intensity.value = CheckParamettreFX(_bloom.intensity.value, MesEffets[0].LesValuesMax[0]*pourcentageVitesse(), MesEffets[0].VitesseDeleffet);
-            _Chromatic.intensity.value = CheckParamettreFX(_Chromatic.intensity.value, MesEffets[2].LesValuesMax[0] * pourcentageVitesse(), MesEffets[2].VitesseDeleffet);
-            _Vignette.intensity.value = CheckParamettreFX(_Chromatic.intensity.value, MesEffets[6].LesValuesMax[0] * pourcentageVitesse(), MesEffets[6].VitesseDeleffet);
-           _Lens.intensity.value = CheckParamettreFX(_Lens.intensity.value, MesEffets[6].LesValuesMax[0] * pourcentageVitesse(), MesEffets[6].VitesseDeleffet);
+            _bloom.intensity.value = CheckParamettreFX(_bloom.intensity.value, MesEffets[0].LesValuesMax[0]*pourcentageVitesse(), MesEffets[0].VitesseDeleffet);//bloom
+            _Chromatic.intensity.value = CheckParamettreFX(_Chromatic.intensity.value, MesEffets[2].LesValuesMax[0] * pourcentageVitesse(), MesEffets[2].VitesseDeleffet);//chromatic
+            _Vignette.intensity.value = CheckParamettreFX(_Chromatic.intensity.value, MesEffets[6].LesValuesMax[0] * pourcentageVitesse(), MesEffets[6].VitesseDeleffet);//vignette
+           _Lens.intensity.value = CheckParamettreFX(_Lens.intensity.value, MesEffets[6].LesValuesMax[0] * pourcentageVitesse(), MesEffets[6].VitesseDeleffet);////lens
         }
-        else if (GG.GB.Surchauffing)
+        else if (GG.GB.Surchauffing)//si le joueur surchauffe
         {
-            _bloom.intensity.value = MesEffets[0].LesValuesMax[2];
-            _Chromatic.intensity.value = MesEffets[2].LesValuesMax[2];
-            _Vignette.intensity.value = MesEffets[3].LesValuesMax[2];
-            _Lens.intensity.value = MesEffets[6].LesValuesMax[2];
+            _bloom.intensity.value = MesEffets[0].LesValuesMax[2];//bloom
+            _Chromatic.intensity.value = MesEffets[2].LesValuesMax[2];//chroma
+            _Vignette.intensity.value = MesEffets[3].LesValuesMax[2];//vignette
+            _Lens.intensity.value = MesEffets[6].LesValuesMax[2];//Lens
            
         }
-        //print(_Vignette.intensity.value);
-        //print(_Lens.intensity.value);
-        //print(_bloom.intensity.value);
-        //print(_Chromatic.intensity.value);
+        
     }
-
-    float VitesseActuelDeLaMoto()
-    {
-        float ActualSpeedMoto = GG.GMC.VitesseMoto;
-        return ActualSpeedMoto;
-    }
-
     float pourcentageVitesse() 
     {
         float Pourcentage = 0;
@@ -454,48 +419,30 @@ public class GestionFeedBackVisu : PersonnalMethod
         {
             Pourcentage = Mathf.Abs(GG.GMC.VitesseMoto) / GG.GMC.vitesseMax;
         }
-        //print(Pourcentage);
         return Pourcentage;
-    }
-
-    bool Avance()
-    {
-        if (VitesseActuelDeLaMoto() > 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    float CheckParamettreFX(float actuel,float max,float speed) 
+    } //récupére le pourcentage vitesse/vitessemax
+    float CheckParamettreFX(float actuel,float max,float speed) //checks les paramétres post effect
     {
         if (actuel>max)
         {
-            actuel =Mathf.Lerp(actuel, max, speed * Time.deltaTime * vitesseretourMultiplicateur) ;
+            actuel = Mathf.Lerp(actuel, max, speed * Time.deltaTime * vitesseretourMultiplicateur) ; //si l"effet est en dehors
         }
         else 
         {
             actuel = Mathf.Lerp(actuel, max, speed * Time.deltaTime );
         }
-        //print(actuel);
         return actuel;
     }
-
-    float directionDuStarff() 
+    float directionDuStarff()
     {
         float direction = 0;
-        float val = Input.GetAxis(GG.GDI.Axes[5]);//GG.GDI.Axes;
+        float val = Input.GetAxis(GG.GDI.Axes[5]);//récuppére l'input
         if (val != 0)
         {
             direction = Mathf.Abs(val) / val;
         }
-
         return direction;
-    }
-
+    }// détermine la direction du straff
     float directionDeRotation() 
     {
         float direction = 0;
@@ -504,14 +451,10 @@ public class GestionFeedBackVisu : PersonnalMethod
         {
             direction = Mathf.Abs(val) / val;
         }
-       
         return direction;
-
-    }
-
+    }//récupére la direction de la rotation
     void setArrayBoost()
     {
-
         BoostLVEtat = new bool[BoostLV.Length];
         BoostLVEtat = resetDeBool(BoostLVEtat);
         SmokesEtat = new bool[Smoke.Length];
@@ -520,18 +463,15 @@ public class GestionFeedBackVisu : PersonnalMethod
         StraffEtat = resetDeBool(StraffEtat);
         ParticleRoueEtat = new bool[ParticleRoue.Length];
         ParticleRoueEtat = resetDeBool(ParticleRoueEtat);
-    }
-
+    }//set les arrays des bools
     bool[] resetDeBool (bool[] toReset)
     {
-
         for (int i = 0; i < toReset.Length; i++)
         {
             toReset[i] = false;
         }
         return toReset;
-    }
-
+    }//reset tous les bools a false
     void setPostProcess()
     {
         foreach (PostFXEffet Effect in MesEffets)
@@ -585,31 +525,7 @@ public class GestionFeedBackVisu : PersonnalMethod
             }
         }
 
-    }
+    }//set les post process selon ceux de mis
 }
 
 
-/*for (int i = 0; i < SmokesEtat.Length; i++)
-            {
-                var smoker = Smoke[i].GetComponent<ParticleSystem>().main;
-                Smoke[i].GetComponent<ParticleSystem>().Stop();
-                if (i==Index)
-                {
-                    
-                    smoker.startSize = 4;
-                    //Smoke[i].GetComponent<ParticleSystem.MainModule>().startSize= 4;
-                }
-                else 
-                {
-                    smoker.startSize = 1;
-                }
-                Smoke[i].GetComponent<ParticleSystem>().Play();
-            }*/
-/*void setParticleSystemArray() 
-   {
-       for (int i = 0; i < Smoker.Length; i++)
-       {
-           Smoker[i] = Smoke[i].GetComponent<ParticleSystem.MainModule>();
-       }
-
-   }*/

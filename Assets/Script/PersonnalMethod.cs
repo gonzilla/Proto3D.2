@@ -4,19 +4,12 @@ using UnityEngine;
 
 public class PersonnalMethod : MonoBehaviour
 {
-    //Public variable
-    
-    //Local variable
+    // Scipt Mére, pour faire des méthode personnalisé qui ne sont pas faites sur unity
 
-    public static void GetGestion(out GestionGeneral GG, GameObject Contenant) 
+    public static void GetGestion(out GestionGeneral GG, GameObject Contenant) //methode pour aller chercher le script de gestion general
     {
-
         GG=Contenant.GetComponent<GestionGeneral>();
-    
     }
 
-    /*public static void GetVariableByname(string Name, MonoBehaviour script) 
-    {
-       var achercher =(float)script.GetType().GetField(Name).GetValue(script);
-    }*/
+  
 }

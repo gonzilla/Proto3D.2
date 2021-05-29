@@ -56246,7 +56246,6 @@ GameObject:
   - component: {fileID: 1314564576}
   - component: {fileID: 1314564581}
   - component: {fileID: 1314564579}
-  - component: {fileID: 1314564583}
   m_Layer: 0
   m_Name: Moto
   m_TagString: Player
@@ -56617,11 +56616,11 @@ MonoBehaviour:
   - ResetLastPosition
   - ResetScene
   - NextScene
+  timeMinMaintien: 0
+  TempsMaxMaintien: 0
   TimeMaintenueAxes: []
   TimePressionAxes: []
   InUse: 
-  timeMinMaintien: 0
-  TempsMaxMaintien: 0
   CanPlay: 0
 --- !u!136 &1314564578
 CapsuleCollider:
