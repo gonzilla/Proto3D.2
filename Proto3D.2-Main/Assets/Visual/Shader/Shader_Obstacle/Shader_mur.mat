@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader_mur
+  m_Shader: {fileID: 4800000, guid: 3678694a5fbcc974d9033a4341741c02, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Hextexture:
+        m_Texture: {fileID: 2800000, guid: 5015eac529cf6d545abe68e55b99ef35, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _cloudtexture:
+        m_Texture: {fileID: 2800000, guid: aef1fdd9589826640b5a3f1d82fed53c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _lignestexture:
+        m_Texture: {fileID: 2800000, guid: c36b0de1f6f72e942ba651cf4aa5f103, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Bias: -0.13
+    - _Frenselintensity: 0.8
+    - _HexAlpha: 0
+    - _Opacity: 0.68
+    - _Power: 1
+    - _Scale: 0.9
+    - _Timer: 1.77
+    - _Transparancelignes: 1
+    - __dirty: 0
+    - _cloudAlpha: 1
+    - _cloudintensity: 1
+    - _hexintensity: 1
+    - _invertFresnselintensity: 0.51
+    m_Colors:
+    - _Frenselcolor: {r: 0.6320754, g: 0, b: 0.031408284, a: 0}
+    - _HexSpeed: {r: 0.05, g: 0, b: 0, a: 0}
+    - _cloudSpeed: {r: -0.1, g: -0.1, b: 0, a: 0}
+    - _cloudcolor: {r: 0, g: 0, b: 0, a: 0}
+    - _hexcolor: {r: 0.49056602, g: 0.24065502, b: 0.264685, a: 0}
+    - _lignecolor: {r: 1, g: 0.4026267, b: 0.3679245, a: 0}
+    - _lignesSpeed: {r: 0, g: -0.5, b: 0, a: 0}
