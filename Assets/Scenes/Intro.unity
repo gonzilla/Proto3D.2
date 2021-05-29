@@ -664,6 +664,16 @@ PrefabInstance:
       propertyPath: AffichageTour
       value: 
       objectReference: {fileID: 1807261116}
+    - target: {fileID: 7988349165669018907, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: testMusique
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988349165669018907, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: LeSonAJouer
+      value: event:/Musique
+      objectReference: {fileID: 0}
     - target: {fileID: 7988349165669018910, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
       propertyPath: monPostProcess

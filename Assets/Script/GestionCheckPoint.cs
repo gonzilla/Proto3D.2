@@ -10,6 +10,8 @@ public class GestionCheckPoint : PersonnalMethod
     public TextMeshProUGUI AffichageTour;
     public int NombrePointDePassage;
     public int NombreDeTour;
+
+    public bool testMusique;
     //Local variable
     int passageActuel;
     [HideInInspector] public int tourActuel;
@@ -25,7 +27,14 @@ public class GestionCheckPoint : PersonnalMethod
         string affichage = tourActuel.ToString() + "/" + NombreDeTour.ToString();
         AffichageTour.text = affichage;
         passageActuel = NombrePointDePassage;
-        FMODUnity.RuntimeManager.PlayOneShot("event:/Musique");
+        if (!testMusique)
+        {
+            MonEvenementFMOD = FMOD.Studio.CreateInstance("event:/Musique");
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Musique");
+        }
+       
+
+
     }
 
     
@@ -51,9 +60,22 @@ public class GestionCheckPoint : PersonnalMethod
             passageActuel = 0;
             string affichage = tourActuel.ToString() + "/" + NombreDeTour.ToString();
             AffichageTour.text = affichage;
-            MonEvenementFMOD.setParameterByName("Laps", NombreDeTour);
+            float act = 0;
+            if (NombreDeTour==1)
+            {
+                act = 1.1f;
+            }
+            else 
+            {
+                act = NombreDeTour;
+            }
+            MonEvenementFMOD.setParameterByName("Laps", act);
             //GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.);
         }
+    }
+    public void stopSound() 
+    {
+    MonEvenementFMOD.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
     void FinDeLaPartie() 
