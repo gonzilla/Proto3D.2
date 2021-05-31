@@ -25,7 +25,7 @@ public class GestionGeneral : PersonnalMethod
     public GestionFeedBackVisu FeedBackVisu;
     [Tooltip(" Pour Les feedBack pour le moment ")]
     public GestionCheckPoint GestionPointDeControle;
-   
+    
 
 
 }

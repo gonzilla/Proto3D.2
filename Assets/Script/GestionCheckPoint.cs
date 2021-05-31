@@ -30,6 +30,7 @@ public class GestionCheckPoint : PersonnalMethod
         if (!testMusique)
         {
             MonEvenementFMOD = FMODUnity.RuntimeManager.CreateInstance("event:/Musique");
+            
             MonEvenementFMOD.start();
            
         }
@@ -89,6 +90,7 @@ public class GestionCheckPoint : PersonnalMethod
     MonEvenementFMOD.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
+    
     void FinDeLaPartie() 
     {
         GG.CanPlay = false;
