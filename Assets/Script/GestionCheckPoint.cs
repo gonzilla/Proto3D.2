@@ -65,17 +65,20 @@ public class GestionCheckPoint : PersonnalMethod
             string affichage = tourActuel.ToString() + "/" + NombreDeTour.ToString();
             AffichageTour.text = affichage;
             float act = 0;
-            if (NombreDeTour==1)
+            if (tourActuel == 1)
             {
                 act = 0f;
+                print("0");
             }
-            else if (NombreDeTour == 2)
+            else if (tourActuel == 2)
             {
+                print("2");
                 act = 1.1f;
             }
-            else 
+            else if (tourActuel == 3)
             {
-                act = NombreDeTour;
+                print("else");
+                act = tourActuel;
             }
             MonEvenementFMOD.setParameterByName("Laps", act);
             //GG.EtatEtFeedback.changementDetat(GestionEtatEtFeedback.MotoActualState.);

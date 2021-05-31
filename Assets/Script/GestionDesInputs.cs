@@ -118,9 +118,9 @@ public class GestionDesInputs : PersonnalMethod
         }
         if (Input.GetAxis(Axes[10]) != 0)//si le joueur reset la scene
         {
-            GG.EtatEtFeedback.stopAllSound(); //stop les sons
-            Physics.gravity = new Vector3(0, -9.81f, 0); //Change la gravity
-            SceneManager.LoadScene(SceneToLoad); //reload la scene
+            //GG.EtatEtFeedback.stopAllSound(); //stop les sons
+            //Physics.gravity = new Vector3(0, -9.81f, 0); //Change la gravity
+           // SceneManager.LoadScene(SceneToLoad); //reload la scene
         }
 
     }

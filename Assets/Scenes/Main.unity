@@ -45639,6 +45639,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7988349165669018904, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
+      propertyPath: LesInfosDuSon.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988349165669018904, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: LesInfosDuSon.Array.data[9].ListeDesParametre.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988349165669018904, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
       propertyPath: AffichageEtatDebug
       value: 
       objectReference: {fileID: 754240352}
@@ -45650,7 +45660,32 @@ PrefabInstance:
     - target: {fileID: 7988349165669018904, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
       propertyPath: LesInfosDuSon.Array.data[9].LeVoid
-      value: TraverseCheckPoint
+      value: Start
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988349165669018904, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: LesInfosDuSon.Array.data[9].LeSonAJouer
+      value: event:/Jingle/Top D
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988349165669018904, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: LesInfosDuSon.Array.data[9].OneShot
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988349165669018904, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: LesInfosDuSon.Array.data[10].LeSonAJouer
+      value: event:/Obstacles/Hit
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988349165669018904, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: LesInfosDuSon.Array.data[10].LeVoid
+      value: Collision
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988349165669018904, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: LesInfosDuSon.Array.data[10].event3D
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7988349165669018907, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
