@@ -84,6 +84,7 @@ public class GestionMotoControlleur : PersonnalMethod
     [Tooltip("l'angle pour se décaler ")]
     public float angleMax;
     public float StraffPowa;
+    public float FakeGravityMultiplier;
     [Tooltip("les wheels pour l'animation ")]
     public Animator[] wheelAnimation;
     [HideInInspector]public bool grounded; // pour savoir sur sol
@@ -93,10 +94,11 @@ public class GestionMotoControlleur : PersonnalMethod
     //Local variable
     float TimeCible; // le temps viser pour savoir si le joueur est en l'air
     float originalVitesseMax;
-    
+    float OriginalFakeGravityMultiplier;
 
     Vector3 DirectionForMoto; //
     Vector3 LastPostionOnCircuit;
+   [HideInInspector] public Vector3 FakeGravity;
 
     Quaternion LastRotation;
    
@@ -104,6 +106,7 @@ public class GestionMotoControlleur : PersonnalMethod
     bool staffing=false;
     bool Deraping = false;
     bool GNEU=false;
+    bool reseting = false;
 
     Rigidbody Rb; // stock le rigidbody
     GestionGeneral GG;//stock les script
@@ -115,39 +118,51 @@ public class GestionMotoControlleur : PersonnalMethod
     void Start()
     {
         originalVitesseMax = vitesseMax;
+        OriginalFakeGravityMultiplier = FakeGravityMultiplier;
         Rb = GetComponent<Rigidbody>();// récupére le rigidbody
         GetGestion(out GG, this.gameObject);// récupére les autres script
         //FirstVitesseRotation = ;//set old votesse rotation
         LantiGravite = GetComponent<ConstantForce>();
+        FakeGravity = -Vector3.up * Physics.gravity.magnitude;
     }
     public void SetByNormal() 
     {
-       // Vector3 PourForceConstante = Vector3.up*Physics.gravity.magnitude;
+        
         grounded = false; // lui dis qu'il n'est pas au sol
         RaycastHit hit;// stock les infos du raycast
 
-        //Debug.DrawRay(detecteur.position, -detecteur.transform.up * GroundRayLength, Color.red);
-        //Debug.DrawRay(detecteur.position, -detecteur.transform.up * GroundRayLength, Color.magenta);//  draw a ray
+        
         if (Physics.Raycast(detecteur.position, -transform.up, out hit, GroundRayLength, whatIsGround) ) // si le raycast detect le sol
         {
-            
+            reseting = false;
             grounded = true;//passe le bool en true
             GNEU = false;
+            if (OriginalFakeGravityMultiplier!= FakeGravityMultiplier)
+            {
+                FakeGravityMultiplier = OriginalFakeGravityMultiplier;
+            }
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
             Rb.angularVelocity = Vector3.zero;
             LastPostionOnCircuit = ResetPosition.position;
             LastRotation = ResetPosition.rotation;
             OnceForFloor = false; // set le once a false
-            //PourForceConstante += -transform.up * Physics.gravity.magnitude;
-            Physics.gravity = -transform.up * 9.81f;  //-hit.normal * 9.81f;   //-transform.up * 9.81f;  //-hit.normal* Physics.gravity.magnitude; //-transform.up * Physics.gravity.magnitude;
+            FakeGravity = -transform.up;
+            LantiGravite.force = FakeGravity * Physics.gravity.magnitude ;
+            //Physics.gravity = -transform.up * 9.81f;  //-hit.normal * 9.81f;   //-transform.up * 9.81f;  //-hit.normal* Physics.gravity.magnitude; //-transform.up * Physics.gravity.magnitude;
             //FreezeRotation();// freeze la rotation selon resultat
         }
         if (!grounded)// si n'est pas ground
         {
-           
+            if (!reseting)
+            {
+                LantiGravite.force = Physics.gravity *FakeGravityMultiplier;
+            }
+            
+
             // PourForceConstante = Vector3.zero;
             if (!OnceForFloor)// et que le Once est false
             {
+                
                 TimeCible = Time.time+TempsPourEtreEnLair; //set le temps pour check
                 OnceForFloor = true;// le passe a true
                 //FreezeRotation(); // freeze la rotation
@@ -418,10 +433,12 @@ public class GestionMotoControlleur : PersonnalMethod
     public void ResetLastPosition() 
     {
         CancelInvoke();
+        reseting = true;
         transform.position = LastPostionOnCircuit;
         transform.rotation = LastRotation;
         transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        Physics.gravity = -transform.up * 9.81f * 3; //transform.TransformPoint(-transform.up * 9.81f * 3) //;
+        LantiGravite.force = -transform.up * Physics.gravity.magnitude * FakeGravityMultiplier;
+        //Physics.gravity = -transform.up * 9.81f * 3; //transform.TransformPoint(-transform.up * 9.81f * 3) //;
         VitesseMoto = 0;
         
     }

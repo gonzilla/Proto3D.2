@@ -18,7 +18,9 @@ public class TriggerGravity : MonoBehaviour
     {
         if (NewGravity!=Vector3.zero)
         {
-            Physics.gravity = NewGravity * forceGravity;
+            //Physics.gravity = Vector3.down * forceGravity;
+            LaMoto.GetComponent<GestionMotoControlleur>().FakeGravity = NewGravity;
+            LaMoto.GetComponent<GestionMotoControlleur>().FakeGravityMultiplier = forceGravity;
         }
         if (RotationAngle!=0)
         {
