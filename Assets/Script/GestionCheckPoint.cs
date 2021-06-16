@@ -27,7 +27,7 @@ public class GestionCheckPoint : PersonnalMethod
         string affichage = tourActuel.ToString() + "/" + NombreDeTour.ToString();
         AffichageTour.text = affichage;
         passageActuel = NombrePointDePassage;
-        if (!testMusique)
+        if (!testMusique && !GG.AmIPlayerOne)
         {
             MonEvenementFMOD = FMODUnity.RuntimeManager.CreateInstance("event:/Musique");
             

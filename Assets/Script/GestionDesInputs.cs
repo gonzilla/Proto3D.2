@@ -35,11 +35,42 @@ public class GestionDesInputs : PersonnalMethod
     
     void FixedUpdate()
     {
-        
-            GG.GMC.SetByNormal(); // check le sol 
+            float avancer = GG.newsInput.Manette.Avancer.ReadValue<float>();
+            
+            float tourner = GG.newsInput.Manette.Tourner.ReadValue<float>();
+            
+            float Derapage = GG.newsInput.Manette.Derapage.ReadValue<float>();
+            
+            float Straff = GG.newsInput.Manette.Straffer.ReadValue<float>();
+            
+            float Booster = GG.newsInput.Manette.Boost.ReadValue<float>();
+            print(Booster + "Booster");
+            float ResetPosition = GG.newsInput.Manette.ResetPosition.ReadValue<float>();
+            print(ResetPosition + "ResetPosition");
+            float ResetScene = GG.newsInput.Manette.ResetScene.ReadValue<float>();
+            print(ResetScene + "ResetScene");
+
+        GG.GMC.SetByNormal(); // check le sol 
             GG.CSF.CameraComportement(); // fais les comportements de la camera
             GG.GMC.RotateMotoInWorld();//rotate le modéle de la moto
-            if (!InUse[7])//s'il ne drift pas
+           
+
+    }
+
+    void setTableauLength() 
+    {
+        TimeMaintenueAxes = new float[Axes.Length];
+        TimePressionAxes = new float[Axes.Length];
+        InUse = new bool[Axes.Length];
+    }// set la length des tableaux
+
+    void SetBoolArray(int IndexAxes,bool value) 
+    {
+        InUse[IndexAxes] = value;
+    }// set le bool array
+
+}
+/* if (!InUse[7])//s'il ne drift pas
             {
                 GG.GMC.tourne(Input.GetAxis(Axes[3])); //Lance void pour Tourner
                 if (GG.CanPlay)//si le joueur peut jouer
@@ -105,37 +136,25 @@ public class GestionDesInputs : PersonnalMethod
                 }
             GG.FeedBackVisu.UpdateLesFX();// update les FX
             }
-
-        if (Input.GetAxis(Axes[9]) != 0)//si le joueur reset la scene
+        if (!GG.TwoPlayer)
         {
-            GG.EtatEtFeedback.stopAllSound(); //stop les sons
-            GG.GestionPointDeControle.stopSound();
-            Physics.gravity= new Vector3(0, -9.81f, 0); //Change la gravity
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //reload la scene
+            if (Input.GetAxis(Axes[9]) != 0)//si le joueur reset la scene
+            {
+                GG.EtatEtFeedback.stopAllSound(); //stop les sons
+                GG.GestionPointDeControle.stopSound();
+                Physics.gravity = new Vector3(0, -9.81f, 0); //Change la gravity
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //reload la scene
+            }
+            if (Input.GetAxis(Axes[10]) != 0)//si le joueur reset la scene
+            {
+                //GG.EtatEtFeedback.stopAllSound(); //stop les sons
+                //Physics.gravity = new Vector3(0, -9.81f, 0); //Change la gravity
+                // SceneManager.LoadScene(SceneToLoad); //reload la scene
+            }
         }
+       
         if (Input.GetAxis(Axes[8]) != 0)
         {
             GG.GMC.ResetLastPosition();//lance le reset de la position
         }
-        if (Input.GetAxis(Axes[10]) != 0)//si le joueur reset la scene
-        {
-            //GG.EtatEtFeedback.stopAllSound(); //stop les sons
-            //Physics.gravity = new Vector3(0, -9.81f, 0); //Change la gravity
-           // SceneManager.LoadScene(SceneToLoad); //reload la scene
-        }
-
-    }
-
-    void setTableauLength() 
-    {
-        TimeMaintenueAxes = new float[Axes.Length];
-        TimePressionAxes = new float[Axes.Length];
-        InUse = new bool[Axes.Length];
-    }// set la length des tableaux
-
-    void SetBoolArray(int IndexAxes,bool value) 
-    {
-        InUse[IndexAxes] = value;
-    }// set le bool array
-
-}
+       */

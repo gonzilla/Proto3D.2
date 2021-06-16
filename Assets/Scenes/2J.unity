@@ -573,11 +573,21 @@ PrefabInstance:
       propertyPath: Axes.Array.data[8]
       value: ResetLastPositionP2
       objectReference: {fileID: 0}
+    - target: {fileID: 7988349165669018913, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7988349165669018914, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
       propertyPath: CSF
       value: 
       objectReference: {fileID: 1527252917}
+    - target: {fileID: 7988349165669018914, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: TwoPlayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7988349165669018915, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
       propertyPath: Speed
@@ -708,6 +718,11 @@ PrefabInstance:
       propertyPath: ResetPosition
       value: 
       objectReference: {fileID: 1527252919}
+    - target: {fileID: 7988349165669018917, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: FakeGravityMultiplier
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7988349165669018919, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
       propertyPath: m_Name
@@ -3550,7 +3565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NewGravity: {x: 0, y: -1, z: 0}
-  forceGravity: 15
+  forceGravity: 2
   RotationAngle: 180
   vitesserotation: 10
 --- !u!65 &463383557
@@ -15533,7 +15548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NewGravity: {x: 0, y: -1, z: 0}
-  forceGravity: 30
+  forceGravity: 3
   RotationAngle: 0
   vitesserotation: 0
 --- !u!65 &1736628580
@@ -19789,6 +19804,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1032094563}
+    - target: {fileID: 333570181166330793, guid: 9a5643a5cf5e13c4f9751a4bc79eee8b,
+        type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 333570181166330795, guid: 9a5643a5cf5e13c4f9751a4bc79eee8b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -46137,11 +46157,26 @@ PrefabInstance:
       propertyPath: monPostProcess
       value: 
       objectReference: {fileID: 2054440034}
+    - target: {fileID: 7988349165669018913, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7988349165669018914, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
       propertyPath: CSF
       value: 
       objectReference: {fileID: 1032094564}
+    - target: {fileID: 7988349165669018914, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: TwoPlayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988349165669018914, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: AmIPlayerOne
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7988349165669018915, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
       propertyPath: Speed
@@ -46272,6 +46307,11 @@ PrefabInstance:
       propertyPath: ResetPosition
       value: 
       objectReference: {fileID: 1032094561}
+    - target: {fileID: 7988349165669018917, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: FakeGravityMultiplier
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7988349165669018919, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
       propertyPath: m_Name

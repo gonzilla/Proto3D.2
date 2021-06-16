@@ -5,7 +5,8 @@ using UnityEngine;
 public class GestionGeneral : PersonnalMethod
 {
     //Script qui contient tous les autres pour faciliter l'échange de donner
-    
+    public bool TwoPlayer;
+    public bool AmIPlayerOne;
     [HideInInspector] public bool CanPlay; // permet de dire aux autres script lorsque le joueur peut jouer
     [HideInInspector] public bool Start = true; // permet de dire aux autres script s'ils sont au début du jeu
     //Public variable
@@ -25,7 +26,23 @@ public class GestionGeneral : PersonnalMethod
     public GestionFeedBackVisu FeedBackVisu;
     [Tooltip(" Pour Les feedBack pour le moment ")]
     public GestionCheckPoint GestionPointDeControle;
-    
+   
 
 
+    public NewGestionInput newsInput;
+
+
+    private void Awake()
+    {
+        newsInput = new NewGestionInput();
+    }
+    private void OnEnable()
+    {
+        newsInput.Enable();
+    }
+
+    private void OnDisable()
+    {
+        newsInput.Disable();
+    }
 }
