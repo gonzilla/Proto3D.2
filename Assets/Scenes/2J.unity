@@ -728,6 +728,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moto P2
       objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_Actions
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 8a48172131e8a814db4ab3d4d4188bab,
+        type: 3}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_DefaultActionMap
+      value: ManetteP2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dff1491ebceaf6b419ce3292af374c61, type: 3}
 --- !u!1 &60085641 stripped

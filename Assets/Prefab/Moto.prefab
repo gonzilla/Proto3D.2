@@ -60452,6 +60452,7 @@ GameObject:
   - component: {fileID: 7988349165669018913}
   - component: {fileID: 5061066803948269878}
   - component: {fileID: 7988349165669018908}
+  - component: {fileID: 7988349165669018909}
   - component: {fileID: 7988349165669018914}
   - component: {fileID: 7988349165669018911}
   - component: {fileID: 7988349165669018917}
@@ -60460,7 +60461,6 @@ GameObject:
   - component: {fileID: 7988349165669018904}
   - component: {fileID: 7988349165669018910}
   - component: {fileID: 7988349165669018907}
-  - component: {fileID: 7988349165669018909}
   m_Layer: 0
   m_Name: Moto
   m_TagString: Player
@@ -60528,6 +60528,20 @@ CapsuleCollider:
   m_Height: 7.17
   m_Direction: 2
   m_Center: {x: 0, y: 0.4302826, z: 0}
+--- !u!114 &7988349165669018909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7988349165669018919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
+  ListenerNumber: -1
 --- !u!114 &7988349165669018914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60540,6 +60554,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b6c9dbe1e63d345a89da84eab5f03c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TwoPlayer: 0
+  AmIPlayerOne: 0
   CanPlay: 0
   Start: 0
   GDI: {fileID: 7988349165669018911}
@@ -60719,10 +60735,12 @@ MonoBehaviour:
   TempsAvantRespawn: 1
   angleMax: 45
   StraffPowa: 3
+  FakeGravityMultiplier: 0
   wheelAnimation:
   - {fileID: 7988349165615568706}
   - {fileID: 7988349165615568707}
   grounded: 0
+  FakeGravity: {x: 0, y: 0, z: 0}
 --- !u!114 &7988349165669018912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61057,20 +61075,6 @@ MonoBehaviour:
   testMusique: 0
   tourActuel: 0
   LeSonAJouer: 
---- !u!114 &7988349165669018909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7988349165669018919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attenuationObject: {fileID: 0}
-  ListenerNumber: -1
 --- !u!1001 &7988349165615568710
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -29,7 +29,7 @@ public class GestionGeneral : PersonnalMethod
    
 
 
-    public NewGestionInput newsInput;
+   /* public NewGestionInput newsInput;
 
 
     private void Awake()
@@ -44,5 +44,5 @@ public class GestionGeneral : PersonnalMethod
     private void OnDisable()
     {
         newsInput.Disable();
-    }
+    }*/
 }

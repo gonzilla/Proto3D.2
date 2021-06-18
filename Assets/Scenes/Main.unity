@@ -45966,6 +45966,16 @@ PrefabInstance:
       propertyPath: CSF
       value: 
       objectReference: {fileID: 1032094564}
+    - target: {fileID: 7988349165669018914, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: AmIPlayerOne
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988349165669018914, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: TwoPlayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7988349165669018915, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
       propertyPath: Speed
@@ -46105,6 +46115,86 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moto
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_NotificationBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionId
+      value: 5dd11aec-90bb-4334-b8e5-bd5f64bbf6e1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionName
+      value: Manette/Avancer[/XInputControllerWindows/leftTrigger,/XInputControllerWindows/rightTrigger]
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionId
+      value: 285ae062-193b-4111-95fd-f0f83eb50cf2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionName
+      value: Manette/Derapage[/XInputControllerWindows/leftShoulder,/XInputControllerWindows/rightShoulder]
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionId
+      value: acfbcbb4-0cf8-45b7-9d54-cb65517e3dfa
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionName
+      value: Manette/Tourner[/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right]
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
+      value: 671ed660-313c-4ab7-ba72-43e8e2ec959d
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionName
+      value: Manette/Straffer[/XInputControllerWindows/rightStick/left,/XInputControllerWindows/rightStick/right]
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionId
+      value: f880c134-2545-440c-8152-3de2f7cd3e68
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionName
+      value: Manette/Boost[/XInputControllerWindows/buttonSouth]
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionId
+      value: 6ff71aa2-c27f-4043-a03d-92ef5ef37863
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionName
+      value: Manette/ResetPosition[/XInputControllerWindows/buttonWest]
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_ActionId
+      value: a234272d-b718-41c0-b3ab-5bc16b2d3b1b
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653864731955005171, guid: dff1491ebceaf6b419ce3292af374c61,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_ActionName
+      value: Manette/ResetScene[/XInputControllerWindows/buttonNorth]
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dff1491ebceaf6b419ce3292af374c61, type: 3}
