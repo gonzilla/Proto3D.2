@@ -64,7 +64,11 @@ public class GestionUI : PersonnalMethod
     {
         GetGestion(out GG, this.gameObject);// récupére les autres script
         TimeBeforeStartOriginal = TimeBeforeStart;// set le temps Original
-        Chrono.gameObject.SetActive(false);
+        if (!GG.TwoPlayer)
+        {
+            Chrono.gameObject.SetActive(false);
+        }
+       
         foreach (TextMeshProUGUI item in Timer)
         {
             item.gameObject.SetActive(false);
@@ -82,7 +86,7 @@ public class GestionUI : PersonnalMethod
         float valueVelocity = GG.GMC.VitesseMoto * 100;//multiplie la valeur de la moto 
         float arrondis = (float)System.Math.Round(valueVelocity, arrondisDecimal);//arrondis la valeur a afficher
         Speed.text = arrondis.ToString()+" Km/H";//affiche la valeur
-        if (GG.CanPlay)//si le jeu est lancé
+        if (GG.CanPlay && !GG.TwoPlayer)//si le jeu est lancé
         {
             LeTimeInGame = Time.time - TimeAtStart+penalityFinal;//Le chrono en some
             LeTimeInGameArrondie = (float)System.Math.Round(LeTimeInGame, arrondisDecimalChrono);// Calcul le temps à afficher
@@ -242,7 +246,11 @@ public class GestionUI : PersonnalMethod
         {
             TimeAtStart = Time.time;//set le time at start
             GG.CanPlay = true;// lui dis qu'il peut jouer
-            Chrono.gameObject.SetActive(true);
+            if (!GG.TwoPlayer)
+            {
+                Chrono.gameObject.SetActive(true);
+            }
+           
             Invoke("HideCompteARebours", TimeForHideCompteur);//cache le compe a rebours
         }
 
@@ -266,7 +274,10 @@ public class GestionUI : PersonnalMethod
     {
        
         penalityFinal += TempsParPenalite;
-        Chrono.color = Color.red;
+        if (!GG.TwoPlayer)
+        {
+            Chrono.color = Color.red;
+        }
         Invoke("reset2", TimeFeedBackText);
     }
     void reset2() 

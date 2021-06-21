@@ -127,6 +127,7 @@ public class GestionDesInputs : PersonnalMethod
 
         if (Input.GetAxis(Axes[8]) != 0)
         {
+            print("G respawn"+Axes[8]);
             GG.GMC.ResetLastPosition();//lance le reset de la position
         }
         

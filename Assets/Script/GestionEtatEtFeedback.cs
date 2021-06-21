@@ -76,7 +76,7 @@ public class GestionEtatEtFeedback : PersonnalMethod
     };
     public MotoActualState StateOfMoto;
     
-    public Text AffichageEtatDebug;
+    //public Text AffichageEtatDebug;
     public List<SoundInfo> LesInfosDuSon;
 
     public GameObject Moto;
@@ -128,82 +128,82 @@ public class GestionEtatEtFeedback : PersonnalMethod
         {
             Stationnaire();
             EtatActuel = "Stationnaire";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
         }
         else if (StateOfMoto == MotoActualState.Avance)
         {
             EtatActuel = "Avance";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             Avance();
            
         }
         else if (StateOfMoto == MotoActualState.Derape)
         {
             EtatActuel = "Derape";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             Derape();
           
         }
         else if (StateOfMoto == MotoActualState.Freine)
         {
             EtatActuel = "Freine";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             Freine();
             
         }
         else if (StateOfMoto == MotoActualState.Ralenti)
         {
             EtatActuel = "Ralenti";
-            AffichageEtatDebug.text = EtatActuel;
+           // AffichageEtatDebug.text = EtatActuel;
             Ralenti();
            
         }
         else if (StateOfMoto == MotoActualState.Recule)
         {
             EtatActuel = "Recule";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             Recule();
             
         }
         else if (StateOfMoto == MotoActualState.Surchauffe)
         {
             EtatActuel = "Surchauffe";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             Surchauffe();
            
         }
         else if (StateOfMoto == MotoActualState.Tourne)
         {
             EtatActuel = "Tourne";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             Tourne();
            
         }
         else if (StateOfMoto == MotoActualState.Straff)
         {
             EtatActuel = "Straff";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             Straff();
            
         }
         else if (StateOfMoto == MotoActualState.BoostLV1)
         {
             EtatActuel = "BoostLV1";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             BoostLV1();
            
         }
         else if (StateOfMoto == MotoActualState.BoostLV2)
         {
             EtatActuel = "BoostLV2";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             BoostLV2();
           
         }
         else if (StateOfMoto == MotoActualState.BoostLV3)
         {
             EtatActuel = "BoostLV3";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             BoostLV3();
             
         }
@@ -211,32 +211,32 @@ public class GestionEtatEtFeedback : PersonnalMethod
         {
 
             EtatActuel = "RecolteDeBoost";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             RecolteDeBoost();
 
         }
         else if (StateOfMoto == MotoActualState.TraverseCheckPoint)
         {
             EtatActuel = "TraverseCheckPoint";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             TraverseCheckPoint();
         }
         else if (StateOfMoto == MotoActualState.TraverseObstacle)
         {
             EtatActuel = "TraverseObstacle";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             TraverseObstacle();
         }
         else if (StateOfMoto == MotoActualState.TraverseArrive)
         {
             EtatActuel = "TraverseArrive";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             TraverseArrive();
         }
         else if (StateOfMoto == MotoActualState.Collision)
         {
             EtatActuel = "Collision";
-            AffichageEtatDebug.text = EtatActuel;
+            //AffichageEtatDebug.text = EtatActuel;
             Collision();
         }
 
