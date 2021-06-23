@@ -282,6 +282,9 @@ public class GestionUI : PersonnalMethod
     }
     void reset2() 
     {
-        Chrono.color = Color.black;
+        if (!GG.TwoPlayer)
+        {
+            Chrono.color = Color.black;
+        }
     }
 }

@@ -52,7 +52,7 @@ public class GestionCheckPoint : PersonnalMethod
         }
         if (lecheckPoint==0 && passageActuel==NombrePointDePassage)
         {
-            print("set");
+            //print("set");
             tourActuel++;
             GG.GUI.CheckTimePourMeilleurTour(tourActuel);
             if (tourActuel> NombreDeTour)
@@ -69,16 +69,16 @@ public class GestionCheckPoint : PersonnalMethod
             if (tourActuel == 1)
             {
                 act = 0f;
-                print("0");
+                //print("0");
             }
             else if (tourActuel == 2)
             {
-                print("2");
+                //print("2");
                 act = 1.1f;
             }
             else if (tourActuel == 3)
             {
-                print("else");
+                //print("else");
                 act = tourActuel;
             }
             MonEvenementFMOD.setParameterByName("Laps", act);

@@ -35,26 +35,59 @@ public class GestionDesInputs : PersonnalMethod
     
     void FixedUpdate()
     {
+        int IndexGamePad = 0;
+        if (!GG.AmIPlayerOne)
+        {
+            IndexGamePad = 1;
+        }
+        float resetPos = 0;
+        if (Hinput.gamepad[IndexGamePad].X)
+        {
+            resetPos = 1;
+        }
+        float boostVal = 0;
+        if (Hinput.gamepad[IndexGamePad].A)
+        {
+            boostVal = 1;
+        }
+        float driftVal = 0;
+        if (Hinput.gamepad[IndexGamePad].leftBumper)
+        {
+            driftVal--;
+        }
+        if (Hinput.gamepad[IndexGamePad].rightBumper)
+        {
+            driftVal++;
+        }
+        float DirectionJoystick = Hinput.gamepad[IndexGamePad].leftStick.horizontal;
+        float DirectionJoystickDroit = Hinput.gamepad[IndexGamePad].rightStick.horizontal;
+        float DirectionVal = 0;
+        if (Hinput.gamepad[IndexGamePad].leftTrigger)
+        {
+            DirectionVal -= Hinput.gamepad[IndexGamePad].leftTrigger.position;
+        }
+        if (Hinput.gamepad[IndexGamePad].rightTrigger)
+        {
+            DirectionVal += Hinput.gamepad[IndexGamePad].rightTrigger.position;
+        }
 
-       
-       
         GG.GMC.SetByNormal(); // check le sol 
         GG.CSF.CameraComportement(); // fais les comportements de la camera
         GG.GMC.RotateMotoInWorld();//rotate le modéle de la moto
 
         if (!InUse[7])//s'il ne drift pas
         {
-            GG.GMC.tourne(Input.GetAxis(Axes[3])); //Lance void pour Tourner
+            GG.GMC.tourne(DirectionJoystick); //Lance void pour Tourner
             if (GG.CanPlay)//si le joueur peut jouer
             {
-                GG.CSF.InfoRotationDeLaCam(Input.GetAxis(Axes[3])); //envois des info pour la cam
+                GG.CSF.InfoRotationDeLaCam(DirectionJoystick); //envois des info pour la cam
             }
         }
 
-        if (!InUse[7] && Input.GetAxis(Axes[3]) == 0 && GG.CanPlay)//s'il ne drift pas et ne tourne pas et le joueur peut jouer
+        if (!InUse[7] && DirectionJoystick == 0 && GG.CanPlay)//s'il ne drift pas et ne tourne pas et le joueur peut jouer
         {
-            GG.GMC.straff(Input.GetAxis(Axes[5]));//lance le straff
-            if (Input.GetAxis(Axes[5]) == 0)//s'il ne straff pas
+            GG.GMC.straff(DirectionJoystickDroit);//lance le straff
+            if (DirectionJoystickDroit == 0)//s'il ne straff pas
             {
                 GG.FeedBackVisu.GestionStraff(false, false);//lance le feedback de straff
             }
@@ -63,7 +96,7 @@ public class GestionDesInputs : PersonnalMethod
 
         if (GG.CanPlay)//si le joueur peut jouer
         {
-            GG.GMC.avance(Input.GetAxis(Axes[1]));//lance la marche avant
+            GG.GMC.avance(DirectionVal);//lance la marche avant
         }
         else
         {
@@ -71,18 +104,18 @@ public class GestionDesInputs : PersonnalMethod
         }
         if (GG.CanPlay)//si le joueur peut jouer
         {
-            if (Input.GetAxisRaw(Axes[0]) != 0 && !InUse[0])//si cette touche est utilisé
+            if (boostVal != 0 && !InUse[0])//si cette touche est utilisé
             {
                 GG.GB.UseBoost();//Lance le boost
                 SetBoolArray(0, true);//set le bool
             }
 
-            if (Input.GetAxisRaw(Axes[0]) == 0 && InUse[0])// s'il ne boost pas
+            if (boostVal == 0 && InUse[0])// s'il ne boost pas
             {
                 SetBoolArray(0, false);//set le bool
             }
 
-            if (Input.GetAxisRaw(Axes[7]) != 0)//s'il ne drift pas
+            if (driftVal != 0)//s'il ne drift pas
             {
 
                 bool state = true;
@@ -91,14 +124,14 @@ public class GestionDesInputs : PersonnalMethod
                     SetBoolArray(7, state);
                 }
                 bool LoseSpeed = false;
-                GG.GMC.TourneDerapage(Input.GetAxisRaw(Axes[7]), Input.GetAxis(Axes[3]), out LoseSpeed);//tourner la moto par le dérapage
-                GG.GMC.derapage(state, Input.GetAxis(Axes[3]), LoseSpeed);//effectue le dérapage
-                GG.CSF.InfoRotationDeLaCam(Input.GetAxis(Axes[3])); //envois des info pour la cam
+                GG.GMC.TourneDerapage(driftVal, DirectionJoystick, out LoseSpeed);//tourner la moto par le dérapage
+                GG.GMC.derapage(state, DirectionJoystick, LoseSpeed);//effectue le dérapage
+                GG.CSF.InfoRotationDeLaCam(DirectionJoystick); //envois des info pour la cam
             }
-            if (Input.GetAxisRaw(Axes[7]) == 0 && InUse[7])
+            if (driftVal == 0 && InUse[7])
             {
                 bool state = false;
-                GG.CSF.InfoRotationDeLaCam(Input.GetAxis(Axes[3])); //envois des info pour la cam
+                GG.CSF.InfoRotationDeLaCam(DirectionJoystick); //envois des info pour la cam
                 GG.GMC.derapage(state, 0, false);// lance le dérapage 
                 SetBoolArray(7, state);//set le bool
                 GG.FeedBackVisu.GestionStraff(state, false);//lance le feedback straff
@@ -125,9 +158,9 @@ public class GestionDesInputs : PersonnalMethod
             }
         }
 
-        if (Input.GetAxis(Axes[8]) != 0)
+        if (resetPos != 0)
         {
-            print("G respawn"+Axes[8]);
+           
             GG.GMC.ResetLastPosition();//lance le reset de la position
         }
         

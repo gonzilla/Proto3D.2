@@ -432,11 +432,12 @@ public class GestionMotoControlleur : PersonnalMethod
     }
     public void ResetLastPosition() 
     {
+
         CancelInvoke();
         reseting = true;
-        transform.position = LastPostionOnCircuit;
-        transform.rotation = LastRotation;
-        transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        this.gameObject.transform.position = LastPostionOnCircuit;
+        this.gameObject.transform.rotation = LastRotation;
+        this.gameObject.transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
         LantiGravite.force = -transform.up * Physics.gravity.magnitude * FakeGravityMultiplier;
         //Physics.gravity = -transform.up * 9.81f * 3; //transform.TransformPoint(-transform.up * 9.81f * 3) //;
         VitesseMoto = 0;
