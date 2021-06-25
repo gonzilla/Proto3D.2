@@ -1,0 +1,276 @@
+fileFormatVersion: 2
+guid: 386ebf510c71dee4aa66f7dacafb1ec0
+ModelImporter:
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      74: -772440696422307122
+    second: tuile usine|base chassis.001|base chassis.001|base chassisAction.001|base
+      c
+  - first:
+      74: 483773662746809518
+    second: tuile usine|base chassis.001|base chassis.001|base chassisAction.002|base
+      c
+  - first:
+      74: 5612637223493405533
+    second: tuile usine|base chassis.002|base chassis|base chassisAction.001|base
+      chass
+  - first:
+      74: -3591423519179341942
+    second: tuile usine|base chassis.002|base chassis|base chassisAction.002|base
+      chass
+  - first:
+      74: 6625870796347098634
+    second: tuile usine|base chassis.003|base chassis.001|base chassisAction.001|base
+      c
+  - first:
+      74: -2825576292342100345
+    second: tuile usine|base chassis.003|base chassis.001|base chassisAction.002|base
+      c
+  - first:
+      74: -7946168519457816153
+    second: tuile usine|base chassis|base chassis|base chassisAction.001|base chassis|b
+  - first:
+      74: -7630499139114043718
+    second: tuile usine|base chassis|base chassis|base chassisAction.002|base chassis|b
+  - first:
+      74: 8179214925974916713
+    second: tuile usine|chenille.001|chenille.001|base chassisAction.001|chenille.001|b
+  - first:
+      74: -8996804832650519122
+    second: tuile usine|chenille.001|chenille.001|base chassisAction.002|chenille.001|b
+  - first:
+      74: -3353053009633680937
+    second: tuile usine|chenille.002|chenille.002|base chassisAction.001|chenille.002|b
+  - first:
+      74: -721424178286716356
+    second: tuile usine|chenille.002|chenille.002|base chassisAction.002|chenille.002|b
+  - first:
+      74: -123798544392570313
+    second: tuile usine|chenille.003|chenille.003|base chassisAction.001|chenille.003|b
+  - first:
+      74: 6636985228793821440
+    second: tuile usine|chenille.003|chenille.003|base chassisAction.002|chenille.003|b
+  - first:
+      74: -6262010766783707375
+    second: tuile usine|chenille.004|chenille|base chassisAction.001|chenille|base
+      chas
+  - first:
+      74: 1008049556132692723
+    second: tuile usine|chenille.004|chenille|base chassisAction.002|chenille|base
+      chas
+  - first:
+      74: -7718674185148305552
+    second: tuile usine|chenille.005|chenille.001|base chassisAction.001|chenille.001|b
+  - first:
+      74: 6505063921368430382
+    second: tuile usine|chenille.005|chenille.001|base chassisAction.002|chenille.001|b
+  - first:
+      74: 620711826228773302
+    second: tuile usine|chenille.006|chenille.002|base chassisAction.001|chenille.002|b
+  - first:
+      74: -40515021949248889
+    second: tuile usine|chenille.006|chenille.002|base chassisAction.002|chenille.002|b
+  - first:
+      74: 1852507133257625786
+    second: tuile usine|chenille.007|chenille.003|base chassisAction.001|chenille.003|b
+  - first:
+      74: 6252147882839530063
+    second: tuile usine|chenille.007|chenille.003|base chassisAction.002|chenille.003|b
+  - first:
+      74: -7124016179237008611
+    second: tuile usine|chenille|chenille|base chassisAction.001|chenille|base chassisA
+  - first:
+      74: 377870897617755875
+    second: tuile usine|chenille|chenille|base chassisAction.002|chenille|base chassisA
+  - first:
+      74: 8015529329022390468
+    second: tuile usine|Cylinder.001|Cylinder.001|base chassisAction.001|Cylinder.001|b
+  - first:
+      74: -2715390115546380662
+    second: tuile usine|Cylinder.001|Cylinder.001|base chassisAction.002|Cylinder.001|b
+  - first:
+      74: -5156592459575741901
+    second: tuile usine|Cylinder.002|Cylinder.002|base chassisAction.001|Cylinder.002|b
+  - first:
+      74: -5923594540001737443
+    second: tuile usine|Cylinder.002|Cylinder.002|base chassisAction.002|Cylinder.002|b
+  - first:
+      74: 6823136958674801476
+    second: tuile usine|Cylinder.004|Cylinder.004|base chassisAction.001|Cylinder.004|b
+  - first:
+      74: 8517747503188792828
+    second: tuile usine|Cylinder.004|Cylinder.004|base chassisAction.002|Cylinder.004|b
+  - first:
+      74: -6536222197415940383
+    second: tuile usine|Cylinder.005|Cylinder.005|base chassisAction.001|Cylinder.005|b
+  - first:
+      74: 9036756494927403994
+    second: tuile usine|Cylinder.005|Cylinder.005|base chassisAction.002|Cylinder.005|b
+  - first:
+      74: -7781856668457811305
+    second: tuile usine|Cylinder.007|Cylinder.007|base chassisAction.001|Cylinder.007|b
+  - first:
+      74: 7139037006780809397
+    second: tuile usine|Cylinder.007|Cylinder.007|base chassisAction.002|Cylinder.007|b
+  - first:
+      74: 8367384650321931677
+    second: tuile usine|Cylinder.008|Cylinder.008|base chassisAction.001|Cylinder.008|b
+  - first:
+      74: 6950484721522778205
+    second: tuile usine|Cylinder.008|Cylinder.008|base chassisAction.002|Cylinder.008|b
+  - first:
+      74: -3744653072723459076
+    second: tuile usine|Cylinder.010|Cylinder.010|base chassisAction.001|Cylinder.010|b
+  - first:
+      74: -614529508141131774
+    second: tuile usine|Cylinder.010|Cylinder.010|base chassisAction.002|Cylinder.010|b
+  - first:
+      74: -2794084563539308078
+    second: tuile usine|Cylinder.011|Cylinder.011|base chassisAction.001|Cylinder.011|b
+  - first:
+      74: 8755284798748297459
+    second: tuile usine|Cylinder.011|Cylinder.011|base chassisAction.002|Cylinder.011|b
+  - first:
+      74: 8511866680168736830
+    second: tuile usine|Cylinder.013|Cylinder.001|base chassisAction.001|Cylinder.001|b
+  - first:
+      74: 2938615608743701588
+    second: tuile usine|Cylinder.013|Cylinder.001|base chassisAction.002|Cylinder.001|b
+  - first:
+      74: 50155572813106097
+    second: tuile usine|Cylinder.014|Cylinder.002|base chassisAction.001|Cylinder.002|b
+  - first:
+      74: 5398145154493575713
+    second: tuile usine|Cylinder.014|Cylinder.002|base chassisAction.002|Cylinder.002|b
+  - first:
+      74: 1287411914758866690
+    second: tuile usine|Cylinder.016|Cylinder.004|base chassisAction.001|Cylinder.004|b
+  - first:
+      74: -447137147044588764
+    second: tuile usine|Cylinder.016|Cylinder.004|base chassisAction.002|Cylinder.004|b
+  - first:
+      74: -2236891130053520286
+    second: tuile usine|Cylinder.017|Cylinder.005|base chassisAction.001|Cylinder.005|b
+  - first:
+      74: -7728775754586719794
+    second: tuile usine|Cylinder.017|Cylinder.005|base chassisAction.002|Cylinder.005|b
+  - first:
+      74: 213356599427515463
+    second: tuile usine|Cylinder.019|Cylinder.007|base chassisAction.001|Cylinder.007|b
+  - first:
+      74: -3521184577440713418
+    second: tuile usine|Cylinder.019|Cylinder.007|base chassisAction.002|Cylinder.007|b
+  - first:
+      74: -3345491947238440382
+    second: tuile usine|Cylinder.020|Cylinder.008|base chassisAction.001|Cylinder.008|b
+  - first:
+      74: -8526083770291829213
+    second: tuile usine|Cylinder.020|Cylinder.008|base chassisAction.002|Cylinder.008|b
+  - first:
+      74: 8312146468194828379
+    second: tuile usine|Cylinder.022|Cylinder.010|base chassisAction.001|Cylinder.010|b
+  - first:
+      74: 654959085566975300
+    second: tuile usine|Cylinder.022|Cylinder.010|base chassisAction.002|Cylinder.010|b
+  - first:
+      74: -6480402462815075016
+    second: tuile usine|Cylinder.023|Cylinder.011|base chassisAction.001|Cylinder.011|b
+  - first:
+      74: 5413546839522881224
+    second: tuile usine|Cylinder.023|Cylinder.011|base chassisAction.002|Cylinder.011|b
+  - first:
+      74: 5614456714463205768
+    second: tuile usine|TuileAction.001
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
