@@ -17483,7 +17483,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateOfMoto: 8
-  AffichageEtatDebug: {fileID: 754240352}
   LesInfosDuSon:
   - LeSonAJouer: event:/Drift
     LeVoid: Derape
@@ -45969,7 +45968,7 @@ PrefabInstance:
     - target: {fileID: 7988349165669018914, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
       propertyPath: AmIPlayerOne
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7988349165669018914, guid: dff1491ebceaf6b419ce3292af374c61,
         type: 3}
