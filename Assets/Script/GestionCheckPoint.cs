@@ -87,7 +87,7 @@ public class GestionCheckPoint : PersonnalMethod
     }
     public void stopSound() 
     {
-    MonEvenementFMOD.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        MonEvenementFMOD.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
     

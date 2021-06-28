@@ -1,0 +1,621 @@
+fileFormatVersion: 2
+guid: 4ad38c2dcb3817d43adb0c6f4e0017fa
+ModelImporter:
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      74: -2325299778150123948
+    second: Ma tuile|base chassis.001|base chassis.001|base chassisAction.001|base
+      c
+  - first:
+      74: -6761165444727681562
+    second: Ma tuile|base chassis.001|base chassis.001|base chassisAction.002|base
+      c
+  - first:
+      74: -1916023124640322716
+    second: Ma tuile|base chassis.002|base chassis|base chassisAction.001|base chass
+  - first:
+      74: -5628897590161893977
+    second: Ma tuile|base chassis.002|base chassis|base chassisAction.002|base chass
+  - first:
+      74: -1886135947445732515
+    second: Ma tuile|base chassis.003|base chassis.001|base chassisAction.001|base
+      c
+  - first:
+      74: 7415699776704065488
+    second: Ma tuile|base chassis.003|base chassis.001|base chassisAction.002|base
+      c
+  - first:
+      74: -909802149578835882
+    second: Ma tuile|base chassis|base chassis|base chassisAction.001|base chassis|b
+  - first:
+      74: -4940094197533892055
+    second: Ma tuile|base chassis|base chassis|base chassisAction.002|base chassis|b
+  - first:
+      74: 3445723322782894310
+    second: Ma tuile|chenille.001|chenille.001|base chassisAction.001|chenille.001|b
+  - first:
+      74: 1301150988186200544
+    second: Ma tuile|chenille.001|chenille.001|base chassisAction.002|chenille.001|b
+  - first:
+      74: -1329694072749463157
+    second: Ma tuile|chenille.002|chenille.002|base chassisAction.001|chenille.002|b
+  - first:
+      74: 6061172632969835515
+    second: Ma tuile|chenille.002|chenille.002|base chassisAction.002|chenille.002|b
+  - first:
+      74: -4291570438539435115
+    second: Ma tuile|chenille.003|chenille.003|base chassisAction.001|chenille.003|b
+  - first:
+      74: 6184104790299205016
+    second: Ma tuile|chenille.003|chenille.003|base chassisAction.002|chenille.003|b
+  - first:
+      74: -4961173113857084310
+    second: Ma tuile|chenille.004|chenille|base chassisAction.001|chenille|base chas
+  - first:
+      74: -6531401376992034105
+    second: Ma tuile|chenille.004|chenille|base chassisAction.002|chenille|base chas
+  - first:
+      74: -2788395185403159676
+    second: Ma tuile|chenille.005|chenille.001|base chassisAction.001|chenille.001|b
+  - first:
+      74: -9165084384586139358
+    second: Ma tuile|chenille.005|chenille.001|base chassisAction.002|chenille.001|b
+  - first:
+      74: -2503754027959483374
+    second: Ma tuile|chenille.006|chenille.002|base chassisAction.001|chenille.002|b
+  - first:
+      74: -2675194406958703898
+    second: Ma tuile|chenille.006|chenille.002|base chassisAction.002|chenille.002|b
+  - first:
+      74: 7266430822079894586
+    second: Ma tuile|chenille.007|chenille.003|base chassisAction.001|chenille.003|b
+  - first:
+      74: 7243029409829308017
+    second: Ma tuile|chenille.007|chenille.003|base chassisAction.002|chenille.003|b
+  - first:
+      74: 8149655375479816407
+    second: Ma tuile|chenille|chenille|base chassisAction.001|chenille|base chassisA
+  - first:
+      74: 182148036904448857
+    second: Ma tuile|chenille|chenille|base chassisAction.002|chenille|base chassisA
+  - first:
+      74: -8558389747530741943
+    second: Ma tuile|Cylinder.001|Cylinder.001|base chassisAction.001|Cylinder.001|b
+  - first:
+      74: 3224517672336403738
+    second: Ma tuile|Cylinder.001|Cylinder.001|base chassisAction.002|Cylinder.001|b
+  - first:
+      74: 4164538862833064044
+    second: Ma tuile|Cylinder.002|Cylinder.002|base chassisAction.001|Cylinder.002|b
+  - first:
+      74: 3602709555695668469
+    second: Ma tuile|Cylinder.002|Cylinder.002|base chassisAction.002|Cylinder.002|b
+  - first:
+      74: 5298114995663133447
+    second: Ma tuile|Cylinder.004|Cylinder.004|base chassisAction.001|Cylinder.004|b
+  - first:
+      74: -4233139992977634812
+    second: Ma tuile|Cylinder.004|Cylinder.004|base chassisAction.002|Cylinder.004|b
+  - first:
+      74: 3396225613365779581
+    second: Ma tuile|Cylinder.005|Cylinder.005|base chassisAction.001|Cylinder.005|b
+  - first:
+      74: -8224682791313993599
+    second: Ma tuile|Cylinder.005|Cylinder.005|base chassisAction.002|Cylinder.005|b
+  - first:
+      74: -8698609848053432078
+    second: Ma tuile|Cylinder.007|Cylinder.007|base chassisAction.001|Cylinder.007|b
+  - first:
+      74: -6768653290241048787
+    second: Ma tuile|Cylinder.007|Cylinder.007|base chassisAction.002|Cylinder.007|b
+  - first:
+      74: -2811469339244251401
+    second: Ma tuile|Cylinder.008|Cylinder.008|base chassisAction.001|Cylinder.008|b
+  - first:
+      74: -5254958525815837633
+    second: Ma tuile|Cylinder.008|Cylinder.008|base chassisAction.002|Cylinder.008|b
+  - first:
+      74: -3434271338055638800
+    second: Ma tuile|Cylinder.010|Cylinder.010|base chassisAction.001|Cylinder.010|b
+  - first:
+      74: -8191985064521461467
+    second: Ma tuile|Cylinder.010|Cylinder.010|base chassisAction.002|Cylinder.010|b
+  - first:
+      74: -399729246088768867
+    second: Ma tuile|Cylinder.011|Cylinder.011|base chassisAction.001|Cylinder.011|b
+  - first:
+      74: -6495239362629889345
+    second: Ma tuile|Cylinder.011|Cylinder.011|base chassisAction.002|Cylinder.011|b
+  - first:
+      74: -861173722416487193
+    second: Ma tuile|Cylinder.013|Cylinder.001|base chassisAction.001|Cylinder.001|b
+  - first:
+      74: -2847978809682302698
+    second: Ma tuile|Cylinder.013|Cylinder.001|base chassisAction.002|Cylinder.001|b
+  - first:
+      74: 895644193825436952
+    second: Ma tuile|Cylinder.014|Cylinder.002|base chassisAction.001|Cylinder.002|b
+  - first:
+      74: 3378369377549929846
+    second: Ma tuile|Cylinder.014|Cylinder.002|base chassisAction.002|Cylinder.002|b
+  - first:
+      74: 8299795923511861776
+    second: Ma tuile|Cylinder.016|Cylinder.004|base chassisAction.001|Cylinder.004|b
+  - first:
+      74: 8292390043071047033
+    second: Ma tuile|Cylinder.016|Cylinder.004|base chassisAction.002|Cylinder.004|b
+  - first:
+      74: -4705022239758801479
+    second: Ma tuile|Cylinder.017|Cylinder.005|base chassisAction.001|Cylinder.005|b
+  - first:
+      74: 3303723212402238224
+    second: Ma tuile|Cylinder.017|Cylinder.005|base chassisAction.002|Cylinder.005|b
+  - first:
+      74: -7978829162702069983
+    second: Ma tuile|Cylinder.019|Cylinder.007|base chassisAction.001|Cylinder.007|b
+  - first:
+      74: 920411292166940353
+    second: Ma tuile|Cylinder.019|Cylinder.007|base chassisAction.002|Cylinder.007|b
+  - first:
+      74: 1354874838763646290
+    second: Ma tuile|Cylinder.020|Cylinder.008|base chassisAction.001|Cylinder.008|b
+  - first:
+      74: 5584104032860300858
+    second: Ma tuile|Cylinder.020|Cylinder.008|base chassisAction.002|Cylinder.008|b
+  - first:
+      74: -8366208940403019844
+    second: Ma tuile|Cylinder.022|Cylinder.010|base chassisAction.001|Cylinder.010|b
+  - first:
+      74: -270280667773881056
+    second: Ma tuile|Cylinder.022|Cylinder.010|base chassisAction.002|Cylinder.010|b
+  - first:
+      74: 3783780307074501097
+    second: Ma tuile|Cylinder.023|Cylinder.011|base chassisAction.001|Cylinder.011|b
+  - first:
+      74: -5343658611418933111
+    second: Ma tuile|Cylinder.023|Cylinder.011|base chassisAction.002|Cylinder.011|b
+  - first:
+      74: -772440696422307122
+    second: tuile usine|base chassis.001|base chassis.001|base chassisAction.001|base
+      c
+  - first:
+      74: 483773662746809518
+    second: tuile usine|base chassis.001|base chassis.001|base chassisAction.002|base
+      c
+  - first:
+      74: 5612637223493405533
+    second: tuile usine|base chassis.002|base chassis|base chassisAction.001|base
+      chass
+  - first:
+      74: -3591423519179341942
+    second: tuile usine|base chassis.002|base chassis|base chassisAction.002|base
+      chass
+  - first:
+      74: 6625870796347098634
+    second: tuile usine|base chassis.003|base chassis.001|base chassisAction.001|base
+      c
+  - first:
+      74: -2825576292342100345
+    second: tuile usine|base chassis.003|base chassis.001|base chassisAction.002|base
+      c
+  - first:
+      74: -7946168519457816153
+    second: tuile usine|base chassis|base chassis|base chassisAction.001|base chassis|b
+  - first:
+      74: -7630499139114043718
+    second: tuile usine|base chassis|base chassis|base chassisAction.002|base chassis|b
+  - first:
+      74: 8179214925974916713
+    second: tuile usine|chenille.001|chenille.001|base chassisAction.001|chenille.001|b
+  - first:
+      74: -8996804832650519122
+    second: tuile usine|chenille.001|chenille.001|base chassisAction.002|chenille.001|b
+  - first:
+      74: -3353053009633680937
+    second: tuile usine|chenille.002|chenille.002|base chassisAction.001|chenille.002|b
+  - first:
+      74: -721424178286716356
+    second: tuile usine|chenille.002|chenille.002|base chassisAction.002|chenille.002|b
+  - first:
+      74: -123798544392570313
+    second: tuile usine|chenille.003|chenille.003|base chassisAction.001|chenille.003|b
+  - first:
+      74: 6636985228793821440
+    second: tuile usine|chenille.003|chenille.003|base chassisAction.002|chenille.003|b
+  - first:
+      74: -6262010766783707375
+    second: tuile usine|chenille.004|chenille|base chassisAction.001|chenille|base
+      chas
+  - first:
+      74: 1008049556132692723
+    second: tuile usine|chenille.004|chenille|base chassisAction.002|chenille|base
+      chas
+  - first:
+      74: -7718674185148305552
+    second: tuile usine|chenille.005|chenille.001|base chassisAction.001|chenille.001|b
+  - first:
+      74: 6505063921368430382
+    second: tuile usine|chenille.005|chenille.001|base chassisAction.002|chenille.001|b
+  - first:
+      74: 620711826228773302
+    second: tuile usine|chenille.006|chenille.002|base chassisAction.001|chenille.002|b
+  - first:
+      74: -40515021949248889
+    second: tuile usine|chenille.006|chenille.002|base chassisAction.002|chenille.002|b
+  - first:
+      74: 1852507133257625786
+    second: tuile usine|chenille.007|chenille.003|base chassisAction.001|chenille.003|b
+  - first:
+      74: 6252147882839530063
+    second: tuile usine|chenille.007|chenille.003|base chassisAction.002|chenille.003|b
+  - first:
+      74: -7124016179237008611
+    second: tuile usine|chenille|chenille|base chassisAction.001|chenille|base chassisA
+  - first:
+      74: 377870897617755875
+    second: tuile usine|chenille|chenille|base chassisAction.002|chenille|base chassisA
+  - first:
+      74: 8015529329022390468
+    second: tuile usine|Cylinder.001|Cylinder.001|base chassisAction.001|Cylinder.001|b
+  - first:
+      74: -2715390115546380662
+    second: tuile usine|Cylinder.001|Cylinder.001|base chassisAction.002|Cylinder.001|b
+  - first:
+      74: -5156592459575741901
+    second: tuile usine|Cylinder.002|Cylinder.002|base chassisAction.001|Cylinder.002|b
+  - first:
+      74: -5923594540001737443
+    second: tuile usine|Cylinder.002|Cylinder.002|base chassisAction.002|Cylinder.002|b
+  - first:
+      74: 6823136958674801476
+    second: tuile usine|Cylinder.004|Cylinder.004|base chassisAction.001|Cylinder.004|b
+  - first:
+      74: 8517747503188792828
+    second: tuile usine|Cylinder.004|Cylinder.004|base chassisAction.002|Cylinder.004|b
+  - first:
+      74: -6536222197415940383
+    second: tuile usine|Cylinder.005|Cylinder.005|base chassisAction.001|Cylinder.005|b
+  - first:
+      74: 9036756494927403994
+    second: tuile usine|Cylinder.005|Cylinder.005|base chassisAction.002|Cylinder.005|b
+  - first:
+      74: -7781856668457811305
+    second: tuile usine|Cylinder.007|Cylinder.007|base chassisAction.001|Cylinder.007|b
+  - first:
+      74: 7139037006780809397
+    second: tuile usine|Cylinder.007|Cylinder.007|base chassisAction.002|Cylinder.007|b
+  - first:
+      74: 8367384650321931677
+    second: tuile usine|Cylinder.008|Cylinder.008|base chassisAction.001|Cylinder.008|b
+  - first:
+      74: 6950484721522778205
+    second: tuile usine|Cylinder.008|Cylinder.008|base chassisAction.002|Cylinder.008|b
+  - first:
+      74: -3744653072723459076
+    second: tuile usine|Cylinder.010|Cylinder.010|base chassisAction.001|Cylinder.010|b
+  - first:
+      74: -614529508141131774
+    second: tuile usine|Cylinder.010|Cylinder.010|base chassisAction.002|Cylinder.010|b
+  - first:
+      74: -2794084563539308078
+    second: tuile usine|Cylinder.011|Cylinder.011|base chassisAction.001|Cylinder.011|b
+  - first:
+      74: 8755284798748297459
+    second: tuile usine|Cylinder.011|Cylinder.011|base chassisAction.002|Cylinder.011|b
+  - first:
+      74: 8511866680168736830
+    second: tuile usine|Cylinder.013|Cylinder.001|base chassisAction.001|Cylinder.001|b
+  - first:
+      74: 2938615608743701588
+    second: tuile usine|Cylinder.013|Cylinder.001|base chassisAction.002|Cylinder.001|b
+  - first:
+      74: 50155572813106097
+    second: tuile usine|Cylinder.014|Cylinder.002|base chassisAction.001|Cylinder.002|b
+  - first:
+      74: 5398145154493575713
+    second: tuile usine|Cylinder.014|Cylinder.002|base chassisAction.002|Cylinder.002|b
+  - first:
+      74: 1287411914758866690
+    second: tuile usine|Cylinder.016|Cylinder.004|base chassisAction.001|Cylinder.004|b
+  - first:
+      74: -447137147044588764
+    second: tuile usine|Cylinder.016|Cylinder.004|base chassisAction.002|Cylinder.004|b
+  - first:
+      74: -2236891130053520286
+    second: tuile usine|Cylinder.017|Cylinder.005|base chassisAction.001|Cylinder.005|b
+  - first:
+      74: -7728775754586719794
+    second: tuile usine|Cylinder.017|Cylinder.005|base chassisAction.002|Cylinder.005|b
+  - first:
+      74: 213356599427515463
+    second: tuile usine|Cylinder.019|Cylinder.007|base chassisAction.001|Cylinder.007|b
+  - first:
+      74: -3521184577440713418
+    second: tuile usine|Cylinder.019|Cylinder.007|base chassisAction.002|Cylinder.007|b
+  - first:
+      74: -3345491947238440382
+    second: tuile usine|Cylinder.020|Cylinder.008|base chassisAction.001|Cylinder.008|b
+  - first:
+      74: -8526083770291829213
+    second: tuile usine|Cylinder.020|Cylinder.008|base chassisAction.002|Cylinder.008|b
+  - first:
+      74: 8312146468194828379
+    second: tuile usine|Cylinder.022|Cylinder.010|base chassisAction.001|Cylinder.010|b
+  - first:
+      74: 654959085566975300
+    second: tuile usine|Cylinder.022|Cylinder.010|base chassisAction.002|Cylinder.010|b
+  - first:
+      74: -6480402462815075016
+    second: tuile usine|Cylinder.023|Cylinder.011|base chassisAction.001|Cylinder.011|b
+  - first:
+      74: 5413546839522881224
+    second: tuile usine|Cylinder.023|Cylinder.011|base chassisAction.002|Cylinder.011|b
+  - first:
+      74: -5065457601021817042
+    second: Tuileretest|base chassis.001|base chassis.001|base chassisAction.001|base
+      c
+  - first:
+      74: 2850968024055003058
+    second: Tuileretest|base chassis.001|base chassis.001|base chassisAction.002|base
+      c
+  - first:
+      74: 8372344557423785572
+    second: Tuileretest|base chassis.002|base chassis|base chassisAction.001|base
+      chass
+  - first:
+      74: -6472430449967540972
+    second: Tuileretest|base chassis.002|base chassis|base chassisAction.002|base
+      chass
+  - first:
+      74: 4499400858848806223
+    second: Tuileretest|base chassis.003|base chassis.001|base chassisAction.001|base
+      c
+  - first:
+      74: -14994691584531595
+    second: Tuileretest|base chassis.003|base chassis.001|base chassisAction.002|base
+      c
+  - first:
+      74: -2184135280846889761
+    second: Tuileretest|base chassis|base chassis|base chassisAction.001|base chassis|b
+  - first:
+      74: -3707579480979673562
+    second: Tuileretest|base chassis|base chassis|base chassisAction.002|base chassis|b
+  - first:
+      74: 5413249708880046760
+    second: Tuileretest|chenille.001|chenille.001|base chassisAction.001|chenille.001|b
+  - first:
+      74: 8204318847080566965
+    second: Tuileretest|chenille.001|chenille.001|base chassisAction.002|chenille.001|b
+  - first:
+      74: -476539385377455003
+    second: Tuileretest|chenille.002|chenille.002|base chassisAction.001|chenille.002|b
+  - first:
+      74: 6206857561937336953
+    second: Tuileretest|chenille.002|chenille.002|base chassisAction.002|chenille.002|b
+  - first:
+      74: -7661718458180158260
+    second: Tuileretest|chenille.003|chenille.003|base chassisAction.001|chenille.003|b
+  - first:
+      74: -3757642770281365380
+    second: Tuileretest|chenille.003|chenille.003|base chassisAction.002|chenille.003|b
+  - first:
+      74: 3711542692203417429
+    second: Tuileretest|chenille.004|chenille|base chassisAction.001|chenille|base
+      chas
+  - first:
+      74: -5421349749737579006
+    second: Tuileretest|chenille.004|chenille|base chassisAction.002|chenille|base
+      chas
+  - first:
+      74: 7568103395421987734
+    second: Tuileretest|chenille.005|chenille.001|base chassisAction.001|chenille.001|b
+  - first:
+      74: 5295668120607175045
+    second: Tuileretest|chenille.005|chenille.001|base chassisAction.002|chenille.001|b
+  - first:
+      74: 1322161168714722926
+    second: Tuileretest|chenille.006|chenille.002|base chassisAction.001|chenille.002|b
+  - first:
+      74: -5285182090593994678
+    second: Tuileretest|chenille.006|chenille.002|base chassisAction.002|chenille.002|b
+  - first:
+      74: 4615863027983195108
+    second: Tuileretest|chenille.007|chenille.003|base chassisAction.001|chenille.003|b
+  - first:
+      74: 3429393898830921573
+    second: Tuileretest|chenille.007|chenille.003|base chassisAction.002|chenille.003|b
+  - first:
+      74: 1180407140954715222
+    second: Tuileretest|chenille|chenille|base chassisAction.001|chenille|base chassisA
+  - first:
+      74: 7994649470473551417
+    second: Tuileretest|chenille|chenille|base chassisAction.002|chenille|base chassisA
+  - first:
+      74: -3039560613148985094
+    second: Tuileretest|Cylinder.001|Cylinder.001|base chassisAction.001|Cylinder.001|b
+  - first:
+      74: -5538920013405969744
+    second: Tuileretest|Cylinder.001|Cylinder.001|base chassisAction.002|Cylinder.001|b
+  - first:
+      74: 5842012736894551673
+    second: Tuileretest|Cylinder.002|Cylinder.002|base chassisAction.001|Cylinder.002|b
+  - first:
+      74: 5800078170580815918
+    second: Tuileretest|Cylinder.002|Cylinder.002|base chassisAction.002|Cylinder.002|b
+  - first:
+      74: 7082507334457106238
+    second: Tuileretest|Cylinder.004|Cylinder.004|base chassisAction.001|Cylinder.004|b
+  - first:
+      74: 5768733360765090725
+    second: Tuileretest|Cylinder.004|Cylinder.004|base chassisAction.002|Cylinder.004|b
+  - first:
+      74: 2099389318188605392
+    second: Tuileretest|Cylinder.005|Cylinder.005|base chassisAction.001|Cylinder.005|b
+  - first:
+      74: 5005638399977518815
+    second: Tuileretest|Cylinder.005|Cylinder.005|base chassisAction.002|Cylinder.005|b
+  - first:
+      74: -223621337499512651
+    second: Tuileretest|Cylinder.007|Cylinder.007|base chassisAction.001|Cylinder.007|b
+  - first:
+      74: 6654030413352838495
+    second: Tuileretest|Cylinder.007|Cylinder.007|base chassisAction.002|Cylinder.007|b
+  - first:
+      74: -2319828228775019586
+    second: Tuileretest|Cylinder.008|Cylinder.008|base chassisAction.001|Cylinder.008|b
+  - first:
+      74: 2432019543133512784
+    second: Tuileretest|Cylinder.008|Cylinder.008|base chassisAction.002|Cylinder.008|b
+  - first:
+      74: -6478719137356543268
+    second: Tuileretest|Cylinder.010|Cylinder.010|base chassisAction.001|Cylinder.010|b
+  - first:
+      74: -1826333993147443381
+    second: Tuileretest|Cylinder.010|Cylinder.010|base chassisAction.002|Cylinder.010|b
+  - first:
+      74: -1392909878088013479
+    second: Tuileretest|Cylinder.011|Cylinder.011|base chassisAction.001|Cylinder.011|b
+  - first:
+      74: 6733402136057367282
+    second: Tuileretest|Cylinder.011|Cylinder.011|base chassisAction.002|Cylinder.011|b
+  - first:
+      74: 791022342986347889
+    second: Tuileretest|Cylinder.013|Cylinder.001|base chassisAction.001|Cylinder.001|b
+  - first:
+      74: 4038099758696798673
+    second: Tuileretest|Cylinder.013|Cylinder.001|base chassisAction.002|Cylinder.001|b
+  - first:
+      74: 7738505487513253813
+    second: Tuileretest|Cylinder.014|Cylinder.002|base chassisAction.001|Cylinder.002|b
+  - first:
+      74: -3008548548764929426
+    second: Tuileretest|Cylinder.014|Cylinder.002|base chassisAction.002|Cylinder.002|b
+  - first:
+      74: -5650382299989892181
+    second: Tuileretest|Cylinder.016|Cylinder.004|base chassisAction.001|Cylinder.004|b
+  - first:
+      74: -1965212145052425424
+    second: Tuileretest|Cylinder.016|Cylinder.004|base chassisAction.002|Cylinder.004|b
+  - first:
+      74: 346596761836835585
+    second: Tuileretest|Cylinder.017|Cylinder.005|base chassisAction.001|Cylinder.005|b
+  - first:
+      74: 1499480920058350290
+    second: Tuileretest|Cylinder.017|Cylinder.005|base chassisAction.002|Cylinder.005|b
+  - first:
+      74: -8318766542137880875
+    second: Tuileretest|Cylinder.019|Cylinder.007|base chassisAction.001|Cylinder.007|b
+  - first:
+      74: -1560914836310526885
+    second: Tuileretest|Cylinder.019|Cylinder.007|base chassisAction.002|Cylinder.007|b
+  - first:
+      74: 2885929586767113194
+    second: Tuileretest|Cylinder.020|Cylinder.008|base chassisAction.001|Cylinder.008|b
+  - first:
+      74: 8450869571311206493
+    second: Tuileretest|Cylinder.020|Cylinder.008|base chassisAction.002|Cylinder.008|b
+  - first:
+      74: 3059246156774768404
+    second: Tuileretest|Cylinder.022|Cylinder.010|base chassisAction.001|Cylinder.010|b
+  - first:
+      74: -6474847118625941843
+    second: Tuileretest|Cylinder.022|Cylinder.010|base chassisAction.002|Cylinder.010|b
+  - first:
+      74: 196006521167550509
+    second: Tuileretest|Cylinder.023|Cylinder.011|base chassisAction.001|Cylinder.011|b
+  - first:
+      74: 9058744280455738601
+    second: Tuileretest|Cylinder.023|Cylinder.011|base chassisAction.002|Cylinder.011|b
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
